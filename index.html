@@ -297,7 +297,7 @@
             </div>
 
             <div class="vending-box p-6 rounded-xl space-y-4">
-                <h3 class="text-2xl font-bold electric-cyan">Real-Time $BEEP Value</h3>
+                <h3 class="text-2xl font-bold electric-cyan">Real-Time $BEEP$ Value</h3>
                 <p class="text-gray-300 text-sm">
                     Based on the Founder's Drop rate of **1 ADA = 5.46 $BEEP$** and a current ADA market price of:
                 </p>
@@ -323,6 +323,39 @@
     </section>
 
     <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center text-gray-600 border-t border-[#00D0FF22] mt-10">
+        <!-- Social Links Section (NEW) -->
+        <div class="flex justify-center space-x-6 mb-6">
+            <!-- Twitter/X -->
+            <a href="https://twitter.com/SportsBeepTeam" target="_blank" class="text-gray-400 hover:text-electric-cyan transition duration-200" aria-label="Follow SportsBeep on X/Twitter">
+                <!-- X icon path -->
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M18.901 1.153h3.682l-8.032 9.176L24 22.845h-7.607L10.057 14.1l-6.24 8.745H.593l8.032-9.176L0 1.153h7.607l5.336 7.712L18.901 1.153zm-1.85 2.115l-6.84 9.873-5.336-7.712H2.98l6.84 9.873 5.336 7.712h1.493l-6.84-9.873 5.336-7.712h3.407z"/>
+                </svg>
+            </a>
+            <!-- Discord -->
+            <a href="https://discord.gg/sportsbeep" target="_blank" class="text-gray-400 hover:text-electric-cyan transition duration-200" aria-label="Join the SportsBeep Discord Server">
+                <!-- Discord icon path -->
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M15.485 14.502s-.22-1.47-1.464-1.928c1.396-.51 1.488-2.316.34-3.61-.17-.184-.378-.31-.563-.448.916-.62 1.3-1.61.948-2.618C15.65 4.88 15 4 14.28 4c-.58 0-.96.48-1.12.87-.714-.15-1.46-.22-2.2-.22s-1.48.07-2.2.22c-.16-.39-.54-.87-1.12-.87-.72 0-1.37.88-1.745 1.766-.352 1.008.036 1.998.948 2.618-.186.138-.393.264-.563.448-1.148 1.294-1.124 3.1-1.464 3.61-1.244.458-1.464 1.928-1.464 1.928V15.5H.5v4h23v-4h-8.015v-1zM8.5 13c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm7 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                </svg>
+            </a>
+            <!-- Telegram -->
+            <a href="https://t.me/SportsBeepAnnouncements" target="_blank" class="text-gray-400 hover:text-electric-cyan transition duration-200" aria-label="Join the SportsBeep Telegram Channel">
+                <!-- Telegram icon path -->
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M11.94 22A12 12 0 1 0 0 11.94 12 12 0 0 0 11.94 22zm5.72-15.68l-2.48 11.23c-.22 1.01-.84 1.25-1.6.86l-3.32-2.45-1.63 1.58c-.18.18-.32.28-.62.28L8.6 15.69l.7-3.41 7.82-7.05c.34-.3.07-.46-.17-.28z"/>
+                </svg>
+            </a>
+            <!-- General Website Link -->
+            <a href="https://sportsbeep.com" target="_blank" class="text-gray-400 hover:text-electric-cyan transition duration-200" aria-label="Visit the main SportsBeep Website">
+                 <!-- Globe icon path (from Lucide set style) -->
+                 <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2.5 7h19M2.5 17h19"/>
+                </svg>
+            </a>
+        </div>
+        <!-- End Social Links Section -->
         <p>&copy; 2025 SportsBeep. All rights reserved. Built on <span class="electric-cyan">Cardano</span>.</p>
         <p class="mt-2 text-xs">
             Disclaimer: Cryptocurrency transactions are irreversible. Ensure you send the correct amount of ADA from a compatible wallet.
@@ -345,7 +378,7 @@
             'Eternl': 'eternl'  
         };
         
-        // --- REAL-TIME PRICE LOGIC (NEW) ---
+        // --- REAL-TIME PRICE LOGIC ---
         /**
          * Simulates fetching the current ADA price and updates the BEEP price calculation.
          */
@@ -439,6 +472,7 @@
                         
                         // Fetch the first used address to display
                         const usedAddresses = await walletApi.getUsedAddresses();
+                        // Note: In a real app, you'd use Cardano serialization to decode this address Bip-32 key, but here we just take the raw string for display
                         const address = usedAddresses[0] || 'Unknown Address';  
                         
                         // Update UI to show connected state
@@ -510,6 +544,8 @@
 
             try {
                 // --- PLACEHOLDER FOR CARDANO TRANSACTION LOGIC ---
+                // In a real application, you would use walletApi.getChangeAddress(), walletApi.getNetworkId(),
+                // build the transaction, sign it, and submit it here.
                 await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate network latency and signing time
                 
                 txMessage.textContent = `Success! Transaction simulated for ${beepAmount} $BEEP$. Check your wallet for tokens soon!`;
@@ -527,9 +563,8 @@
             }
         }
 
-        // --- Utility and Three.js Functions ---
+        // --- Utility and Three.js Functions (Completed) ---
         
-        // THREE.js Animation for Hero Background
         const darkBase = 0x12151B;  
         const electricCyan = 0x00D0FF;  
         
@@ -594,60 +629,55 @@
             animate();
         }
 
+        // Handle window resizing
         function onWindowResize() {
             const container = document.getElementById('hero');
-            if (renderer && camera) {
+            if (camera && renderer && container) {
                 camera.aspect = container.clientWidth / container.clientHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(container.clientWidth, container.clientHeight);
             }
         }
-
+        
+        // Animation Loop
         function animate() {
             requestAnimationFrame(animate);
 
-            if (particles) {
-                const positions = particles.geometry.attributes.position.array;
+            // Rotate particles subtly
+            particles.rotation.z += 0.001;
+            
+            const positions = particles.geometry.attributes.position.array;
+            
+            // Move particles (data stream effect)
+            for (let i = 0; i < particleCount; i++) {
+                // Move along Z axis
+                positions[i * 3 + 2] += velocities[i * 3 + 2];
                 
-                for (let i = 0; i < particleCount; i++) {
-                    // Move particle along the Z-axis
-                    positions[i * 3 + 2] += velocities[i * 3 + 2] * 0.5;
-
-                    // Reset position if it goes too far
-                    if (positions[i * 3 + 2] > 200) {
-                        positions[i * 3 + 2] = -300;
-                        // Give it a slight lateral shift on reset for a random data feel
-                        positions[i * 3 + 0] = (Math.random() - 0.5) * 500;
-                        positions[i * 3 + 1] = (Math.random() - 0.5) * 500;
-                    }
+                // If particle moves past the camera, reset it far away
+                if (positions[i * 3 + 2] > 150) {
+                    positions[i * 3 + 2] = -500; // Reset far back
                 }
-
-                particles.geometry.attributes.position.needsUpdate = true;
-                
-                // Slight rotation for ambient movement
-                particles.rotation.z += 0.0005;
             }
-
-            if (renderer && scene && camera) {
-                renderer.render(scene, camera);
-            }
+            
+            particles.geometry.attributes.position.needsUpdate = true;
+            
+            renderer.render(scene, camera);
         }
-        
-        // Initial setup for the input field and real-time prices
-        document.addEventListener('DOMContentLoaded', () => {
+
+        // Initial setup on load
+        window.onload = function() {
+            initThreeJs();
+            // Start initial price fetch and set up the interval
+            fetchAdaPrice(); 
+            setInterval(fetchAdaPrice, UPDATE_INTERVAL_MS);
+            
+            // Setup input change listener for calculation
             const adaInput = document.getElementById('ada-input');
             if (adaInput) {
                 adaInput.addEventListener('input', updateBeepOutput);
-                updateBeepOutput(); // Call once on load
             }
-            
-            // Start real-time price feed
-            fetchAdaPrice(); // Fetch price immediately on load
-            setInterval(fetchAdaPrice, UPDATE_INTERVAL_MS); // Set interval to update price every 30 seconds
-            
-            // Initialize Three.js after DOM is ready
-            initThreeJs();
-        });
+            updateBeepOutput(); // Initial calculation
+        };
     </script>
 </body>
 </html>

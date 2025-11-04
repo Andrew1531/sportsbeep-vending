@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SportsBeep $BEEP Token Founder's Drop - Secure Exclusive Cardano Native Tokens</title>
+    <meta name="description" content="Secure your highly exclusive Founder's Edition $BEEP tokens on the Cardano blockchain. Limited to 271 BEEP for early access to daily games, high-stakes pools, and platform governance.">
+    <meta name="keywords" content="SportsBeep, $BEEP token, Cardano, ADA, cryptocurrency launch, CNFT, crypto airdrop, founder's edition, sports data token, tokenomics, buy BEEP, staking, governance, daily games, high-stakes pools">
+    <link rel="canonical" href="https://www.yourwebsitedomain.com/beep-founders-drop" />
+    <meta property="og:title" content="SportsBeep $BEEP Founder's Drop: Limited 271 Token Release" />
+    <meta property="og:description" content="Secure your highly exclusive Founder's Edition $BEEP tokens on the Cardano blockchain. Limited to 271 BEEP for early access to daily games, high-stakes pools, and platform governance." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.yourwebsitedomain.com/beep-founders-drop" />
+    <meta property="og:image" content="https://www.yourwebsitedomain.com/images/beep-social-share.png" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@SportsBeepTeam">
+    <meta name="twitter:creator" content="@SportsBeepTeam">
+    <meta name="twitter:title" content="Founder's Drop: $BEEP Token on Cardano">
+    <meta name="twitter:image" content="https://www.yourwebsitedomain.com/images/beep-social-share.png">
+    
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "SportsBeep $BEEP Token Founder's Drop",
+            "description": "Secure the exclusive $BEEP tokens on the Cardano blockchain for premium sports data and governance.",
+            "url": "https://www.yourwebsitedomain.com/beep-founders-drop",
+            "publisher": {
+                "@type": "Organization",
+                "name": "SportsBeep"
+            }
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0D11; /* Deep Black/Dark Gray for high-tech look */
+        }
+        
+        /* Define new electric colors */
+        .electric-cyan { color: #00D0FF; } /* Bright Cyan Accent */
+        .bg-electric-cyan { background-color: #00D0FF; }
+        .border-electric-cyan { border-color: #00D0FF; }
+
+        .hover\:bg-electric-cyan:hover { background-color: #00AADD; }
+        .hover\:text-electric-cyan:hover { color: #00D0FF; }
+        
+        .beep-gradient {
+            /* Holographic Neon Glow Effect */
+            color: #00D0FF;
+            text-shadow: 0 0 10px rgba(0, 208, 255, 0.6), 0 0 30px rgba(0, 208, 255, 0.3);  
+        }
+
+        /* Custom style for the Card/Vending Machine box */
+        .vending-box {
+            background-color: rgba(18, 21, 27, 0.7); /* Slightly transparent background for glass effect */
+            backdrop-filter: blur(8px); /* Subtle Glassmorphism */
+            border: 1px solid #00D0FF66; /* Sharper cyan border */
+            /* Multi-layer Shadow for Depth and Holographic Glow */
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.5), /* Deep shadow for lift */
+                0 0 20px rgba(0, 208, 255, 0.25), /* Soft inner cyan glow */
+                0 0 40px rgba(0, 208, 255, 0.1); /* Wide outer cyan shimmer */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s;
+        }
+        .vending-box:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            border-color: #00D0FF;
+            box-shadow: 
+                0 8px 10px rgba(0, 0, 0, 0.7), 
+                0 0 30px rgba(0, 208, 255, 0.4), 
+                0 0 60px rgba(0, 208, 255, 0.2); 
+        }
+        
+        /* Input fields look sleek */
+        input[type="number"] {
+            border: 1px solid #374151; /* Dark gray border */
+            background-color: #0A0D11; /* Match background for clean inset look */
+            color: white;
+            padding: 0.75rem; /* Ensure padding is consistent */
+            border-radius: 0.5rem; /* Match general rounded corners */
+            transition: border-color 0.2s;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle inner shadow for depth */
+        }
+        input[type="number"]:focus {
+            border-color: #00D0FF; /* Cyan focus border */
+            box-shadow: 0 0 5px rgba(0, 208, 255, 0.5);
+            outline: none;
+        }
+        
+        /* Three.js Canvas Styling - increased opacity for high-tech feel */
+        #sports-data-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.35; /* Slightly more prominent data stream */
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Button Style for DApp Connect/Purchase */
+        .btn-cyan-outline {
+            background-color: transparent;
+            border: 3px solid #00D0FF; /* Thicker border */
+            color: #00D0FF;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .btn-cyan-outline:hover {
+            background-color: #00D0FF33; /* Stronger background on hover */
+            box-shadow: 0 0 15px rgba(0, 208, 255, 0.7);
+        }
+        .btn-cyan-fill {
+            background-color: #00D0FF;
+            color: #0A0D11; /* Dark text on bright button */
+            font-weight: 800;
+            box-shadow: 0 5px 15px rgba(0, 208, 255, 0.4); /* Add shadow for lift */
+            transition: all 0.2s;
+        }
+        .btn-cyan-fill:hover {
+            background-color: #00AADD;
+            box-shadow: 0 5px 25px rgba(0, 208, 255, 0.9), inset 0 0 10px white; /* Stronger glow and subtle white inset */
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+
+    <header class="sticky top-0 z-50 bg-[#0A0D11]/95 backdrop-blur-md border-b border-[#00D0FF22]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2 text-2xl font-bold tracking-tight">
+                <img src="https://assets-global.website-files.com/64f9f6e5e806201ed006f15f/651f672322588487779d7249_sportsbeep%20logo.png" alt="SportsBeep Logo" class="w-10 h-10 -rotate-6 filter brightness-125">
+                <span class="text-white">Sports<span class="electric-cyan">Beep</span></span>
+            </a>
+            <nav class="space-x-6 hidden md:flex items-center">
+                <a href="#hero" class="text-gray-400 hover:text-electric-cyan transition duration-150">Home</a>
+                <a href="xhttps://sportsbeep.com/whitepaper.html" target="_blank" class="text-gray-400 hover:text-electric-cyan transition duration-150">Whitepaper</a>
+                <a href="#tokenomics" class="text-gray-400 hover:text-electric-cyan transition duration-150">Tokenomics</a>
+                <a href="#vending" class="px-4 py-1.5 rounded-full font-semibold transition duration-150 shadow-lg btn-cyan-outline text-base">Buy $BEEP</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative overflow-hidden">
+        <canvas id="sports-data-canvas"></canvas>
+        
+        <div class="hero-content space-y-6">
+            <span class="inline-block text-sm font-semibold electric-cyan bg-electric-cyan/20 px-4 py-1 rounded-full tracking-wider uppercase border border-electric-cyan/50">
+                Phase 1: Founder's Edition Drop
+            </span>
+            <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight">
+                Secure Your <span class="beep-gradient">Founder's $BEEP</span> Tokens
+            </h1>
+            <p class="mt-4 text-xl text-gray-300 max-w-3xl mx-auto">
+                Only **271 $BEEP** are available in this exclusive initial release. Gain early access to premium data, governance voting, and content boosts on the SportsBeep platform.
+            </p>
+            <div class="pt-6 flex justify-center space-x-4">
+                <a href="#vending" class="inline-flex items-center justify-center px-8 py-3.5 text-base font-extrabold rounded-lg btn-cyan-fill md:py-4 md:text-xl md:px-10 transition active:scale-95">
+                    Connect & Buy $BEEP
+                </a>
+                <a href="xhttps://sportsbeep.com/whitepaper.html" target="_blank" class="inline-flex items-center justify-center px-8 py-3.5 text-base font-extrabold rounded-lg btn-cyan-outline md:py-4 md:text-xl md:px-10 transition active:scale-95">
+                    Read Whitepaper
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="vending" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <h2 class="text-4xl font-bold text-center mb-12 electric-cyan">Automated $BEEP Vending Machine</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <h3 class="text-2xl font-bold text-white border-b border-[#00D0FF44] pb-2">How to Purchase with Your Wallet</h3>
+
+                <ol class="space-y-6 text-lg">
+                    <li class="flex items-start space-x-4">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-electric-cyan text-[#0A0D11] flex items-center justify-center font-bold text-lg">1</span>
+                        <p class="text-gray-200">
+                            **Connect Wallet:** Select your preferred Cardano dApp wallet (**Lace, Yoroi, Nami, etc.**) and approve the connection request in the extension or mobile app.
+                        </p>
+                    </li>
+                    <li class="flex items-start space-x-4">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-electric-cyan text-[#0A0D11] flex items-center justify-center font-bold text-lg">2</span>
+                        <p class="text-gray-200">
+                            **Enter ADA:** Input the amount of ADA you wish to spend, and the system will instantly calculate the $BEEP$ you will receive (<span class="electric-cyan font-bold">1 ADA = 5.46 $BEEP$</span>).
+                        </p>
+                    </li>
+                    <li class="flex items-start space-x-4">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-electric-cyan text-[#0A0D11] flex items-center justify-center font-bold text-lg">3</span>
+                        <p class="text-gray-200">
+                            **Sign Transaction:** Approve the purchase transaction in your chosen wallet. Our automated script sends your $BEEP$ tokens back to your wallet instantly upon confirmation.
+                        </p>
+                    </li>
+                </ol>
+
+                <div id="message-box" class="mt-8 p-4 text-sm font-mono rounded-lg text-yellow-300 bg-[#12151B] border border-yellow-700" role="alert">
+                    <span class="electric-cyan">INFO:</span> Ensure your Cardano dApp wallet (Lace, Yoroi, Nami, etc.) is installed, unlocked, and available in your browser before connecting.
+                </div>
+            </div>
+
+            <div class="vending-box p-6 rounded-xl space-y-6">
+                <h3 id="wallet-status-title" class="text-xl font-bold text-center electric-cyan pb-2 border-b border-[#00D0FF44]">Select Your Cardano Wallet</h3>
+
+                <div id="connection-area" class="pb-4 text-center space-y-4">
+                    <p class="text-sm uppercase text-gray-400">Cardano dApp Connector</p>
+                    
+                    <div id="wallet-selection-area" class="grid grid-cols-2 gap-3">
+                        <button onclick="connectWallet('Lace')" data-wallet="Lace" class="wallet-button w-full inline-flex items-center justify-center px-4 py-3 text-base font-extrabold rounded-lg btn-cyan-outline transition shadow-lg">
+                            Connect Lace
+                        </button>
+                        <button onclick="connectWallet('Yoroi')" data-wallet="Yoroi" class="wallet-button w-full inline-flex items-center justify-center px-4 py-3 text-base font-extrabold rounded-lg btn-cyan-outline transition shadow-lg">
+                            Connect Yoroi
+                        </button>
+                    </div>
+                    
+                    <div id="connected-status" class="hidden text-center space-y-2">
+                        <p class="text-sm uppercase text-gray-400">Connected via: <span id="current-wallet-name" class="font-bold electric-cyan"></span></p>
+                        <p class="text-lg font-bold electric-cyan truncate" id="connected-address"></p>
+                    </div>
+
+                    <p id="wallet-error" class="text-xs text-red-400 hidden mt-2">Wallet not found or connection failed.</p>
+                </div>
+
+                <div id="purchase-interface" class="space-y-4 hidden">
+                    <p class="text-sm uppercase text-gray-400 font-bold text-center">Exchange Rate: <span class="electric-cyan">1 ADA = 5.46 $BEEP$</span></p>
+                    
+                    <div class="space-y-2">
+                        <label for="ada-input" class="text-sm font-medium text-gray-400">ADA Amount to Spend (Min 5 ADA)</label>
+                        <input id="ada-input" type="number" min="5" step="1" placeholder="Min 5 ADA" value="10"
+                            class="w-full focus:ring-1 focus:ring-electric-cyan"/>
+                    </div>
+
+                    <div class="bg-gray-900 p-3 rounded-lg flex justify-between items-center border border-[#00D0FF44]">
+                        <span class="text-sm text-gray-400">You Receive (Approx.)</span>
+                        <span id="beep-output" class="text-xl font-extrabold electric-cyan">54.60 $BEEP</span>
+                    </div>
+
+                    <button onclick="purchaseBeepTokens()" class="w-full inline-flex items-center justify-center px-4 py-3 text-base font-extrabold rounded-lg btn-cyan-fill transition shadow-lg">
+                        Purchase $BEEP with ADA
+                    </button>
+                    <p id="tx-message" class="text-sm text-green-400 hidden text-center pt-2 font-mono"></p>
+                </div>
+                
+                <div class="space-y-2 pt-4 border-t border-[#00D0FF44] hidden">
+                    <p class="text-sm uppercase text-gray-400">Manual Payment Address (Reference Only)</p>
+                    <p class="text-xs font-mono text-gray-500 break-all" id="reference-address">addr1qyk8m9c49u0e9wnd5a5z47h23l2e9a5d5e5p5v5r5m5s5n5c5a5j5z5n5v5t5s5y5r5t5s</p>
+                </div>
+
+                <div class="pt-4 border-t border-[#00D0FF44] py-4 space-y-2">
+                    <p class="text-sm uppercase text-gray-400 flex justify-between items-center">
+                        <span>Supply Status: Founder's Drop</span>
+                        <span class="text-xs text-green-400 font-mono">LIVE</span>
+                    </p>
+                    <div class="h-6 bg-gray-700 rounded-full overflow-hidden border border-electric-cyan/50">
+                        <div class="h-full bg-electric-cyan flex items-center justify-center text-xs text-black font-bold" style="width: 0%;">
+                            0% Sold
+                        </div>
+                    </div>
+                    <p class="text-lg font-extrabold text-white text-center">
+                        <span class="text-5xl electric-cyan">271</span> / 271 Remaining
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tokenomics" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <h2 class="text-4xl font-bold text-center mb-16 text-white">The $BEEP Tokenomics</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="vending-box p-6 rounded-xl space-y-4">
+                <h3 class="text-2xl font-bold electric-cyan">Key Utility</h3>
+                <ul class="text-gray-300 space-y-2 list-disc list-inside ml-4">
+                    <li>**Daily Games:** Entry fee for all daily sports contests.</li>
+                    <li>**High-Stakes Pools:** Access exclusive pools to double or triple your $BEEP$.</li>
+                    <li>**Governance:** Vote on platform upgrades and feature development.</li>
+                </ul>
+            </div>
+
+            <div class="vending-box p-6 rounded-xl space-y-4">
+                <h3 class="text-2xl font-bold electric-cyan">Supply & Phase Details</h3>
+                <p class="text-gray-300">**Total Supply (Fixed):** <span class="text-white font-bold">10,000,000 $BEEP</span></p>
+                <p class="text-gray-300">**Phase 1 Release:** <span class="text-white font-bold">271 $BEEP</span> (100% for Public Sale)</p>
+                <p class="text-gray-300">**Cardano Policy ID:** <span class="text-sm font-mono electric-cyan break-all">48aaf387c0f3406cbebe3ed09d401fc2...</span></p>
+            </div>
+
+            <div class="vending-box p-6 rounded-xl space-y-4">
+                <h3 class="text-2xl font-bold electric-cyan">Real-Time $BEEP Value</h3>
+                <p class="text-gray-300 text-sm">
+                    Based on the Founder's Drop rate of **1 ADA = 5.46 $BEEP$** and a current ADA market price of:
+                </p>
+                
+                <div class="mt-4 space-y-3">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 rounded-lg bg-[#0A0D11] border border-[#00D0FF1A]">
+                        <span class="text-lg font-semibold text-gray-400">Current ADA Price (USD)</span>
+                        <!-- ID added for real-time update -->
+                        <span id="ada-price-usd" class="text-2xl font-extrabold electric-cyan mt-1 sm:mt-0">Fetching...</span>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 rounded-lg bg-[#0A0D11] border border-[#00D0FF1A] scale-105">
+                        <span class="text-lg font-semibold text-gray-400">Calculated Price per $BEEP$</span>
+                        <!-- ID added for real-time update -->
+                        <span id="beep-price-usd" class="text-3xl font-extrabold beep-gradient mt-1 sm:mt-0">Fetching...</span>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 pt-2">
+                    *The price is a real-time snapshot for demonstration, calculated as: **Current ADA Price / 5.46**.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center text-gray-600 border-t border-[#00D0FF22] mt-10">
+        <p>&copy; 2025 SportsBeep. All rights reserved. Built on <span class="electric-cyan">Cardano</span>.</p>
+        <p class="mt-2 text-xs">
+            Disclaimer: Cryptocurrency transactions are irreversible. Ensure you send the correct amount of ADA from a compatible wallet.
+        </p>
+    </footer>
+
+    <script>
+        // --- CONSTANTS ---
+        let walletApi = null;
+        let connectedWalletName = null;
+        const BEEP_PER_ADA = 5.46;
+        const VENDING_ADDRESS = "addr1qyk8m9c49u0e9wnd5a5z47h23l2e9a5d5e5p5v5r5m5s5n5c5a5j5z5n5v5t5s5y5r5t5s";
+        const UPDATE_INTERVAL_MS = 30000; // Update price every 30 seconds
+
+        // Map wallet display names to their window.cardano property name
+        const WALLET_MAP = {
+            'Lace': 'lace',
+            'Yoroi': 'yoroi',
+            'Nami': 'nami',  
+            'Eternl': 'eternl'  
+        };
+        
+        // --- REAL-TIME PRICE LOGIC (NEW) ---
+        /**
+         * Simulates fetching the current ADA price and updates the BEEP price calculation.
+         */
+        async function fetchAdaPrice() {
+            const adaPriceEl = document.getElementById('ada-price-usd');
+            const beepPriceEl = document.getElementById('beep-price-usd');
+
+            if (!adaPriceEl || !beepPriceEl) {
+                console.error("Price elements (ada-price-usd or beep-price-usd) not found.");
+                return;
+            }
+
+            try {
+                // Show loading state
+                adaPriceEl.textContent = '...';
+                beepPriceEl.textContent = '...';
+
+                // --- MOCK API SIMULATION ---
+                // Simulating an API call delay of 1.5 seconds.
+                await new Promise(resolve => setTimeout(resolve, 1500)); 
+
+                // Generate a slightly fluctuating mock price around $0.55
+                const basePrice = 0.55;
+                // Fluctuation: +/- 2.5 cents
+                const fluctuation = (Math.random() - 0.5) * 0.05; 
+                const liveAdaPrice = (basePrice + fluctuation).toFixed(4); 
+                // --- END MOCK SIMULATION ---
+
+
+                // 1. Calculate BEEP Price (ADA price / BEEP per ADA rate)
+                const liveBeepPrice = (liveAdaPrice / BEEP_PER_ADA).toFixed(4);
+
+                // 2. Update the DOM elements
+                adaPriceEl.textContent = `$${liveAdaPrice} USD`;
+                beepPriceEl.textContent = `$${liveBeepPrice} USD`;
+                
+            } catch (error) {
+                console.error("Failed to fetch ADA price:", error);
+                adaPriceEl.textContent = 'API Error';
+                beepPriceEl.textContent = 'API Error';
+            }
+        }
+        
+        // --- DApp Wallet Logic ---
+
+        // Updates the BEEP output based on the ADA input value
+        function updateBeepOutput() {
+            const adaInput = document.getElementById('ada-input');
+            const beepOutput = document.getElementById('beep-output');
+            const adaAmount = parseFloat(adaInput.value);
+
+            if (adaAmount >= 5 && !isNaN(adaAmount)) {
+                const beepAmount = (adaAmount * BEEP_PER_ADA).toFixed(2);
+                beepOutput.textContent = `${beepAmount} $BEEP`;
+            } else {
+                beepOutput.textContent = `0.00 $BEEP`;
+            }
+        }
+        
+        // Connects to the selected Cardano Wallet using CIP-30 standard
+        async function connectWallet(walletDisplayName) {
+            const walletName = WALLET_MAP[walletDisplayName];
+            const walletSelectionArea = document.getElementById('wallet-selection-area');
+            const connectedStatus = document.getElementById('connected-status');
+            const walletError = document.getElementById('wallet-error');
+            const purchaseInterface = document.getElementById('purchase-interface');
+            const walletButtons = document.querySelectorAll('.wallet-button');
+
+            // Set all buttons to disabled during connection attempt
+            walletButtons.forEach(btn => {
+                if (btn.getAttribute('data-wallet') === walletDisplayName) {
+                    btn.textContent = `Connecting ${walletDisplayName}...`;
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = true;
+                }
+            });
+            
+            walletError.classList.add('hidden');
+            
+            try {
+                // Check if the wallet object exists on window.cardano
+                if (typeof window.cardano !== 'undefined' && window.cardano[walletName]) {
+                    
+                    // Request wallet connection/enablement
+                    walletApi = await window.cardano[walletName].enable();
+                    
+                    if (walletApi) {
+                        // Connection successful
+                        connectedWalletName = walletDisplayName;
+                        
+                        // Fetch the first used address to display
+                        const usedAddresses = await walletApi.getUsedAddresses();
+                        const address = usedAddresses[0] || 'Unknown Address';  
+                        
+                        // Update UI to show connected state
+                        walletSelectionArea.classList.add('hidden');
+                        connectedStatus.classList.remove('hidden');
+                        document.getElementById('current-wallet-name').textContent = connectedWalletName;
+                        // Display truncated address for UI cleanliness
+                        document.getElementById('connected-address').textContent = `${address.substring(0, 10)}...${address.substring(address.length - 8)}`;
+                        
+                        purchaseInterface.classList.remove('hidden');
+                        document.getElementById('wallet-status-title').textContent = 'Ready to Purchase';
+                    } else {
+                        // User rejected connection or another issue occurred
+                        walletError.textContent = `Connection failed. Please ensure ${walletDisplayName} is unlocked.`;
+                        walletError.classList.remove('hidden');
+                    }
+                } else {
+                    // Wallet object not found
+                    walletError.innerHTML = `${walletDisplayName} wallet not detected. Please install the extension or try another wallet.`;
+                    walletError.classList.remove('hidden');
+                }
+            } catch (e) {
+                console.error(`Wallet Connection Error (${walletDisplayName}):`, e);
+                walletError.textContent = `Connection denied by user or encountered an error.`;
+                walletError.classList.remove('hidden');
+            } finally {
+                // Reset button states if connection failed
+                if (!walletApi) {
+                    walletButtons.forEach(btn => {
+                        btn.textContent = `Connect ${btn.getAttribute('data-wallet')}`;
+                        btn.disabled = false;
+                    });
+                }
+            }
+        }
+
+        // Simulates the Purchase Transaction Logic
+        async function purchaseBeepTokens() {
+            const adaInput = document.getElementById('ada-input');
+            const txMessage = document.getElementById('tx-message');
+            const buyButton = document.querySelector('#purchase-interface button');
+
+            txMessage.classList.add('hidden');
+            
+            if (!walletApi) {
+                txMessage.textContent = 'Please connect your wallet first.';
+                txMessage.classList.remove('hidden');
+                txMessage.classList.add('text-red-400');
+                return;
+            }
+
+            const adaAmount = parseFloat(adaInput.value);
+            if (adaAmount < 5 || isNaN(adaAmount)) {
+                txMessage.textContent = 'Minimum purchase is 5 ADA.';
+                txMessage.classList.remove('hidden');
+                txMessage.classList.add('text-red-400');
+                return;
+            }
+
+            const beepAmount = (adaAmount * BEEP_PER_ADA).toFixed(2);
+            const walletName = connectedWalletName || 'Wallet';
+
+            buyButton.textContent = `Processing Transaction via ${walletName}...`;
+            buyButton.disabled = true;
+            txMessage.classList.remove('text-red-400', 'text-green-400');
+            txMessage.classList.add('text-yellow-400');
+            txMessage.textContent = `Please check your ${walletName} wallet to sign the transaction...`;
+            txMessage.classList.remove('hidden');
+
+            try {
+                // --- PLACEHOLDER FOR CARDANO TRANSACTION LOGIC ---
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate network latency and signing time
+                
+                txMessage.textContent = `Success! Transaction simulated for ${beepAmount} $BEEP$. Check your wallet for tokens soon!`;
+                txMessage.classList.remove('text-yellow-400');
+                txMessage.classList.add('text-green-400');
+                
+            } catch (error) {
+                console.error("Transaction Error:", error);
+                txMessage.textContent = `Transaction failed: ${error.info || error.message || 'User cancelled or unknown error.'}`;
+                txMessage.classList.remove('text-yellow-400');
+                txMessage.classList.add('text-red-400');
+            } finally {
+                buyButton.textContent = 'Purchase $BEEP with ADA';
+                buyButton.disabled = false;
+            }
+        }
+
+        // --- Utility and Three.js Functions ---
+        
+        // THREE.js Animation for Hero Background
+        const darkBase = 0x12151B;  
+        const electricCyan = 0x00D0FF;  
+        
+        let scene, camera, renderer, particles, particleCount = 200;
+        let velocities;
+
+        function initThreeJs() {
+            const container = document.getElementById('hero');
+            const canvas = document.getElementById('sports-data-canvas');
+            
+            if (typeof THREE === 'undefined') return;
+
+            // 1. Setup Renderer
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+
+            // 2. Setup Scene and Camera
+            scene = new THREE.Scene();
+            
+            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 100;
+
+            // 3. Create Particles (Abstract Data/Tokens)
+            const geometry = new THREE.BufferGeometry();
+            
+            const positions = new Float32Array(particleCount * 3);
+            velocities = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            const color2 = new THREE.Color(electricCyan); // Bright cyan
+
+            for (let i = 0; i < particleCount; i++) {
+                // Position: Spread out initially
+                positions[i * 3 + 0] = (Math.random() - 0.5) * 500;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 500;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 500;
+
+                // Velocity: Subtle movement along Z axis (depth)
+                velocities[i * 3 + 2] = (Math.random() * 0.5) + 0.5;
+
+                // Color: Assign cyan color
+                colors[i * 3 + 0] = color2.r;
+                colors[i * 3 + 1] = color2.g;
+                colors[i * 3 + 2] = color2.b;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 1.5,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            window.addEventListener('resize', onWindowResize, false);
+            animate();
+        }
+
+        function onWindowResize() {
+            const container = document.getElementById('hero');
+            if (renderer && camera) {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (particles) {
+                const positions = particles.geometry.attributes.position.array;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    // Move particle along the Z-axis
+                    positions[i * 3 + 2] += velocities[i * 3 + 2] * 0.5;
+
+                    // Reset position if it goes too far
+                    if (positions[i * 3 + 2] > 200) {
+                        positions[i * 3 + 2] = -300;
+                        // Give it a slight lateral shift on reset for a random data feel
+                        positions[i * 3 + 0] = (Math.random() - 0.5) * 500;
+                        positions[i * 3 + 1] = (Math.random() - 0.5) * 500;
+                    }
+                }
+
+                particles.geometry.attributes.position.needsUpdate = true;
+                
+                // Slight rotation for ambient movement
+                particles.rotation.z += 0.0005;
+            }
+
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+        
+        // Initial setup for the input field and real-time prices
+        document.addEventListener('DOMContentLoaded', () => {
+            const adaInput = document.getElementById('ada-input');
+            if (adaInput) {
+                adaInput.addEventListener('input', updateBeepOutput);
+                updateBeepOutput(); // Call once on load
+            }
+            
+            // Start real-time price feed
+            fetchAdaPrice(); // Fetch price immediately on load
+            setInterval(fetchAdaPrice, UPDATE_INTERVAL_MS); // Set interval to update price every 30 seconds
+            
+            // Initialize Three.js after DOM is ready
+            initThreeJs();
+        });
+    </script>
+</body>
+</html>

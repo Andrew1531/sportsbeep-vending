@@ -1,61 +1,64 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #0A0D11; /* Deep Black/Dark Gray for high-tech look */
+    background-color: #00539B; /* Islanders Blue */
+    color: #FFFFFF;
 }
- 
-/* Define new electric colors */
-.electric-cyan { color: #00D0FF; } /* Bright Cyan Accent */
-.bg-electric-cyan { background-color: #00D0FF; }
-.border-electric-cyan { border-color: #00D0FF; }
 
-.hover\:bg-electric-cyan:hover { background-color: #00AADD; }
-.hover\:text-electric-cyan:hover { color: #00D0FF; }
- 
+/* Define brand colors */
+.islanders-blue { color: #00539B; }
+.islanders-orange { color: #F47D30; }
+.bg-islanders-blue { background-color: #00539B; }
+.bg-islanders-orange { background-color: #F47D30; }
+.border-islanders-blue { border-color: #00539B; }
+.border-islanders-orange { border-color: #F47D30; }
+.hover\:bg-islanders-orange:hover { background-color: #E85C10; }
+.hover\:text-islanders-orange:hover { color: #F47D30; }
+
+/* Neon gradient text for highlights */
 .beep-gradient {
-    /* Holographic Neon Glow Effect */
-    color: #00D0FF;
-    text-shadow: 0 0 10px rgba(0, 208, 255, 0.6), 0 0 30px rgba(0, 208, 255, 0.3);  
+    color: #F47D30; /* Orange */
+    text-shadow: 0 0 10px rgba(244,125,48,0.6), 0 0 30px rgba(244,125,48,0.3);
 }
 
-/* Custom style for the Card/Vending Machine box */
+/* Vending box / Card container */
 .vending-box {
-    background-color: rgba(18, 21, 27, 0.7); /* Slightly transparent background for glass effect */
-    backdrop-filter: blur(8px); /* Subtle Glassmorphism */
-    border: 1px solid #00D0FF66; /* Sharper cyan border */
-    /* Multi-layer Shadow for Depth and Holographic Glow */
+    background-color: rgba(18, 21, 27, 0.7); /* Glass effect */
+    backdrop-filter: blur(8px);
+    border: 1px solid #F47D30AA; /* Orange border */
     box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.5), /* Deep shadow for lift */
-        0 0 20px rgba(0, 208, 255, 0.25), /* Soft inner cyan glow */
-        0 0 40px rgba(0, 208, 255, 0.1); /* Wide outer cyan shimmer */
+        0 4px 6px rgba(0,0,0,0.5),
+        0 0 20px rgba(244,125,48,0.25),
+        0 0 40px rgba(244,125,48,0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s;
 }
 .vending-box:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    border-color: #00D0FF;
-    box-shadow: 
-        0 8px 10px rgba(0, 0, 0, 0.7), 
-        0 0 30px rgba(0, 208, 255, 0.4), 
-        0 0 60px rgba(0, 208, 255, 0.2); 
+    transform: translateY(-5px);
+    border-color: #F47D30;
+    box-shadow:
+        0 8px 10px rgba(0,0,0,0.7),
+        0 0 30px rgba(244,125,48,0.4),
+        0 0 60px rgba(244,125,48,0.2);
 }
- 
-/* Input fields look sleek */
+
+/* Input fields */
 input[type="number"] {
-    border: 1px solid #374151; /* Dark gray border */
-    background-color: #0A0D11; /* Match background for clean inset look */
-    color: white;
-    padding: 0.75rem; /* Ensure padding is consistent */
-    border-radius: 0.5rem; /* Match general rounded corners */
+    border: 1px solid #F47D30; /* Orange border */
+    background-color: #00539B;
+    color: #FFFFFF;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
     transition: border-color 0.2s;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle inner shadow for depth */
 }
 input[type="number"]:focus {
-    border-color: #00D0FF; /* Cyan focus border */
-    box-shadow: 0 0 5px rgba(0, 208, 255, 0.5);
+    border-color: #F47D30;
+    box-shadow: 0 0 5px rgba(244,125,48,0.5);
     outline: none;
 }
- 
-/* Three.js Canvas Styling - increased opacity for high-tech feel */
+
+/* Three.js Canvas */
 #sports-data-canvas {
     position: absolute;
     top: 0;
@@ -63,35 +66,35 @@ input[type="number"]:focus {
     width: 100%;
     height: 100%;
     z-index: 0;
-    opacity: 0.35; /* Slightly more prominent data stream */
+    opacity: 0.35;
 }
- 
+
 .hero-content {
     position: relative;
     z-index: 10;
 }
- 
-/* Button Style for DApp Connect/Purchase */
-.btn-cyan-outline {
+
+/* Buttons */
+.btn-outline {
     background-color: transparent;
-    border: 3px solid #00D0FF; /* Thicker border */
-    color: #00D0FF;
+    border: 3px solid #F47D30;
+    color: #F47D30;
     font-weight: 700;
     transition: all 0.2s;
 }
-.btn-cyan-outline:hover {
-    background-color: #00D0FF33; /* Stronger background on hover */
-    box-shadow: 0 0 15px rgba(0, 208, 255, 0.7);
+.btn-outline:hover {
+    background-color: #F47D3033;
+    box-shadow: 0 0 15px rgba(244,125,48,0.7);
 }
-.btn-cyan-fill {
-    background-color: #00D0FF;
-    color: #0A0D11; /* Dark text on bright button */
+.btn-fill {
+    background-color: #F47D30;
+    color: #00539B;
     font-weight: 800;
-    box-shadow: 0 5px 15px rgba(0, 208, 255, 0.4); /* Add shadow for lift */
+    box-shadow: 0 5px 15px rgba(244,125,48,0.4);
     transition: all 0.2s;
 }
-.btn-cyan-fill:hover {
-    background-color: #00AADD;
-    box-shadow: 0 5px 25px rgba(0, 208, 255, 0.9), inset 0 0 10px white; /* Stronger glow and subtle white inset */
+.btn-fill:hover {
+    background-color: #E85C10;
+    box-shadow: 0 5px 25px rgba(244,125,48,0.9), inset 0 0 10px #FFFFFF;
     transform: scale(1.02);
 }

@@ -1,140 +1,492 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$BEEP - The Primary Token for SPORTSBEEP.COM</title>
-    
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'deep-black': '#0A0D11',
-                        'electric-cyan': '#00D0FF', // Custom color defined in style.css
-                        'cyber-gray': '#12151B',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Buy $BEEP — SportsBeep</title>
+  <!-- Lucid (for Cardano wallet interop) -->
+  <script src="https://unpkg.com/lucid-cardano@0.9.3/dist/bundle.min.js"></script>
+
+  <style>
+    /* SportsBeep-inspired palette (replace if you want exact brand values)
+       Primary orange/red: #E84C2C
+       Navy: #283A5B
+       Accent lighter orange: #FF6A3A
+    */
+    :root{
+      --sb-orange: #E84C2C;
+      --sb-orange-2: #FF6A3A;
+      --sb-navy: #283A5B;
+      --bg: #ffffff;
+      --muted: #6b7280;
+      --card: #fbfbfb;
+      --success: #16a34a;
+    }
+    *{ box-sizing: border-box; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(180deg, #fff, #f8fafc);
+      color: var(--sb-navy);
+    }
+
+    .container{
+      width:980px;
+      max-width:95%;
+      background: var(--card);
+      border-radius:16px;
+      box-shadow: 0 8px 30px rgba(40,58,91,0.08);
+      padding:28px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:24px;
+      align-items:start;
+    }
+
+    .brand{
+      display:flex;
+      gap:16px;
+      align-items:center;
+    }
+    .logo {
+      width:68px;
+      height:68px;
+      background: var(--sb-orange);
+      color: white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:12px;
+      font-weight:700;
+      font-size:26px;
+      box-shadow: 0 6px 18px rgba(232,76,44,0.14);
+      transform: rotate(-12deg);
+    }
+    h1{ margin:8px 0 2px 0; font-size:20px; }
+    p.lead{ margin:0; color:var(--muted); }
+
+    .left {
+      padding-right:6px;
+    }
+    .card {
+      background: white;
+      border-radius:12px;
+      padding:18px;
+      border: 1px solid rgba(40,58,91,0.04);
+      margin-top:14px;
+    }
+
+    label{ display:block; font-size:13px; color:var(--muted); margin-bottom:8px; }
+    input[type="number"], select, input[type="text"]{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid rgba(40,58,91,0.08);
+      font-size:15px;
+      outline:none;
+    }
+    .inline {
+      display:flex;
+      gap:8px;
+    }
+    .inline > * { flex:1; }
+
+    .right {
+      padding-left:6px;
+    }
+
+    .wallets {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    button {
+      background: linear-gradient(90deg,var(--sb-orange), var(--sb-orange-2));
+      border:0;
+      color:white;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow: 0 8px 20px rgba(232,76,44,0.12);
+    }
+    button.secondary {
+      background: white;
+      color: var(--sb-navy);
+      border: 1px solid rgba(40,58,91,0.06);
+      box-shadow:none;
+    }
+
+    .muted { color:var(--muted); font-size:13px; }
+
+    .status {
+      margin-top:10px;
+      padding:10px;
+      border-radius:8px;
+      background: #fff9f6;
+      border: 1px solid rgba(232,76,44,0.08);
+      color: var(--sb-navy);
+      font-size:13px;
+    }
+    .ok { background: #f1faf4; border: 1px solid rgba(16,185,129,0.08); color:var(--success); }
+
+    .small { font-size:13px; color:var(--muted); margin-top:10px;}
+    footer { margin-top:18px; font-size:12px; color:var(--muted); }
+
+    @media (max-width:880px){
+      .container { grid-template-columns: 1fr; padding:18px;}
+      .right { order: -1; padding-left:0; }
+    }
+  </style>
 </head>
-<body class="bg-deep-black text-white min-h-screen antialiased">
+<body>
+  <div class="container" role="main">
+    <div class="left">
+      <div class="brand">
+        <div class="logo">SB</div>
+        <div>
+          <h1>Buy <span style="color:var(--sb-orange)">$BEEP</span></h1>
+          <p class="lead">Fast Cardano-native token purchases — connect your wallet to pay securely.</p>
+        </div>
+      </div>
 
-    <div id="sports-data-canvas" class="fixed top-0 left-0 w-full h-full opacity-35"></div>
+      <div class="card" style="margin-top:18px;">
+        <label>Connected wallet</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <div id="walletName" class="muted">Not connected</div>
+          <div style="flex:1"></div>
+          <button id="connectBtn">Connect Wallet</button>
+        </div>
 
-    <div class="relative z-10 p-4 md:p-8">
-        <header class="text-center py-6">
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
-                <span class="beep-gradient">SPORTSBEEP</span> Token Hub
-            </h1>
-            <p class="mt-2 text-xl text-gray-400">
-                The Native Token for the Future of Sports Gaming on Cardano.
-            </p>
-        </header>
+        <div style="margin-top:18px;">
+          <label>Price per $BEEP (ADA)</label>
+          <input id="priceAda" type="number" min="0" step="0.000001" value="0.5" />
+          <div class="small">Set the price in ADA. (Replace with your desired sale price.)</div>
+        </div>
 
-        <main class="max-w-4xl mx-auto mt-10">
-            <section class="p-6 md:p-10 rounded-xl vending-box transition-all duration-300">
-                
-                <h2 class="text-3xl font-bold mb-6 electric-cyan border-b border-electric-cyan/50 pb-2">
-                    $BEEP: Acquire Access Token
-                </h2>
+        <div style="margin-top:18px;">
+          <label>Quantity</label>
+          <div class="inline">
+            <input id="qty" type="number" min="1" step="1" value="1" />
+            <select id="preset" style="width:120px;">
+              <option value="">— presets —</option>
+              <option value="1">1</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+            </select>
+          </div>
+        </div>
 
-                <div class="mt-8 text-center py-4 border-y border-gray-700/50">
-                    <div id="wallet-status" class="text-xl font-bold mb-4 text-gray-400">
-                        Connect Wallet to Begin Transaction
-                    </div>
+        <div style="margin-top:16px; display:flex; gap:8px; align-items:center;">
+          <div style="flex:1">
+            <label>Total (ADA)</label>
+            <input id="totalAda" type="text" readonly value="0.5" />
+          </div>
+          <div style="width:160px;">
+            <label>&nbsp;</label>
+            <button id="buyBtn" style="width:100%;">Buy $BEEP</button>
+          </div>
+        </div>
 
-                    <div id="wallet-selection-area" class="flex flex-wrap justify-center space-x-2 space-y-2">
-                        <div class="text-sm text-gray-500">
-                            Checking for available Cardano wallets...
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                    
-                    <div>
-                        <label for="beep-amount" class="block text-lg font-semibold mb-2 text-gray-300">
-                            Amount of $BEEP to Acquire
-                        </label>
-                        <input 
-                            type="number" 
-                            id="beep-amount" 
-                            value="1000" 
-                            min="1" 
-                            class="w-full text-2xl" 
-                            placeholder="Enter amount"
-                            required
-                        >
-                        <p class="mt-2 text-sm text-gray-500">
-                            Minimum purchase is 1 $BEEP. Each $BEEP grants one unit of in-game access.
-                        </p>
-                    </div>
+        <div id="status" class="status" style="display:none;"></div>
 
-                    <div class="bg-cyber-gray/50 p-4 rounded-lg border border-gray-700/50">
-                        <h3 class="text-xl font-semibold electric-cyan mb-3">Transaction Summary</h3>
-                        <div class="space-y-2 text-sm">
-                            <p class="flex justify-between">
-                                <span class="text-gray-400">Total $BEEP:</span>
-                                <span id="summary-beep-amount" class="font-bold text-white">1,000</span>
-                            </p>
-                            <p class="flex justify-between">
-                                <span class="text-gray-400">Estimated ADA Cost:</span>
-                                <span id="summary-ada-cost" class="font-bold text-white">~ 50 ADA</span>
-                            </p>
-                            <p class="flex justify-between border-t border-gray-600/50 pt-2">
-                                <span class="text-lg font-bold">Total Due:</span>
-                                <span id="summary-total-due" class="text-lg font-bold electric-cyan">50 ADA</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        <div class="small" style="margin-top:12px;">
+          This site builds a signed ADA payment transaction and submits it with a small piece of metadata indicating the purchase. Actual token delivery must be handled by your backend or a swap contract (instructions below).
+        </div>
+      </div>
 
-                <div class="mt-8 text-center">
-                    <button 
-                        id="purchase-button" 
-                        class="btn-cyan-fill text-xl w-full max-w-sm py-3 rounded-xl transition-all duration-300"
-                        onclick="initiateTransaction()" 
-                        disabled 
-                        title="Connect a wallet to enable purchase."
-                    >
-                        Execute Purchase
-                    </button>
-                    <p class="mt-4 text-xs text-gray-500">
-                        Transactions secured via smart contract on the Cardano blockchain.
-                    </p>
-                </div>
-            </section>
-
-            <section class="mt-16 text-center">
-                <h2 class="text-3xl font-bold mb-4 beep-gradient">What is $BEEP?</h2>
-                <p class="text-gray-400 max-w-3xl mx-auto">
-                    $BEEP is the required native token for all primary activities within the SportsBeep ecosystem, including entry fees for competitive leagues, exclusive content access, and governance voting. By holding $BEEP, you gain direct participation in the future of our gaming platform.
-                </p>
-                <a href="https://sportsbeep.com" target="_blank" class="mt-4 inline-block text-electric-cyan hover:underline">
-                    Learn more about SPORTSBEEP.COM →
-                </a>
-            </section>
-        </main>
+      <footer>
+        <strong>Note:</strong> This is a demo frontend. Replace placeholders in the code (BLOCKFROST project ID, SALE_ADDRESS, token asset id) before use.
+      </footer>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <script src="script.js"></script>
-    
-    <script>
-        function initiateTransaction() {
-            alert("Initiating BEEP purchase transaction...");
-            // The real logic will be implemented in script.js
+    <div class="right">
+      <div class="card">
+        <h3 style="margin:0 0 6px 0">Sale details</h3>
+        <div class="muted">Token</div>
+        <div id="tokenInfo" style="margin-bottom:10px; font-weight:600;">$BEEP — TOKEN_ASSET_ID</div>
+
+        <div class="muted">Receiving address</div>
+        <div id="saleAddress" style="font-weight:600; word-break:break-word;">SALE_ADDRESS</div>
+
+        <div style="margin-top:14px;">
+          <div class="muted">Wallet providers</div>
+          <div class="wallets" style="margin-top:8px;">
+            <!-- Buttons to prompt user to install or open wallets -->
+            <button class="secondary" id="btnNami">Nami</button>
+            <button class="secondary" id="btnEternl">Eternl</button>
+            <button class="secondary" id="btnFlint">Flint</button>
+            <button class="secondary" id="btnCcvault">CCVault</button>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;">
+          <div class="muted">Info</div>
+          <ul style="margin:8px 0 0 18px;">
+            <li style="margin-bottom:6px;">Network: <span id="networkLabel">Testnet</span></li>
+            <li style="margin-bottom:6px;">Blockfrost: required for Lucid (replace with your project id)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <h4 style="margin:0 0 8px 0">Developer placeholders</h4>
+        <div class="muted">Update these values in the script before production:</div>
+        <ol style="margin:8px 0 0 18px;">
+          <li><code>BLOCKFROST_PROJECT_ID</code> — your Blockfrost project id (or another provider)</li>
+          <li><code>NETWORK</code> — 'Mainnet' or 'Preview'/'Preprod'/'Testnet' per Lucid</li>
+          <li><code>SALE_ADDRESS</code> — bech32 address that receives ADA payments</li>
+          <li><code>TOKEN_ASSET_ID</code> — full asset id (policyId + hex token name) for $BEEP</li>
+          <li><code>PRICE_PER_TOKEN_ADA</code> — default price per token in ADA</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+<script>
+(async function(){
+  // ---------------------------
+  // === CONFIGURE THESE ===
+  // ---------------------------
+  const BLOCKFROST_PROJECT_ID = "BLOCKFROST_PROJECT_ID"; // <<-- REPLACE
+  // Allowed Lucid networks: "Mainnet", "Preprod", "Preview", "Testnet"
+  const NETWORK = "Preprod"; // <<-- change to Mainnet when ready
+  const SALE_ADDRESS = "addr_test1..."; // <<-- REPLACE with the bech32 address that receives ADA payments
+  const TOKEN_ASSET_ID = "TOKEN_ASSET_ID"; // <<-- REPLACE with policyId + hex(tokenName) e.g. <policyId><hexName>
+  const PRICE_PER_TOKEN_ADA = 0.5; // default price for display; buyers can change on the page
+  // ---------------------------
+
+  // UI elements
+  const connectBtn = document.getElementById('connectBtn');
+  const walletNameEl = document.getElementById('walletName');
+  const qtyEl = document.getElementById('qty');
+  const priceEl = document.getElementById('priceAda');
+  const presetEl = document.getElementById('preset');
+  const totalEl = document.getElementById('totalAda');
+  const buyBtn = document.getElementById('buyBtn');
+  const statusEl = document.getElementById('status');
+  const tokenInfo = document.getElementById('tokenInfo');
+  const saleAddressEl = document.getElementById('saleAddress');
+  const networkLabel = document.getElementById('networkLabel');
+
+  tokenInfo.textContent = '$BEEP — ' + TOKEN_ASSET_ID;
+  saleAddressEl.textContent = SALE_ADDRESS;
+  priceEl.value = PRICE_PER_TOKEN_ADA;
+  networkLabel.textContent = NETWORK;
+
+  // Wallet quick buttons (open docs / encourage install)
+  document.getElementById('btnNami').onclick = ()=> window.open('https://namiwallet.io', '_blank');
+  document.getElementById('btnEternl').onclick = ()=> window.open('https://eternl.io', '_blank');
+  document.getElementById('btnFlint').onclick = ()=> window.open('https://flint-wallet.com', '_blank');
+  document.getElementById('btnCcvault').onclick = ()=> window.open('https://ccvault.io', '_blank');
+
+  // compute total
+  function computeTotal(){
+    const price = parseFloat(priceEl.value) || 0;
+    const qty = parseInt(qtyEl.value) || 0;
+    const tot = (price * qty);
+    totalEl.value = tot.toFixed(6);
+  }
+  qtyEl.addEventListener('input', computeTotal);
+  priceEl.addEventListener('input', computeTotal);
+  presetEl.addEventListener('change', ()=> {
+    if (presetEl.value) { qtyEl.value = presetEl.value; computeTotal(); presetEl.value = ""; }
+  });
+  computeTotal();
+
+  // Lucid init
+  let lucid = null;
+  let walletApi = null;
+  let userAddress = null;
+
+  async function showStatus(msg, ok=false){
+    statusEl.style.display='block';
+    statusEl.className = 'status' + (ok ? ' ok' : '');
+    statusEl.textContent = msg;
+  }
+
+  // Connect to wallet using the first available CIP-30 wallet
+  async function connectWallet(){
+    try {
+      if (!window.cardano) {
+        showStatus('No Cardano wallet detected in the browser. Install Nami, Eternl or Flint and reload.', false);
+        return;
+      }
+      // Find a provider to use (Nami preferred if present)
+      const providers = window.cardano;
+      // If you want to let user choose, build selection UI. For now, pick available wallet in this priority:
+      const preferred = ['nami','eternl','flint','ccvault','typhon']; // adjust as needed
+      let chosen = null;
+      for (const p of preferred){
+        if (providers[p]) { chosen = p; break; }
+      }
+      // fallback to any provider
+      if (!chosen) {
+        const keys = Object.keys(providers);
+        if (keys.length === 0) {
+          showStatus('No Cardano wallet providers found (window.cardano empty).', false);
+          return;
         }
-    </script>
+        chosen = keys[0];
+      }
+
+      walletApi = await providers[chosen].enable();
+      // Init Lucid with Blockfrost provider
+      const blockfrostUrl = (NETWORK === 'Mainnet') ? 'https://cardano-mainnet.blockfrost.io/api/v0' :
+                            (NETWORK === 'Preprod') ? 'https://cardano-preprod.blockfrost.io/api/v0' :
+                            (NETWORK === 'Preview') ? 'https://cardano-preview.blockfrost.io/api/v0' :
+                            (NETWORK === 'Testnet') ? 'https://cardano-testnet.blockfrost.io/api/v0' : null;
+
+      if (!BLOCKFROST_PROJECT_ID || BLOCKFROST_PROJECT_ID === "BLOCKFROST_PROJECT_ID") {
+        showStatus('Please set BLOCKFROST_PROJECT_ID in the script before using the site (see developer placeholders).', false);
+        return;
+      }
+
+      lucid = await Lucid.new(new Lucid.Blockfrost(blockfrostUrl, BLOCKFROST_PROJECT_ID), NETWORK);
+      await lucid.selectWallet(providers[chosen]);
+
+      // get first used address
+      const addrs = await lucid.wallet.addresses();
+      userAddress = addrs[0];
+      walletNameEl.textContent = chosen + ' — ' + shorten(userAddress);
+      showStatus('Wallet connected: ' + chosen, true);
+    } catch (e){
+      console.error(e);
+      showStatus('Error connecting wallet: ' + (e.message || e), false);
+    }
+  }
+
+  connectBtn.addEventListener('click', connectWallet);
+
+  // Shorten address for UI
+  function shorten(addr){
+    if (!addr) return '';
+    return addr.slice(0,6) + '...' + addr.slice(-6);
+  }
+
+  // Build and submit the ADA payment tx with metadata
+  buyBtn.addEventListener('click', async ()=>{
+    if (!lucid) {
+      await connectWallet();
+      if (!lucid) return;
+    }
+    const qty = parseInt(qtyEl.value) || 0;
+    if (qty <= 0) { showStatus('Quantity must be 1 or more.', false); return; }
+    const priceAda = parseFloat(priceEl.value) || 0;
+    const totalAda = priceAda * qty;
+    const lovelace = BigInt(Math.round(totalAda * 1_000_000));
+
+    if (!SALE_ADDRESS || SALE_ADDRESS === "SALE_ADDRESS") {
+      showStatus('Please configure SALE_ADDRESS in the script before using the site.', false);
+      return;
+    }
+    try {
+      showStatus('Building transaction — please approve in your wallet...', false);
+
+      // Attach metadata to help your backend identify the purchase:
+      // label 674 is arbitrary (use your own), content includes buyer address, asset id and quantity.
+      const metadata = {
+        type: "sportsbeep_purchase",
+        buyer: userAddress,
+        token: TOKEN_ASSET_ID,
+        quantity: qty,
+        priceAdaPerToken: priceAda,
+        totalAda: totalAda,
+        timestamp: Math.floor(Date.now()/1000)
+      };
+
+      // Build tx: pay lovelace to SALE_ADDRESS and add metadata
+      const tx = await lucid.newTx()
+        .payToAddress(SALE_ADDRESS, { lovelace })
+        .attachMetadata(674, metadata)
+        .complete();
+
+      const signed = await tx.sign().complete();
+      const txHash = await signed.submit();
+
+      showStatus('Payment submitted. Tx hash: ' + txHash, true);
+
+      // Suggestion: show link to explorer
+      const explorerBase = (NETWORK === 'Mainnet') ? 'https://cardanoscan.io/transaction/' :
+                            (NETWORK === 'Preprod') ? 'https://preprod.cardanoscan.io/transaction/' :
+                            (NETWORK === 'Preview') ? 'https://preview.cardanoscan.io/transaction/' :
+                            'https://testnets.cardanoscan.io/transaction/';
+
+      const link = explorerBase + txHash;
+      setTimeout(()=> {
+        statusEl.innerHTML = 'Payment submitted. <a href="' + link + '" target="_blank">View on explorer</a><br/><small>Now deliver tokens to the buyer address (' + shorten(userAddress) + ') via your backend or swap contract.</small>';
+      }, 600);
+
+    } catch (err){
+      console.error(err);
+      showStatus('Failed to submit transaction: ' + (err.message || err), false);
+    }
+  });
+
+  // If user reloads and wallet is available, try to detect connected wallet silently
+  if (window.cardano) {
+    // try to detect an enabled wallet
+    for (const key of Object.keys(window.cardano)) {
+      try {
+        if (window.cardano[key] && window.cardano[key].isEnabled) {
+          const enabled = await window.cardano[key].isEnabled();
+          if (enabled) {
+            // auto connect using this provider
+            await connectWallet();
+            break;
+          }
+        }
+      } catch(e){}
+    }
+  }
+
+})();
+</script>
+
+<!--
+  === Deployment notes & how to actually deliver $BEEP tokens ===
+
+  Frontend behavior:
+  - This site connects to the user's wallet.
+  - When the buyer clicks "Buy $BEEP", the site constructs and submits a transaction that sends ADA to your configured SALE_ADDRESS.
+  - The transaction contains metadata with buyer address, token id and qty (label 674) so your backend can identify purchases.
+
+  How to deliver tokens to buyers (recommended options):
+
+  1) Off-chain fulfillment (simplest):
+     - Run a backend service (Node, Python, etc.) that watches the blockchain (Blockfrost webhooks, or poll for transactions to SALE_ADDRESS).
+     - When it detects a payment with the metadata you set (type: sportsbeep_purchase etc.), it:
+         a) verifies the correct total ADA was sent,
+         b) constructs and signs a transaction from your treasury account that sends the correct amount of $BEEP to the buyer address.
+     - The backend needs the treasury wallet keys (or use an automated signing service) and must run securely.
+
+  2) On-chain atomic swap (more advanced, trustless):
+     - Deploy a Plutus smart contract that holds token UTxOs and only releases tokens when the correct ADA is locked/paid. The frontend would interact with that contract.
+     - This is more secure/trustless but requires a Plutus dev and testing on testnet.
+
+  3) Custodial approach:
+     - You manually send tokens to buyers after verifying payments (not recommended at scale).
+
+  === Replace the placeholders in the script before production ===
+    - BLOCKFROST_PROJECT_ID
+    - NETWORK (Mainnet / Preprod / Preview / Testnet)
+    - SALE_ADDRESS
+    - TOKEN_ASSET_ID
+    - PRICE_PER_TOKEN_ADA (optional)
+
+  === Security notes ===
+    - Keep treasury private keys off the frontend; never embed them in client code.
+    - Use HTTPS; verify totals server-side before sending tokens.
+    - Test thoroughly on a Cardano testnet (Preprod/Preview) before going to Mainnet.
+
+  If you want, I can:
+   - provide a Node.js backend example that watches Blockfrost for purchase transactions and automatically sends tokens,
+   - or produce a full Plutus swap contract example (requires Plutus tooling and is more involved).
+-->
 </body>
 </html>

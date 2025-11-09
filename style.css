@@ -1,129 +1,344 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+/* --- Global Styles & Modern Typography --- */
+:root {
+    --color-background: #0D0D15; /* Deep, dark navy/black */
+    --color-text-light: #F0F2F5; /* Off-white for readability */
+    --color-accent: #00FFC0; /* Vibrant Neon Aqua/Cyan */
+    --color-secondary-accent: #5A6070; /* Muted gray for contrast */
+    --font-primary: 'Space Grotesk', sans-serif;
+    --border-radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #00539B; /* Islanders Blue */
-  color: #FFFFFF;
-  overflow-x: hidden;
+    font-family: var(--font-primary);
+    background-color: var(--color-background);
+    color: var(--color-text-light);
+    line-height: 1.6;
 }
 
-/* ===============================
-   BUTTONS
-=================================*/
-.btn-outline {
-  background-color: transparent;
-  border: 3px solid #F47D30; /* Islanders Orange */
-  color: #F47D30;
-  font-weight: 800;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
-}
-.btn-outline:hover {
-  background-color: rgba(244,125,48,0.25);
-  box-shadow: 0 0 20px rgba(244,125,48,0.7);
-  transform: translateY(-2px);
+a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
-.btn-fill {
-  background-color: #F47D30;
-  color: #00539B;
-  font-weight: 900;
-  padding: 0.75rem 1.75rem;
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
-}
-.btn-fill:hover {
-  background-color: #E85C10;
-  box-shadow: 0 0 30px rgba(244,125,48,0.9);
-  transform: scale(1.05);
+a:hover {
+    color: var(--color-accent);
 }
 
-/* ===============================
-   FADE-IN SECTIONS
-=================================*/
-.fade-in {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeInUp 1.4s ease-out forwards;
-}
-@keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
+h1, h2 {
+    margin-bottom: 30px;
+    letter-spacing: -1px;
 }
 
-/* ===============================
-   VENDING BOXES
-=================================*/
-.vending-box {
-  background-color: rgba(18,21,27,0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(244,125,48,0.4);
-  box-shadow: 
-    0 4px 8px rgba(0,0,0,0.5), 
-    0 0 20px rgba(244,125,48,0.25),
-    0 0 40px rgba(0,83,155,0.15);
-  transition: all 0.3s ease-in-out;
-}
-.vending-box:hover {
-  transform: translateY(-5px);
-  border-color: #F47D30;
-  box-shadow:
-    0 8px 16px rgba(0,0,0,0.7),
-    0 0 30px rgba(244,125,48,0.5),
-    0 0 60px rgba(0,83,155,0.3);
+/* --- Navigation Bar --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    position: absolute; /* Over the hero section */
+    width: 100%;
+    z-index: 100;
 }
 
-/* ===============================
-   INPUT FIELDS
-=================================*/
-input[type="number"] {
-  background-color: rgba(0,83,155,0.9);
-  border: 1px solid #F47D30;
-  color: white;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-input[type="number"]:focus {
-  border-color: #FFFFFF;
-  box-shadow: 0 0 8px rgba(255,255,255,0.5);
-  outline: none;
+.logo {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--color-accent); /* Logo pops */
 }
 
-/* ===============================
-   HERO CANVAS
-=================================*/
-#sportsbeep-hero-canvas {
-  position: absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  z-index:0;
-  opacity:0.4;
-  pointer-events:none;
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    font-size: 0.9em;
 }
 
-/* ===============================
-   TICKER PULSE
-=================================*/
-.ticker-text {
-  display:inline-block;
-  animation: tickerPulse 6s infinite ease-in-out, tickerUpdate 30s infinite ease-in-out;
-}
-@keyframes tickerPulse {
-  0%, 100% { color: #F47D30; text-shadow: 0 0 8px #F47D30; }
-  50% { color: #FFFFFF; text-shadow: 0 0 10px #FFFFFF; }
-}
-@keyframes tickerUpdate {
-  0%,97%,100% { opacity:1; }
-  98% { opacity:0.5; }
-  99% { opacity:1; }
+/* --- Hero Section: The Main Attention Grabber --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden; /* Hide anything outside the view */
+    /* Add a subtle dark gradient to make text stand out */
+    background: radial-gradient(circle at 50% 10%, #1a1a2e, var(--color-background));
 }
 
-/* ===============================
-   RESPONSIVE
-=================================*/
-@media(max-width:768px){
-  h1 { font-size:2rem; }
-  .btn-fill, .btn-outline { padding:0.6rem 1.2rem; }
+.hero-content {
+    z-index: 50; /* Ensure content is on top of background effects */
+    padding: 0 5%;
+}
+
+.hero-content h1 {
+    font-size: clamp(3rem, 10vw, 8rem); /* Responsive, massive text */
+    font-weight: 700;
+    line-height: 0.9;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+/* Dramatic Text Effects */
+.text-stroke {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--color-text-light);
+    display: block;
+}
+
+.text-glow {
+    color: var(--color-accent);
+    text-shadow: 0 0 15px var(--color-accent), 0 0 30px rgba(0, 255, 192, 0.5);
+    display: block;
+}
+
+.text-underline {
+    border-bottom: 4px solid var(--color-accent);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.tagline {
+    font-size: 1.25em;
+    max-width: 700px;
+    margin: 20px auto 40px;
+    color: var(--color-secondary-accent);
+}
+
+/* --- Call-to-Action Buttons (CTAs) --- */
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.cta-button, .cta-primary, .cta-secondary {
+    padding: 15px 35px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+}
+
+.cta-primary {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+}
+
+.cta-primary:hover {
+    box-shadow: 0 0 20px var(--color-accent);
+    transform: translateY(-2px);
+}
+
+.cta-secondary {
+    background: transparent;
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+}
+
+.cta-secondary:hover {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+}
+
+/* --- Pulse Animation for Primary CTA --- */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 192, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(0, 255, 192, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 192, 0); }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+/* --- Main Content Sections --- */
+main {
+    padding: 80px 5%;
+}
+
+section {
+    padding: 60px 0;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2.5em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+    border-bottom: 2px solid var(--color-secondary-accent);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+/* --- Feature Grid --- */
+.grid-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    flex: 1 1 300px; /* Flexible width for responsiveness */
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.05); /* Subtle dark card */
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+}
+
+.icon {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: var(--color-accent);
+}
+
+.feature-item h3 {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+/* --- Tokenomics/Data Section --- */
+.data-grid {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin: 40px auto;
+    max-width: 900px;
+    flex-wrap: wrap;
+}
+
+.data-point {
+    padding: 20px;
+    flex: 1 1 200px;
+}
+
+.large-number {
+    font-size: 3.5em;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-text-light);
+}
+
+.glow-highlight {
+    color: var(--color-accent);
+    text-shadow: 0 0 10px var(--color-accent);
+}
+
+.label {
+    text-transform: uppercase;
+    font-size: 0.9em;
+    color: var(--color-secondary-accent);
+    margin-top: 5px;
+}
+
+/* --- Vending/Action Section --- */
+.vending-section {
+    background-color: #1a1a2e;
+    border-radius: var(--border-radius);
+    padding: 60px 5%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 0 30px rgba(0, 255, 192, 0.2);
+}
+
+.vending-card h2 {
+    border-bottom: none;
+    margin-bottom: 20px;
+}
+
+.rate {
+    font-size: 1.1em;
+    color: var(--color-accent);
+    margin-bottom: 30px;
+}
+
+.wallet-connect-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.wallet-btn {
+    background-color: var(--color-secondary-accent);
+    color: var(--color-text-light);
+    border: none;
+    padding: 12px 25px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.wallet-btn:hover {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+}
+
+.transaction-input {
+    margin-bottom: 25px;
+}
+
+.transaction-input label {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-weight: 700;
+}
+
+.transaction-input input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid var(--color-secondary-accent);
+    background-color: #0d0d15;
+    color: var(--color-text-light);
+    border-radius: var(--border-radius);
+    font-size: 1em;
+}
+
+.execute-purchase {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1.2em;
+    padding: 18px;
+}
+
+.disclaimer {
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: var(--color-secondary-accent);
+}
+
+/* --- Footer --- */
+.site-footer {
+    padding: 30px 5%;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9em;
+}
+
+.social-links {
+    margin-top: 10px;
 }

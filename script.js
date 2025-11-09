@@ -6,15 +6,8 @@ const clock = new THREE.Clock();
 let mouseX = 0, mouseY = 0;
 
 // Cardano Wallet
-const WALLET_IDS = {
-  lace: 'Lace',
-  yoroi: 'Yoroi',
-  nami: 'Nami',
-  eternl: 'Eternl'
-};
+const WALLET_IDS = { lace:'Lace', yoroi:'Yoroi', nami:'Nami', eternl:'Eternl' };
 let connectedWallet = null;
-
-// Tokenomics
 const BEEP_PER_ADA = 5.48;
 const TX_FEE_ADA = 2;
 
@@ -28,23 +21,21 @@ function initHeroScene() {
   renderer.setPixelRatio(window.devicePixelRatio);
 
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
   camera.position.z = 8;
 
-  // Lights
-  const ambientLight = new THREE.AmbientLight(0x00539B, 0.6); // Blue ambient
+  const ambientLight = new THREE.AmbientLight(0x00539B, 0.6);
   scene.add(ambientLight);
-  const dirLight = new THREE.DirectionalLight(0xF47D30, 1); // Orange directional
-  dirLight.position.set(5, 10, 7);
+  const dirLight = new THREE.DirectionalLight(0xF47D30, 1);
+  dirLight.position.set(5,10,7);
   scene.add(dirLight);
 
-  // Load low-poly sports models from public CDNs
   const loader = new THREE.GLTFLoader();
   const models = [
-    { url: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Box/glTF/Box.glb", pos: [-2,0,0] }, // Baseball
-    { url: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Cube/glTF/Cube.glb", pos: [2,0,0] },  // Football
-    { url: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Sphere/glTF/Sphere.glb", pos: [0,2,0] }, // Basketball
-    { url: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Cylinder/glTF/Cylinder.glb", pos: [0,-2,0] } // Hockey stick
+    { url: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Box/glTF/Box.glb", pos:[-2,0,0] },
+    { url: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Cube/glTF/Cube.glb", pos:[2,0,0] },
+    { url: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Sphere/glTF/Sphere.glb", pos:[0,2,0] },
+    { url: "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Cylinder/glTF/Cylinder.glb", pos:[0,-2,0] }
   ];
 
   models.forEach(model => {
@@ -55,7 +46,7 @@ function initHeroScene() {
       obj.rotation.set(Math.random()*0.5, Math.random()*0.5, Math.random()*0.5);
       scene.add(obj);
 
-      if (gltf.animations && gltf.animations.length > 0) {
+      if(gltf.animations.length > 0){
         const mixer = new THREE.AnimationMixer(obj);
         mixers.push(mixer);
         gltf.animations.forEach(clip => mixer.clipAction(clip).play());
@@ -82,11 +73,9 @@ function onWindowResize() {
 
 function animateHero() {
   requestAnimationFrame(animateHero);
-
-  // Mouse parallax
   camera.position.x += (mouseX - camera.position.x) * 0.05;
   camera.position.y += (-mouseY - camera.position.y) * 0.05;
-  camera.lookAt(0, 0, 0);
+  camera.lookAt(0,0,0);
 
   const delta = clock.getDelta();
   mixers.forEach(m => m.update(delta));
@@ -95,21 +84,21 @@ function animateHero() {
 }
 
 // ===============================
-// WALLET CONNECTION LOGIC
+// WALLET CONNECTION
 // ===============================
-async function connectWallet(walletId) {
-  if(!window.cardano || !window.cardano[walletId]) {
-    alert(`${WALLET_IDS[walletId]} wallet not found. Please install it.`);
+async function connectWallet(walletId){
+  if(!window.cardano || !window.cardano[walletId]){
+    alert(`${WALLET_IDS[walletId]} not found`);
     return;
   }
-  try {
+  try{
     const api = await window.cardano[walletId].enable();
-    connectedWallet = { id: walletId, api: api };
+    connectedWallet = {id:walletId, api:api};
     const mainAddress = (await api.getUsedAddresses())[0];
     document.getElementById("wallet-status").innerHTML = `✅ Connected: ${WALLET_IDS[walletId]}<br>${mainAddress.slice(0,10)}...${mainAddress.slice(-8)}`;
     document.getElementById("purchase-interface").classList.remove("hidden");
     document.getElementById("wallet-selection-area").classList.add("hidden");
-  } catch(e) {
+  }catch(e){
     alert(`Connection failed: ${e.message}`);
   }
 }
@@ -117,25 +106,24 @@ async function connectWallet(walletId) {
 // ===============================
 // PURCHASE LOGIC
 // ===============================
-function updateSummary() {
+function updateSummary(){
   const beepInput = document.getElementById("beep-amount");
   const value = parseFloat(beepInput.value);
   const summary = document.getElementById("summary-ada-cost");
-  if(value > 0) summary.textContent = (value/BEEP_PER_ADA + TX_FEE_ADA).toFixed(2) + " ADA";
+  if(summary) summary.textContent = (value/BEEP_PER_ADA + TX_FEE_ADA).toFixed(2) + " ADA";
 }
 
-async function purchaseBeepTokens() {
-  if(!connectedWallet) { alert("Please connect wallet first."); return; }
+async function purchaseBeepTokens(){
+  if(!connectedWallet){ alert("Connect wallet first"); return; }
   const beepAmount = parseFloat(document.getElementById("beep-amount").value);
   const txMessage = document.getElementById("tx-message");
   txMessage.classList.add("hidden");
-  try {
-    // MOCK TRANSACTION
-    await new Promise(r => setTimeout(r, 2000));
+  try{
+    await new Promise(r=>setTimeout(r,2000));
     txMessage.textContent = `SUCCESS! Purchased ${beepAmount} $BEEP`;
     txMessage.classList.remove("hidden");
     txMessage.classList.add("text-green-400");
-  } catch(e) {
+  }catch(e){
     txMessage.textContent = `FAILED: ${e.message}`;
     txMessage.classList.remove("hidden");
     txMessage.classList.add("text-red-400");
@@ -143,24 +131,23 @@ async function purchaseBeepTokens() {
 }
 
 // ===============================
-// TICKER
+// TICKER PULSE
 // ===============================
-function animateTicker() {
+function animateTicker(){
   const ticker = document.getElementById("ticker");
-  setInterval(() => {
+  setInterval(()=>{
     ticker.classList.add("animate-ticker-update");
-    setTimeout(() => ticker.classList.remove("animate-ticker-update"), 1000);
-  }, 30000);
+    setTimeout(()=>ticker.classList.remove("animate-ticker-update"),1000);
+  },30000);
 }
 
 // ===============================
-// INITIALIZATION
+// INITIALIZE
 // ===============================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded",()=>{
   initHeroScene();
   animateTicker();
-
   const beepInput = document.getElementById("beep-amount");
-  beepInput.addEventListener("input", updateSummary);
+  beepInput.addEventListener("input",updateSummary);
   updateSummary();
 });

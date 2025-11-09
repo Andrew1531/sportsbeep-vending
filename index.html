@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>$BEEP – SportsBeep Token Vending</title>
-
-  <!-- Meta -->
-  <meta name="description" content="$BEEP is the native token of SportsBeep on Cardano. Buy your Founder's Edition tokens today." />
+  <meta name="description" content="$BEEP is the native token of SportsBeep on Cardano. Buy your Founder's Edition tokens today.">
 
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -26,10 +24,10 @@
     }
   </script>
 
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
-  <!-- Three.js -->
+  <!-- Three.js + GLTFLoader -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
@@ -56,10 +54,9 @@
   <!-- HERO SECTION -->
   <section id="hero" class="relative flex flex-col items-center justify-center min-h-screen text-center pt-24 overflow-hidden">
     <canvas id="sportsbeep-hero-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
-
     <div class="relative z-10 px-6 fade-in">
       <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6 drop-shadow-lg">
-        Own the Future of Fantasy Sports Gaming on <span class="text-islanders-orange">Cardano</span>
+        Own the Future of Sports Gaming on <span class="text-islanders-orange">Cardano</span>
       </h1>
       <p class="max-w-2xl mx-auto text-lg text-white/80 mb-10">
         $BEEP empowers fans through blockchain innovation — mint, play, and govern the next generation of sports engagement.
@@ -104,7 +101,6 @@
   <!-- WALLET VENDING -->
   <section id="vending-machine" class="max-w-4xl mx-auto mt-20 p-8 vending-box rounded-xl fade-in">
     <h2 class="text-3xl font-bold mb-6 text-islanders-orange border-b border-islanders-orange/50 pb-2">$BEEP: Secure Your Allocation</h2>
-
     <div id="wallet-status" class="text-center text-lg mb-4 text-white/70">Connect Wallet to Begin Transaction</div>
     <div id="wallet-selection-area" class="flex flex-wrap justify-center space-x-3 space-y-3 mb-8">
       <button onclick="connectWallet('lace')" class="btn-outline">Connect Lace</button>
@@ -112,7 +108,6 @@
       <button onclick="connectWallet('nami')" class="btn-outline">Connect Nami</button>
       <button onclick="connectWallet('eternl')" class="btn-outline">Connect Eternl</button>
     </div>
-
     <div id="purchase-interface" class="hidden">
       <label for="beep-amount" class="block text-lg font-semibold mb-2 text-white/80">Amount of $BEEP to Acquire</label>
       <input type="number" id="beep-amount" value="1000" min="1" class="w-full text-2xl mb-4 rounded-lg" placeholder="Enter amount" required>
@@ -122,15 +117,18 @@
     </div>
   </section>
 
-  <!-- FOOTER TICKER -->
+  <!-- FOOTER WITH PULSING TICKER -->
   <footer class="relative w-full mt-20 py-6 border-t border-islanders-orange/40 text-center overflow-hidden">
     <div id="ticker" class="ticker-text text-lg font-semibold text-islanders-orange">
       💡 1 ADA = 5.48 $BEEP (Locked Price)
     </div>
-    <p class="text-xs text-white/60 mt-4">&copy; 2025 SportsBeep. Built on Cardano.</p>
+    <p class="text-xs text-white/60 mt-4">
+      &copy; 2025 SportsBeep. Transactions are irreversible. Ensure correct ADA is sent. 
+      Designed and engineered by <a href="https://ladmedia.co" target="_blank" class="underline text-islanders-orange">LAD MEDIA</a>.
+    </p>
   </footer>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
 </body>
 </html>
-

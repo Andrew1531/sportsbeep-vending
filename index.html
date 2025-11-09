@@ -3,525 +3,547 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPORTSBEEP: Founders Release | LAD MEDIA</title>
+    <title>SPORTSBEEP: Founders Release | Cardano ADA Swap</title>
+
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
+    <!-- Load Lucide Icons for aesthetic touch -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <!-- Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+
     <style>
-        /* * NEW YORK ISLANDERS CORPORATE PALETTE
-         * BG: Deep Navy (#04172B)
-         * Primary CTA: Royal Blue (#00539B)
-         * Accent/Glow: Orange (#F47D30)
-         * Text: White (#FFFFFF)
-        */
+        /* --- Custom CSS & Color Palette --- */
         :root {
             --c-accent-orange: #F47D30;
             --c-accent-blue: #00539B;
             --c-bg: #04172B; /* Deep Navy */
-            --c-bg-light: #003057; /* Lighter navy for borders/patterns/sections */
-            --c-text: #FFFFFF;
-            --c-text-muted: #A0A0A0; /* Slightly lighter gray for minimalism */
+            --c-bg-light: #002342; /* Lighter navy for cards/sections */
+            --c-text: #E5E7EB; /* Light Gray */
         }
 
         body {
-            font-family: 'Inter', sans-serif; 
+            font-family: 'Inter', sans-serif;
             background-color: var(--c-bg);
             color: var(--c-text);
-            /* Minimalist background pattern - subtle */
+            /* Subtle background texture */
             background-image: radial-gradient(circle at 1px 1px, var(--c-bg-light) 0.5px, transparent 0);
             background-size: 50px 50px;
-            scroll-behavior: smooth;
         }
 
-        /* --- Highwater-Style Text & Layout --- */
-        .text-stroke {
-            /* Orange stroke for high visibility */
-            -webkit-text-stroke: 1.5px var(--c-accent-orange);
-            color: transparent;
+        /* Hero Text Styling */
+        .hero-title {
+            letter-spacing: -0.05em;
         }
 
-        .text-glow {
-            /* Orange glow */
-            text-shadow: 0 0 10px var(--c-accent-orange), 0 0 25px rgba(244, 125, 48, 0.5); 
+        /* Scroll effect for tokenomics section */
+        .scroll-snap-x {
+            scroll-snap-type: x mandatory;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .snap-start {
+            scroll-snap-align: start;
+            flex-shrink: 0;
         }
 
-        .text-underline {
-            text-decoration: underline;
-            /* Royal Blue underline */
-            text-decoration-color: var(--c-accent-blue);
-            text-underline-offset: 12px;
-            text-decoration-thickness: 4px;
-        }
-        
-        /* --- Pulse Animation for Primary CTA (kept for urgency) --- */
-        .pulse-animation {
-            box-shadow: 0 0 0 0 rgba(0, 83, 155, 0.5);
-            animation: pulse-effect 2s infinite cubic-bezier(0.66, 0, 0, 1);
-        }
-
-        @keyframes pulse-effect {
-            to {
-                box-shadow: 0 0 0 25px rgba(0, 83, 155, 0); 
-            }
-        }
-
-        /* --- Dynamic Hero Background & Shape Animation --- */
-        .hero-section {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-background-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Original subtle grid pattern */
-            background: 
-                linear-gradient(rgba(4, 23, 43, 0.9), rgba(4, 23, 43, 0.9)), 
-                repeating-linear-gradient(0deg, var(--c-bg-light) 0, var(--c-bg-light) 1px, transparent 1px, transparent 80px),
-                repeating-linear-gradient(90deg, var(--c-bg-light) 0, var(--c-bg-light) 1px, transparent 1px, transparent 80px);
-            opacity: 0.1;
-            animation: bg-pan 45s infinite linear;
-            z-index: 0;
-        }
-        @keyframes bg-pan {
-            0% { background-position: 0% 0%; }
-            100% { background-position: -80px -80px; }
-        }
-
-        /* Content should be above the animations */
-        .hero-section > *:not(.hero-background-animation) {
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* Floating Dynamic Shapes */
-        .hero-shapes {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Allows clicks to pass through */
-            opacity: 0.2; /* Subtle opacity */
-            z-index: 0; /* Behind the text */
-        }
-        
-        /* Shape 1: Orange Circle */
-        .hero-shapes::before {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            top: 10%;
-            left: 10%;
-            background: var(--c-accent-orange);
-            border-radius: 50%;
-            filter: blur(150px);
-            animation: float-shape 30s infinite alternate ease-in-out;
-        }
-
-        /* Shape 2: Blue Square/Diamond */
-        .hero-shapes::after {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            bottom: 5%;
-            right: 15%;
-            background: var(--c-accent-blue);
-            transform: rotate(45deg); /* Diamond shape */
-            filter: blur(180px);
-            animation: float-shape-reverse 40s infinite alternate ease-in-out;
-        }
-
-        /* Animation Keyframes for Shapes */
-        @keyframes float-shape {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(150px, 100px) rotate(15deg); }
-            100% { transform: translate(-50px, -80px) rotate(-10deg); }
-        }
-        @keyframes float-shape-reverse {
-            0% { transform: translate(0, 0) rotate(45deg); }
-            50% { transform: translate(-100px, 150px) rotate(60deg); }
-            100% { transform: translate(80px, -50px) rotate(30deg); }
-        }
-
-
-        /* --- Custom Hover/Focus Styles for Buttons and Inputs --- */
-        .cta-primary:hover, .execute-purchase:hover {
-            background-color: var(--c-accent-blue);
-            filter: brightness(1.2);
-            box-shadow: 0 0 30px var(--c-accent-blue); 
-        }
-        .cta-secondary:hover {
-            color: var(--c-accent-orange);
-            border-color: var(--c-accent-orange);
-            box-shadow: 0 0 18px var(--c-accent-orange);
-        }
-        .wallet-btn {
-            border: 1px solid var(--c-bg-light); /* Dark, clean border */
-        }
-        .wallet-btn:hover {
-            background-color: var(--c-bg-light);
-            border-color: var(--c-accent-orange);
-            color: var(--c-accent-orange);
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--c-accent-orange);
-            box-shadow: 0 0 15px var(--c-accent-orange); 
-        }
-
-        /* --- Highwater Section Block Styling --- */
-        .section-block {
-            border-top: 2px solid var(--c-bg-light);
-            padding-top: 4rem;
-            padding-bottom: 4rem;
+        /* Wallet icons (simplified SVGs) */
+        .wallet-icon {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen">
 
-    <!-- Small script for mobile navigation toggle -->
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('hidden');
-            navLinks.classList.toggle('flex');
-        }
-    </script>
-
-    <header class="min-h-screen hero-section flex flex-col justify-center items-center p-4">
-        
-        <!-- 1. Animated Grid Background -->
-        <div class="hero-background-animation"></div>
-
-        <!-- 2. Floating Dynamic Shapes (NEW) -->
-        <div class="hero-shapes"></div>
-
-        <!-- Sticky Navigation Bar (Clean and minimal) -->
-        <nav class="navbar w-full max-w-7xl fixed top-0 z-20 flex justify-between items-center py-5 px-6 lg:px-12 backdrop-blur-md bg-[var(--c-bg)]/80 border-b border-[var(--c-accent-blue)]/50">
-            <div class="logo text-3xl font-extrabold tracking-widest text-white uppercase" style="text-shadow: 0 0 8px var(--c-accent-orange);">SPORTSBEEP</div>
-            
-            <button class="lg:hidden text-white" onclick="toggleMenu()">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
-
-            <!-- Nav Links - Responsive -->
-            <ul id="nav-links" class="nav-links hidden lg:flex space-x-8 text-sm font-semibold tracking-wider uppercase items-center">
-                <li><a href="#about" class="hover:text-[var(--c-accent-orange)] transition duration-200">ABOUT</a></li>
-                <li><a href="#tokenomics" class="hover:text-[var(--c-accent-orange)] transition duration-200">TOKENOMICS</a></li>
-                <li><a href="#drivers" class="hover:text-[var(--c-accent-orange)] transition duration-200">DRIVERS</a></li>
-                <li><a href="#metrics" class="hover:text-[var(--c-accent-orange)] transition duration-200">RELEASE PLAN</a></li>
-                <li><a href="#vending" class="hover:text-[var(--c-accent-orange)] transition duration-200">SWAP</a></li>
-                <li><a href="https://ladmedia.co" target="_blank" class="hover:text-[var(--c-accent-orange)] transition duration-200">LAD MEDIA</a></li>
-                <li><a href="#contact" class="cta-button bg-[var(--c-accent-blue)] text-white py-2 px-6 rounded-lg hover:bg-[var(--c-accent-orange)] transition duration-300 shadow-xl">CONNECT</a></li>
-            </ul>
-        </nav>
-
-        <!-- Hero Content - BIGGER and BOLDER -->
-        <div class="hero-content text-center mt-32 max-w-6xl px-4">
-            
-            <h1 class="text-7xl md:text-9xl lg:text-[10rem] font-extrabold leading-tight tracking-tighter mb-10">
-                <span class="text-stroke block">$BEEP</span>
-                <span class="text-glow block mt-4 text-white">FOUNDERS</span>
-                <span class="text-underline block mt-6 text-white">RELEASE</span>
-            </h1>
-            
-            <p class="tagline text-xl md:text-3xl text-[var(--c-text-muted)] mb-16 max-w-4xl mx-auto font-light">
-                The official Token of SPORTSBEEP. Daily Fantasy Sports built on the backbone of **Cardano**. Secure your allocation in this exclusive Founders Release.
-            </p>
-            <div class="hero-actions flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-10">
-                <a href="#vending" class="cta-primary pulse-animation bg-[var(--c-accent-blue)] text-white font-extrabold py-5 px-12 rounded-xl shadow-2xl transition duration-300 transform hover:scale-105 uppercase tracking-widest">ACCESS THE SWAP</a>
-                <a href="#whitepaper" class="cta-secondary text-white font-bold py-5 px-12 rounded-xl border-2 border-[var(--c-accent-orange)] transition duration-300 hover:bg-orange-900/30 uppercase tracking-widest">READ WHITEPAPER</a>
+    <!-- Navbar (Fixed) -->
+    <nav class="sticky top-0 z-10 bg-[var(--c-bg)]/90 backdrop-blur-sm shadow-xl border-b border-[var(--c-accent-blue)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-black uppercase text-[var(--c-accent-orange)]">
+                        SPORTS<span class="text-white">BEEP</span>
+                    </h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#swap-section" class="text-sm font-medium text-white hover:text-[var(--c-accent-orange)] transition duration-150">ACCESS SWAP</a>
+                    <button onclick="toggleModal()" id="nav-connect-button" class="px-3 py-1.5 text-sm font-semibold rounded-full bg-gray-700 hover:bg-[var(--c-accent-orange)] transition duration-200">
+                        Connect Wallet
+                    </button>
+                </div>
             </div>
         </div>
-        
-    </header>
+    </nav>
 
-    <main class="max-w-7xl mx-auto px-4">
-        
-        <!-- ABOUT Section (Highwater-style block) -->
-        <section id="about" class="section-block text-center">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest">
-                WHY SPORTSBEEP
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- 1. Hero Section -->
+        <section class="text-center pt-8">
+            <p class="text-xl font-bold text-[var(--c-accent-orange)] mb-4 tracking-wider">FOUNDERS RELEASE</p>
+            <h2 class="text-7xl md:text-8xl font-black uppercase text-white hero-title mb-6">
+                SECURE YOUR <span class="text-[var(--c-accent-orange)]">$BEEP</span>
             </h2>
-            <div class="grid-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <p class="max-w-3xl mx-auto text-lg text-gray-300">
+                The official Token of SPORTSBEEP. Daily Fantasy Sports built on the backbone of **Cardano**. Secure your allocation in this exclusive Founders Release.
+            </p>
+            <div class="mt-8 flex justify-center space-x-4">
+                <a href="#swap-section" class="px-8 py-3 text-lg font-bold rounded-xl text-white bg-[var(--c-accent-orange)] hover:bg-orange-600 transition duration-300 shadow-lg shadow-[var(--c-accent-orange)]/30">
+                    ACCESS THE SWAP
+                </a>
+                <a href="#" class="px-8 py-3 text-lg font-medium rounded-xl border-2 border-white/50 text-white hover:border-[var(--c-accent-orange)] hover:text-[var(--c-accent-orange)] transition duration-300">
+                    READ WHITEPAPER
+                </a>
+            </div>
+        </section>
+
+        <hr class="border-[var(--c-accent-blue)]/50">
+
+        <!-- 2. WHY SPORTSBEEP (Features Grid) -->
+        <section class="space-y-10">
+            <h2 class="text-4xl font-extrabold text-center text-white">WHY SPORTSBEEP?</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 
-                <!-- Feature 1 -->
-                <div class="feature-item p-8 rounded-xl border-2 border-[var(--c-bg-light)] bg-[var(--c-bg)] shadow-inner shadow-black/50 transition duration-300 hover:border-[var(--c-accent-orange)]">
-                    <div class="icon text-5xl mb-4 text-[var(--c-accent-orange)]" style="text-shadow: 0 0 10px var(--c-accent-orange);">🏆</div>
-                    <h3 class="text-xl font-bold uppercase mb-2">DAILY FANTASY</h3>
-                    <p class="text-[var(--c-text-muted)] text-sm">Play daily, win often. Seamless fantasy sports integration for major leagues.</p>
-                </div>
-                
-                <!-- Feature 2 -->
-                <div class="feature-item p-8 rounded-xl border-2 border-[var(--c-bg-light)] bg-[var(--c-bg)] shadow-inner shadow-black/50 transition duration-300 hover:border-[var(--c-accent-orange)]">
-                    <div class="icon text-5xl mb-4 text-[var(--c-accent-orange)]" style="text-shadow: 0 0 10px var(--c-accent-orange);">₳</div>
-                    <h3 class="text-xl font-bold uppercase mb-2">POWERED BY CARDANO</h3>
-                    <p class="text-[var(--c-text-muted)] text-sm">Decentralized, low-fee transactions leveraging the security and stability of the Cardano ecosystem.</p>
-                </div>
-                
-                <!-- Feature 3 -->
-                <div class="feature-item p-8 rounded-xl border-2 border-[var(--c-bg-light)] bg-[var(--c-bg)] shadow-inner shadow-black/50 transition duration-300 hover:border-[var(--c-accent-orange)]">
-                    <div class="icon text-5xl mb-4 text-[var(--c-accent-orange)]" style="text-shadow: 0 0 10px var(--c-accent-orange);">🗳️</div>
-                    <h3 class="text-xl font-bold uppercase mb-2">COMMUNITY GOVERNANCE</h3>
-                    <p class="text-[var(--c-text-muted)] text-sm">Future game modes and feature rollouts are determined by token holders.</p>
+                <!-- Feature Card 1 -->
+                <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)] shadow-xl space-y-3">
+                    <span class="text-4xl text-[var(--c-accent-orange)]">🏆</span>
+                    <h3 class="text-xl font-bold text-white">DAILY FANTASY</h3>
+                    <p class="text-gray-400 text-sm">Play daily, win often. Seamless fantasy sports integration for major leagues.</p>
                 </div>
 
-                <!-- Feature 4 -->
-                <div class="feature-item p-8 rounded-xl border-2 border-[var(--c-bg-light)] bg-[var(--c-bg)] shadow-inner shadow-black/50 transition duration-300 hover:border-[var(--c-accent-orange)]">
-                    <div class="icon text-5xl mb-4 text-[var(--c-accent-orange)]" style="text-shadow: 0 0 10px var(--c-accent-orange);">⚡</div>
-                    <h3 class="text-xl font-bold uppercase mb-2">INSTANT REWARDS</h3>
-                    <p class="text-[var(--c-text-muted)] text-sm">Payouts settled instantly on-chain following contest finalization.</p>
+                <!-- Feature Card 2 -->
+                <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)] shadow-xl space-y-3">
+                    <span class="text-4xl text-[var(--c-accent-orange)]">₳</span>
+                    <h3 class="text-xl font-bold text-white">POWERED BY CARDANO</h3>
+                    <p class="text-gray-400 text-sm">Decentralized, low-fee transactions leveraging the security and stability of the Cardano ecosystem.</p>
+                </div>
+                
+                <!-- Feature Card 3 -->
+                <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)] shadow-xl space-y-3">
+                    <span class="text-4xl text-[var(--c-accent-orange)]">🗳️</span>
+                    <h3 class="text-xl font-bold text-white">COMMUNITY GOVERNANCE</h3>
+                    <p class="text-gray-400 text-sm">Future game modes and feature rollouts are determined by token holders.</p>
+                </div>
+
+                <!-- Feature Card 4 -->
+                <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)] shadow-xl space-y-3">
+                    <span class="text-4xl text-[var(--c-accent-orange)]">⚡</span>
+                    <h3 class="text-xl font-bold text-white">INSTANT REWARDS</h3>
+                    <p class="text-gray-400 text-sm">Payouts settled instantly on-chain following contest finalization.</p>
                 </div>
             </div>
         </section>
 
-        <!-- TOKENOMICS Section (Clean data presentation) -->
-        <section id="tokenomics" class="section-block text-center border-t-2 border-[var(--c-bg-light)]">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest" style="text-shadow: 0 0 10px var(--c-accent-blue);">
-                $BEEP TOKENOMICS: THE ENGINE
-            </h2>
-            <div class="data-grid grid grid-cols-1 sm:grid-cols-3 gap-12 mb-16 p-8 border-2 border-[var(--c-accent-blue)]/50 bg-[var(--c-bg-light)]/50 rounded-2xl shadow-inner shadow-black/50">
-                
-                <div class="data-point p-4 border-b-4 border-[var(--c-accent-blue)]/50">
-                    <p class="large-number text-6xl md:text-8xl font-extrabold text-white mb-2 tracking-tighter">10M</p>
-                    <p class="label text-[var(--c-text-muted)] uppercase tracking-widest text-sm font-bold">TOTAL SUPPLY</p>
-                </div>
-                
-                <div class="data-point p-4 border-b-4 border-[var(--c-accent-orange)]/50">
-                    <!-- Highlighted Founders Release count -->
-                    <p class="large-number text-6xl md:text-8xl font-extrabold text-[var(--c-accent-orange)] mb-2 tracking-tighter text-glow">271</p>
-                    <p class="label text-[var(--c-text-muted)] uppercase tracking-widest text-sm font-bold">FOUNDERS RELEASE</p>
-                </div>
-                
-                <div class="data-point p-4 border-b-4 border-[var(--c-accent-blue)]/50">
-                    <p class="large-number text-6xl md:text-8xl font-extrabold text-white mb-2 tracking-tighter">20%</p>
-                    <p class="label text-[var(--c-text-muted)] uppercase tracking-widest text-sm font-bold">LOCKED LIQUIDITY POOL</p>
-                </div>
-            </div>
-            <a href="#whitepaper" class="cta-secondary inline-block text-white font-bold py-3 px-8 rounded-xl border-2 border-[var(--c-accent-orange)] transition duration-300 hover:bg-orange-900/30 text-sm uppercase tracking-wider">
-                FULL BREAKDOWN IN WHITEPAPER
-            </a>
-        </section>
-        
-        <!-- NEW MARKET DRIVERS Section -->
-        <section id="drivers" class="section-block text-center border-t-2 border-[var(--c-bg-light)]">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest" style="text-shadow: 0 0 10px var(--c-accent-orange);">
-                THE $BEEP ADVANTAGE
-            </h2>
-            <div class="grid-container grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-                
-                <!-- Driver 1: Engagement -->
-                <div class="p-6 rounded-xl border-2 border-[var(--c-accent-blue)] bg-[var(--c-bg-light)]/70 text-left transition duration-300 hover:shadow-2xl hover:shadow-[var(--c-accent-blue)]/50">
-                    <h3 class="text-2xl font-black mb-2 text-[var(--c-accent-orange)] flex items-center">
-                        <span class="mr-3 text-4xl">🔥</span> Deep Player Engagement
-                    </h3>
-                    <p class="text-[var(--c-text)]/80 text-lg">High engagement rate among daily fantasy players (DFS), ensuring a vibrant and competitive ecosystem from day one.</p>
-                </div>
-                
-                <!-- Driver 2: Cardano Foundation -->
-                <div class="p-6 rounded-xl border-2 border-[var(--c-accent-blue)] bg-[var(--c-bg-light)]/70 text-left transition duration-300 hover:shadow-2xl hover:shadow-[var(--c-accent-blue)]/50">
-                    <h3 class="text-2xl font-black mb-2 text-[var(--c-accent-orange)] flex items-center">
-                        <span class="mr-3 text-4xl">🛡️</span> Cardano Foundation
-                    </h3>
-                    <p class="text-[var(--c-text)]/80 text-lg">Strong foundation built on **Cardano**, offering low transaction fees, unparalleled security, and blockchain stability for all operations.</p>
-                </div>
-                
-                <!-- Driver 3: Sustainable Retention -->
-                <div class="p-6 rounded-xl border-2 border-[var(--c-accent-blue)] bg-[var(--c-bg-light)]/70 text-left transition duration-300 hover:shadow-2xl hover:shadow-[var(--c-accent-blue)]/50">
-                    <h3 class="text-2xl font-black mb-2 text-[var(--c-accent-orange)] flex items-center">
-                        <span class="mr-3 text-4xl">🔁</span> Sustainable Retention
-                    </h3>
-                    <p class="text-[var(--c-text)]/80 text-lg">Unique reward mechanisms designed for long-term retention and continuous player participation, stabilizing the token economy.</p>
-                </div>
-                
-                <!-- Driver 4: Community Governance -->
-                <div class="p-6 rounded-xl border-2 border-[var(--c-accent-blue)] bg-[var(--c-bg-light)]/70 text-left transition duration-300 hover:shadow-2xl hover:shadow-[var(--c-accent-blue)]/50">
-                    <h3 class="text-2xl font-black mb-2 text-[var(--c-accent-orange)] flex items-center">
-                        <span class="mr-3 text-4xl">👑</span> Community Governance
-                    </h3>
-                    <p class="text-[var(--c-text)]/80 text-lg">The first DFS platform fully governed by community token holders, giving players a direct say in platform development and future features.</p>
-                </div>
-            </div>
-        </section>
+        <hr class="border-[var(--c-accent-blue)]/50">
 
-        <!-- NEW PHASED RELEASE PLAN (Metrics and Distribution) -->
-        <section id="metrics" class="section-block text-center border-t-2 border-[var(--c-bg-light)]">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest" style="text-shadow: 0 0 10px var(--c-accent-blue);">
-                $BEEP DISTRIBUTION & MILESTONES
-            </h2>
+        <!-- 3. $BEEP TOKENOMICS & ADVANTAGE -->
+        <section class="lg:grid lg:grid-cols-3 gap-12">
             
-            <!-- Key Metrics Card -->
-            <div class="metrics-card max-w-6xl mx-auto p-8 md:p-10 rounded-2xl border-4 border-[var(--c-accent-blue)]/50 bg-[var(--c-bg-light)] shadow-[0_0_60px_rgba(0,83,155,0.2)] mb-16">
-                <h3 class="text-3xl font-extrabold uppercase mb-8 text-[var(--c-accent-orange)] tracking-widest">
-                    Key Metrics
+            <!-- Tokenomics Card -->
+            <div class="lg:col-span-1 bg-[var(--c-bg-light)] p-8 rounded-xl border border-[var(--c-accent-orange)]/50 shadow-2xl mb-10 lg:mb-0">
+                <h3 class="text-3xl font-extrabold text-[var(--c-accent-orange)] mb-6">
+                    $BEEP TOKENOMICS
                 </h3>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Metric 1 -->
-                    <div class="metric-item border-b-2 border-[var(--c-accent-orange)] pb-2">
-                        <p class="text-xl lg:text-3xl font-bold text-white">$0.12</p>
-                        <p class="text-xs uppercase text-[var(--c-text-muted)] mt-1">Initial Price per $BEEP</p>
+                <p class="text-gray-300 mb-8 text-sm">THE ENGINE</p>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between items-end border-b border-gray-600 pb-2">
+                        <span class="text-2xl font-bold text-white">10M</span>
+                        <span class="text-gray-400">TOTAL SUPPLY</span>
                     </div>
-                    <!-- Metric 2 -->
-                    <div class="metric-item border-b-2 border-[var(--c-accent-orange)] pb-2">
-                        <p class="text-xl lg:text-3xl font-bold text-white">10,000,000</p>
-                        <p class="text-xs uppercase text-[var(--c-text-muted)] mt-1">Fixed Total Supply</p>
+                    <div class="flex justify-between items-end border-b border-gray-600 pb-2">
+                        <span class="text-2xl font-bold text-white">271</span>
+                        <span class="text-gray-400">FOUNDERS RELEASE</span>
                     </div>
-                    <!-- Metric 3 -->
-                    <div class="metric-item border-b-2 border-[var(--c-accent-orange)] pb-2">
-                        <p class="text-xl lg:text-3xl font-bold text-white">271</p>
-                        <p class="text-xs uppercase text-[var(--c-text-muted)] mt-1">Phase 1 Circulating Supply</p>
-                    </div>
-                    <!-- Metric 4 -->
-                    <div class="metric-item border-b-2 border-[var(--c-accent-orange)] pb-2">
-                        <p class="text-xl lg:text-3xl font-bold text-white">$1.2 Million</p>
-                        <p class="text-xs uppercase text-[var(--c-text-muted)] mt-1">Launch Valuation</p>
+                    <div class="flex justify-between items-end pb-2">
+                        <span class="text-2xl font-bold text-white">20%</span>
+                        <span class="text-gray-400">LOCKED LIQUIDITY POOL</span>
                     </div>
                 </div>
-                <p class="text-sm text-[var(--c-text-muted)] mt-8">
-                    Currency Accepted: **ADA** (Primary), with future expansion potential to ETH, USDT, BTC, and others.
+                
+                <p class="text-xs text-gray-500 mt-6 pt-4 border-t border-gray-700">
+                    FULL BREAKDOWN IN WHITEPAPER
                 </p>
             </div>
 
-            <!-- Phased Distribution Plan -->
-            <div class="distribution-plan max-w-5xl mx-auto text-left">
-                <h3 class="text-3xl font-extrabold uppercase mb-8 text-white tracking-widest text-center">
-                    Phased Distribution Plan
-                </h3>
+            <!-- Advantage List -->
+            <div class="lg:col-span-2 space-y-6">
+                <h3 class="text-3xl font-extrabold text-white">THE $BEEP ADVANTAGE</h3>
                 
-                <ol class="space-y-8 relative border-l-4 border-[var(--c-accent-orange)] ml-4 md:ml-0">
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-4 bg-[var(--c-bg-light)] p-4 rounded-lg">
+                        <span class="text-2xl text-[var(--c-accent-orange)] mt-1">🔥</span>
+                        <div>
+                            <p class="text-lg font-bold text-white">Deep Player Engagement</p>
+                            <p class="text-gray-400 text-sm">High engagement rate among daily fantasy players (DFS), ensuring a vibrant and competitive ecosystem from day one.</p>
+                        </div>
+                    </div>
                     
-                    <!-- Phase 1 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 1 — Micro-Launch (271 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Create exclusivity, establish price discovery, and prove tradability.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Pool Example: ~49 ADA + 271 $BEEP (anchoring 1 ADA = 5.48 $BEEP).</p>
-                    </li>
-                    
-                    <!-- Phase 2 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 2 — Expansion (50,000 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Deepen liquidity and raise funds for app development.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Allocation: Majority paired with ADA for trading, remainder for marketing and ecosystem pilots.</p>
-                    </li>
-                    
-                    <!-- Phase 3 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 3 — Community Growth (250,000 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Launch staking + referral rewards to incentivize holders.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Allocation: Split between liquidity pools and reward programs.</p>
-                    </li>
+                    <div class="flex items-start space-x-4 bg-[var(--c-bg-light)] p-4 rounded-lg">
+                        <span class="text-2xl text-[var(--c-accent-orange)] mt-1">🛡️</span>
+                        <div>
+                            <p class="text-lg font-bold text-white">Cardano Foundation</p>
+                            <p class="text-gray-400 text-sm">Strong foundation built on **Cardano**, offering low transaction fees, unparalleled security, and blockchain stability for all operations.</p>
+                        </div>
+                    </div>
 
-                    <!-- Phase 4 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 4 — Ecosystem Build (1,000,000 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Fund app completion, integrations, and partnerships.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Allocation: Liquidity + ecosystem grants.</p>
-                    </li>
+                    <div class="flex items-start space-x-4 bg-[var(--c-bg-light)] p-4 rounded-lg">
+                        <span class="text-2xl text-[var(--c-accent-orange)] mt-1">🔁</span>
+                        <div>
+                            <p class="text-lg font-bold text-white">Sustainable Retention</p>
+                            <p class="text-gray-400 text-sm">Unique reward mechanisms designed for long-term retention and continuous player participation, stabilizing the token economy.</p>
+                        </div>
+                    </div>
                     
-                    <!-- Phase 5 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 5 — Market Expansion (2,500,000 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Scale liquidity across multiple DEXs, onboard liquidity providers, and stabilize trading.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Allocation: Liquidity + LP incentives.</p>
-                    </li>
-                    
-                    <!-- Remaining Supply -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-blue)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-blue)]">Remaining Supply (6.2M $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Reserved for future milestones, ecosystem growth, and community incentives.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Released only as needed to fund development and expansion.</p>
-                    </li>
-
-                </ol>
+                    <div class="flex items-start space-x-4 bg-[var(--c-bg-light)] p-4 rounded-lg">
+                        <span class="text-2xl text-[var(--c-accent-orange)] mt-1">👑</span>
+                        <div>
+                            <p class="text-lg font-bold text-white">Community Governance</p>
+                            <p class="text-gray-400 text-sm">The first DFS platform fully governed by community token holders, giving players a direct say in platform development and future features.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- FOUNDERS SWAP Section (Central, Clean Module) -->
-        <section id="vending" class="section-block text-center border-t-2 border-[var(--c-bg-light)]">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest">
-                ACCESS FOUNDERS SWAP
-            </h2>
-            <div class="vending-card max-w-lg mx-auto p-8 md:p-10 rounded-2xl border-4 border-[var(--c-accent-orange)]/50 bg-black shadow-[0_0_60px_rgba(244,125,48,0.2)]">
+        <hr class="border-[var(--c-accent-blue)]/50">
+
+        <!-- 4. DISTRIBUTION & MILESTONES -->
+        <section class="space-y-10">
+            <h2 class="text-4xl font-extrabold text-center text-white">$BEEP DISTRIBUTION & MILESTONES</h2>
+            
+            <div class="grid lg:grid-cols-2 gap-10">
                 
-                <p class="rate text-xl text-[var(--c-accent-blue)] font-extrabold mb-8 tracking-wider">RATE: 1 ADA = 5.48 $BEEP</p>
-                
-                <!-- Wallet Connection -->
-                <p class="text-sm text-gray-300 mb-4 uppercase font-bold tracking-wider">Connect Wallet to Proceed</p>
-                <div class="wallet-connect-buttons grid grid-cols-3 gap-3 mb-8">
-                    <button class="wallet-btn text-white py-3 rounded-lg font-bold transition duration-200">Nami</button>
-                    <button class="wallet-btn text-white py-3 rounded-lg font-bold transition duration-200">Lace</button>
-                    <button class="wallet-btn text-white py-3 rounded-lg font-bold transition duration-200">Yoroi</button>
+                <!-- Key Metrics -->
+                <div class="bg-[var(--c-bg-light)] p-8 rounded-xl border border-white/10 shadow-lg space-y-4">
+                    <h3 class="text-2xl font-bold text-white mb-4">Key Metrics</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-lg font-medium">
+                            <span class="text-gray-400">Initial Price per $BEEP:</span>
+                            <span class="text-[var(--c-accent-orange)] font-bold">$0.12</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-medium">
+                            <span class="text-gray-400">Fixed Total Supply:</span>
+                            <span class="text-white font-bold">10,000,000</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-medium">
+                            <span class="text-gray-400">Phase 1 Circulating Supply:</span>
+                            <span class="text-white font-bold">271</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-medium">
+                            <span class="text-gray-400">Launch Valuation:</span>
+                            <span class="text-white font-bold">$1.2 Million</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 pt-4">Currency Accepted: **ADA** (Primary), with future expansion potential to ETH, USDT, BTC, and others.</p>
                 </div>
 
-                <!-- Transaction Input -->
-                <div class="transaction-input mb-8 text-left">
-                    <label for="amount" class="block text-gray-300 font-bold mb-2 uppercase text-xs tracking-wider">AMOUNT OF ADA TO SWAP</label>
-                    <input type="number" id="amount" placeholder="Minimum 10 ADA" class="w-full bg-black/80 border-2 border-[var(--c-bg-light)] rounded-xl p-4 text-white text-lg transition duration-200">
+                <!-- Phased Distribution -->
+                <div class="bg-[var(--c-bg-light)] p-8 rounded-xl border border-white/10 shadow-lg">
+                    <h3 class="text-2xl font-bold text-white mb-6">Phased Distribution Plan</h3>
+                    
+                    <ul class="space-y-6">
+                        <li class="border-b border-gray-700 pb-3">
+                            <p class="font-bold text-[var(--c-accent-orange)]">Phase 1 — Micro-Launch (271 $BEEP)</p>
+                            <p class="text-sm text-gray-400 mt-1">Objective: Create exclusivity, establish price discovery, and prove tradability. Pool Example: ~49 ADA + 271 $BEEP (anchoring 1 ADA = 5.48 $BEEP).</p>
+                        </li>
+                        <li class="border-b border-gray-700 pb-3">
+                            <p class="font-bold text-white">Phase 2 — Expansion (50,000 $BEEP)</p>
+                            <p class="text-sm text-gray-400 mt-1">Objective: Deepen liquidity and raise funds for app development.</p>
+                        </li>
+                        <li class="border-b border-gray-700 pb-3">
+                            <p class="font-bold text-white">Phase 3 — Community Growth (250,000 $BEEP)</p>
+                            <p class="text-sm text-gray-400 mt-1">Objective: Launch staking + referral rewards to incentivize holders.</p>
+                        </li>
+                    </ul>
+                    <p class="text-sm text-gray-500 mt-6">
+                        Remaining Supply (6.2M $BEEP) Reserved for future milestones, ecosystem growth, and community incentives.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-[var(--c-accent-blue)]/50">
+
+        <!-- 5. ACCESS FOUNDERS SWAP (The Interactive Section) -->
+        <section id="swap-section" class="pt-8">
+            <div class="max-w-md mx-auto bg-[var(--c-bg-light)] p-8 rounded-2xl border-2 border-[var(--c-accent-orange)] shadow-2xl shadow-[var(--c-accent-orange)]/20 space-y-6">
+                
+                <h2 class="text-3xl font-black text-center text-white">ACCESS FOUNDERS SWAP</h2>
+                <p class="text-center text-xl font-bold text-[var(--c-accent-orange)]">RATE: 1 ADA = 5.48 $BEEP</p>
+
+                <!-- Wallet Connection Status -->
+                <div id="wallet-display" class="bg-gray-800/50 p-3 rounded-lg flex justify-between items-center text-sm font-medium border border-gray-700">
+                    <span id="wallet-status" class="flex items-center space-x-2 text-red-400">
+                        <svg id="status-icon" class="w-4 h-4 text-red-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10l4 4m0 -4l-4 4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                        <span>Connect Wallet to Proceed</span>
+                    </span>
+                    <button onclick="toggleModal()" id="swap-connect-button" class="px-3 py-1 bg-[var(--c-accent-orange)] text-white text-xs rounded-full hover:bg-orange-600 transition">
+                        Connect
+                    </button>
                 </div>
 
-                <!-- Swap Button -->
-                <button class="execute-purchase w-full bg-[var(--c-accent-blue)] text-white font-extrabold py-5 rounded-xl shadow-xl transition duration-300 transform hover:scale-[1.01] uppercase tracking-widest">
+                <!-- Swap Input -->
+                <div class="space-y-3">
+                    <label for="ada-amount" class="text-sm font-medium text-gray-400 block">AMOUNT OF ADA TO SWAP</label>
+                    <input type="number" id="ada-amount" value="50" min="1" step="1"
+                           class="w-full p-4 rounded-xl bg-gray-900/80 text-white border border-gray-700 text-2xl font-mono
+                           focus:border-[var(--c-accent-orange)] focus:ring-[var(--c-accent-orange)] focus:outline-none"
+                           placeholder="50">
+                </div>
+
+                <!-- Result Display (BEEP) -->
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-[var(--c-accent-blue)]">
+                    <p class="text-sm text-gray-400">You Receive (Approx.)</p>
+                    <p id="beep-result" class="text-4xl font-extrabold text-green-400 mt-1">274.00 $BEEP</p>
+                </div>
+
+                <!-- Execute Swap Button -->
+                <button onclick="executeSwap()" id="execute-swap-button" disabled
+                        class="w-full py-4 text-xl font-extrabold rounded-xl bg-gray-600 text-gray-300
+                        transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed
+                        hover:bg-[var(--c-accent-blue)] hover:text-white">
                     EXECUTE SWAP FOR $BEEP
                 </button>
-                
-                <!-- Specific Disclaimers for Swap -->
-                <div class="text-xs text-red-400 mt-6 space-y-2 text-left p-3 border border-red-500 rounded-lg bg-red-900/20">
-                    <p class="font-bold uppercase text-sm">WARNING:</p>
-                    <ul class="list-disc pl-4 text-[var(--c-text-muted)]">
-                        <li>All $BEEP purchases are **FINAL** and **NON-REFUNDABLE**.</li>
-                        <li>Token price is locked for this Founders Release phase only.</li>
-                        <li>Ensure you are using a secure, supported Cardano wallet.</li>
-                    </ul>
+
+                <!-- Warning -->
+                <div class="p-3 bg-red-900/40 border border-red-600/50 rounded-lg text-sm text-red-300">
+                    <p class="font-bold">WARNING:</p>
+                    <p>All $BEEP purchases are **FINAL** and **NON-REFUNDABLE**. Token price is locked for this Founders Release phase only. Ensure you are using a secure, supported Cardano wallet.</p>
                 </div>
+
             </div>
         </section>
 
     </main>
 
-    <!-- Global Footer and Legal Disclaimers -->
-    <footer id="contact" class="text-center py-12 border-t-4 border-[var(--c-accent-blue)] mt-24 text-sm bg-[var(--c-bg-light)]/40">
-        <div class="max-w-7xl mx-auto px-4">
+    <!-- Modal for Wallet Selection (Hidden by default) -->
+    <div id="wallet-modal" class="fixed inset-0 z-20 hidden bg-black bg-opacity-70 flex items-center justify-center p-4" onclick="closeModal(event)">
+        <div class="bg-[var(--c-bg-light)] w-full max-w-sm p-6 rounded-xl shadow-2xl border border-[var(--c-accent-blue)]" onclick="event.stopPropagation()">
+            <h3 class="text-2xl font-bold text-white mb-6 text-center">Select Cardano Wallet</h3>
+
+            <!-- Mock Wallet Buttons -->
+            <div class="space-y-4">
+                <button onclick="selectWallet('Nami')" class="w-full flex items-center justify-between p-4 bg-gray-800 rounded-xl hover:bg-gray-700 transition">
+                    <div class="flex items-center space-x-3">
+                        <svg class="wallet-icon text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 22h20zM12 6.8l5.7 11.4H6.3zM12 11.7l3.2 6.4h-6.4z"></path></svg>
+                        <span class="font-semibold text-lg">Nami</span>
+                    </div>
+                    <span class="text-xs text-gray-400">Recommended</span>
+                </button>
+                <button onclick="selectWallet('Lace')" class="w-full flex items-center justify-between p-4 bg-gray-800 rounded-xl hover:bg-gray-700 transition">
+                    <div class="flex items-center space-x-3">
+                        <svg class="wallet-icon text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="4"></line><line x1="8" y1="2" x2="8" y2="4"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span class="font-semibold text-lg">Lace</span>
+                    </div>
+                    <span class="text-xs text-gray-400">New & Fast</span>
+                </button>
+                <button onclick="selectWallet('Yoroi')" class="w-full flex items-center justify-between p-4 bg-gray-800 rounded-xl hover:bg-gray-700 transition">
+                    <div class="flex items-center space-x-3">
+                        <svg class="wallet-icon text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm4-8h-2V7h2v2zM17 17h-2v-2h2v2zm0-4h-2v-2h2v2z"></path></svg>
+                        <span class="font-semibold text-lg">Yoroi</span>
+                    </div>
+                    <span class="text-xs text-gray-400">Established</span>
+                </button>
+            </div>
             
-            <div class="social-links space-x-6 text-2xl mb-8">
-                <a href="#" class="hover:text-[var(--c-accent-orange)] transition duration-200">X</a>
-                <a href="#" class="hover:text-[var(--c-accent-orange)] transition duration-200">Discord</a>
-                <a href="#" class="hover:text-[var(--c-accent-orange)] transition duration-200">Telegram</a>
+            <button onclick="toggleModal()" class="w-full mt-6 py-2 bg-gray-700 rounded-lg text-sm text-gray-300 hover:bg-gray-600 transition">Close</button>
+        </div>
+    </div>
+    
+    <!-- Toast/Modal for Transaction Confirmation -->
+    <div id="toast-message" class="fixed bottom-6 right-6 p-4 rounded-xl shadow-2xl transition-opacity duration-300 hidden opacity-0 text-white max-w-sm"></div>
+
+    <!-- Footer -->
+    <footer class="mt-20 py-8 border-t border-[var(--c-accent-blue)]/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div class="text-lg font-black uppercase text-[var(--c-accent-orange)]">
+                    SPORTS<span class="text-white">BEEP</span>
+                </div>
+                
+                <div class="flex space-x-4 text-gray-400">
+                    <a href="#" class="hover:text-[var(--c-accent-orange)] transition">X</a>
+                    <a href="#" class="hover:text-[var(--c-accent-orange)] transition">Discord</a>
+                    <a href="#" class="hover:text-[var(--c-accent-orange)] transition">Telegram</a>
+                </div>
             </div>
 
-            <p class="mb-4 text-lg font-semibold text-[var(--c-accent-orange)]">
-                Designed and Engineered by 
-                <a href="https://ladmedia.co" target="_blank" class="hover:underline">LAD MEDIA</a>.
+            <p class="text-xs text-gray-500 text-center">
+                Designed and Engineered by LAD MEDIA.
             </p>
             
-            <!-- Mandatory Crypto Disclaimers -->
-            <div class="disclaimer-block text-xs text-left max-w-4xl mx-auto mt-8 p-4 border border-gray-600 rounded-lg bg-black/50">
-                <p class="font-bold uppercase text-white mb-2">Legal Disclaimer & Terms of Service Summary</p>
-                <p class="text-[var(--c-text-muted)] space-y-3">
-                    <span class="block">**RISK WARNING:** Digital assets, including cryptocurrencies and tokens like $BEEP, are highly volatile, carry significant risk, and may not be suitable for all investors. The value can fluctuate dramatically. You should carefully consider whether trading or holding digital assets is suitable for you in light of your financial condition.</span>
-                    <span class="block">**SALES FINALITY:** All token purchases made through this Founders Release swap mechanism are **FINAL** and **NON-REFUNDABLE**. By executing a transaction, you confirm that you have read and agreed to the full terms and conditions (available in the Whitepaper).</span>
-                    <span class="block">**USER RESPONSIBILITY:** You are solely responsible for securing your wallet seed phrase and private keys. LAD MEDIA and SPORTSBEEP are not responsible for lost, stolen, or compromised digital assets.</span>
-                    <span class="block">&copy; 2026 SPORTSBEEP. All rights reserved.</span>
-                </p>
+            <!-- Legal Disclaimer -->
+            <div class="pt-4 text-xs text-gray-500 space-y-2 border-t border-gray-700">
+                <p class="font-bold text-white">Legal Disclaimer & Terms of Service Summary</p>
+                <p>**RISK WARNING:** Digital assets, including cryptocurrencies and tokens like $BEEP, are highly volatile, carry significant risk, and may not be suitable for all investors. The value can fluctuate dramatically. You should carefully consider whether trading or holding digital assets is suitable for you in light of your financial condition.</p>
+                <p>**SALES FINALITY:** All token purchases made through this Founders Release swap mechanism are **FINAL** and **NON-REFUNDABLE**. By executing a transaction, you confirm that you have read and agreed to the full terms and conditions (available in the Whitepaper).</p>
+                <p>**USER RESPONSIBILITY:** You are solely responsible for securing your wallet seed phrase and private keys. LAD MEDIA and SPORTSBEEP are not responsible for lost, stolen, or compromised digital assets.</p>
             </div>
+            
+            <p class="text-center text-xs text-gray-500 pt-4">© 2026 SPORTSBEEP. All rights reserved.</p>
 
         </div>
     </footer>
 
+    <!-- JavaScript (script.js replacement) -->
+    <script>
+        // --- Wallet and Swap Logic (Mockup) ---
+        const SWAP_RATE = 5.48; // 1 ADA = 5.48 $BEEP
+        let isWalletConnected = false;
+        let selectedWallet = null;
+        
+        // DOM Elements
+        const modal = document.getElementById('wallet-modal');
+        const walletStatus = document.getElementById('wallet-status');
+        const statusIcon = document.getElementById('status-icon');
+        const swapButton = document.getElementById('execute-swap-button');
+        const navConnectButton = document.getElementById('nav-connect-button');
+        const swapConnectButton = document.getElementById('swap-connect-button');
+        const adaAmountInput = document.getElementById('ada-amount');
+        const beepResult = document.getElementById('beep-result');
+        const toastMessage = document.getElementById('toast-message');
+
+        /**
+         * Toggles the wallet selection modal visibility.
+         */
+        function toggleModal() {
+            modal.classList.toggle('hidden');
+        }
+
+        /**
+         * Closes the modal, only if the click is outside the content.
+         */
+        function closeModal(event) {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Simulates connecting a wallet.
+         * @param {string} walletName 
+         */
+        window.selectWallet = function(walletName) {
+            selectedWallet = walletName;
+            isWalletConnected = true;
+            
+            // 1. Update status display
+            walletStatus.innerHTML = `<svg class="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14 10 12"></polyline></svg>
+                                        <span>Connected: ${walletName} Wallet</span>`;
+            walletStatus.classList.remove('text-red-400');
+            walletStatus.classList.add('text-green-400');
+            
+            // 2. Update button states
+            swapButton.disabled = false;
+            swapButton.classList.remove('bg-gray-600', 'text-gray-300');
+            swapButton.classList.add('bg-[var(--c-accent-orange)]', 'text-white');
+            
+            navConnectButton.textContent = 'Disconnect';
+            swapConnectButton.textContent = 'Change';
+            
+            // 3. Close modal
+            toggleModal();
+            showToast(`Successfully connected to ${walletName}. You can now execute the swap.`, 'success');
+        }
+
+        /**
+         * Updates the BEEP received based on the ADA input.
+         */
+        function updateBEEP() {
+            const ada = parseFloat(adaAmountInput.value);
+            if (!isNaN(ada) && ada > 0) {
+                const beep = (ada * SWAP_RATE).toFixed(2);
+                beepResult.textContent = `${beep} $BEEP`;
+            } else {
+                beepResult.textContent = '0.00 $BEEP';
+            }
+        }
+
+        /**
+         * Simulates the swap transaction.
+         */
+        window.executeSwap = function() {
+            if (!isWalletConnected) {
+                showToast('Please connect a wallet (Nami, Lace, or Yoroi) first.', 'error');
+                return;
+            }
+
+            const adaAmount = parseFloat(adaAmountInput.value);
+            const beepAmount = (adaAmount * SWAP_RATE).toFixed(2);
+
+            if (isNaN(adaAmount) || adaAmount <= 0) {
+                showToast('Please enter a valid ADA amount.', 'error');
+                return;
+            }
+
+            // Simulate transaction delay
+            swapButton.textContent = 'Processing Transaction...';
+            swapButton.disabled = true;
+
+            setTimeout(() => {
+                swapButton.textContent = 'EXECUTE SWAP FOR $BEEP';
+                swapButton.disabled = false;
+                
+                // Show success message (mock)
+                showToast(`SUCCESS! Sent ${adaAmount} ADA. Received ${beepAmount} $BEEP. Check your ${selectedWallet} wallet shortly.`, 'success');
+            }, 3000); // 3 second mock delay
+        }
+
+        /**
+         * Displays a temporary notification (toast).
+         * @param {string} message 
+         * @param {'success'|'error'} type 
+         */
+        function showToast(message, type) {
+            toastMessage.textContent = message;
+            toastMessage.classList.remove('hidden', 'opacity-0', 'bg-red-700', 'bg-green-700');
+            toastMessage.classList.add(type === 'success' ? 'bg-green-700' : 'bg-red-700', 'opacity-100');
+
+            setTimeout(() => {
+                toastMessage.classList.remove('opacity-100');
+                toastMessage.classList.add('opacity-0');
+                setTimeout(() => toastMessage.classList.add('hidden'), 300);
+            }, 5000);
+        }
+
+        // --- Event Listeners ---
+        window.onload = function() {
+            // Initial calculation
+            updateBEEP(); 
+        };
+
+        // Listen for input change to update BEEP amount
+        adaAmountInput.addEventListener('input', updateBEEP);
+        
+        // Handle Disconnect action from the nav button
+        navConnectButton.addEventListener('click', () => {
+            if (navConnectButton.textContent === 'Disconnect') {
+                isWalletConnected = false;
+                selectedWallet = null;
+                updateBEEP(); // Reset calculation display if needed
+                
+                walletStatus.innerHTML = `<svg id="status-icon" class="w-4 h-4 text-red-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10l4 4m0 -4l-4 4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                            <span>Connect Wallet to Proceed</span>`;
+                walletStatus.classList.remove('text-green-400');
+                walletStatus.classList.add('text-red-400');
+
+                swapButton.disabled = true;
+                swapButton.classList.remove('bg-[var(--c-accent-orange)]', 'text-white');
+                swapButton.classList.add('bg-gray-600', 'text-gray-300');
+
+                navConnectButton.textContent = 'Connect Wallet';
+                swapConnectButton.textContent = 'Connect';
+
+                showToast('Wallet disconnected.', 'error');
+            } else {
+                toggleModal();
+            }
+        });
+
+    </script>
 </body>
 </html>

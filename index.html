@@ -3,525 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPORTSBEEP: Founders Release | LAD MEDIA</title>
+    <title>SPORTSBEEP: Founders Release | Real DApp Connection</title>
+    
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Ethers.js for Ethereum Wallet Interaction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
     
     <!-- Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* * NEW YORK ISLANDERS CORPORATE PALETTE
-         * BG: Deep Navy (#04172B)
-         * Primary CTA: Royal Blue (#00539B)
-         * Accent/Glow: Orange (#F47D30)
-         * Text: White (#FFFFFF)
-        */
+        /* --- SPORTSBEEP / NEW YORK ISLANDERS CORPORATE PALETTE --- */
         :root {
             --c-accent-orange: #F47D30;
             --c-accent-blue: #00539B;
             --c-bg: #04172B; /* Deep Navy */
-            --c-bg-light: #003057; /* Lighter navy for borders/patterns/sections */
+            --c-bg-light: #003057; /* Lighter navy for cards/patterns */
             --c-text: #FFFFFF;
-            --c-text-muted: #A0A0A0; /* Slightly lighter gray for minimalism */
         }
 
         body {
             font-family: 'Inter', sans-serif; 
             background-color: var(--c-bg);
             color: var(--c-text);
-            /* Minimalist background pattern - subtle */
             background-image: radial-gradient(circle at 1px 1px, var(--c-bg-light) 0.5px, transparent 0);
             background-size: 50px 50px;
-            scroll-behavior: smooth;
         }
 
-        /* --- Highwater-Style Text & Layout --- */
         .text-stroke {
             /* Orange stroke for high visibility */
             -webkit-text-stroke: 1.5px var(--c-accent-orange);
             color: transparent;
         }
 
-        .text-glow {
-            /* Orange glow */
-            text-shadow: 0 0 10px var(--c-accent-orange), 0 0 25px rgba(244, 125, 48, 0.5); 
+        /* Custom glow/shadow for CTA buttons */
+        .cta-glow {
+            box-shadow: 0 0 15px rgba(244, 125, 48, 0.7);
+            transition: all 0.2s ease-in-out;
+        }
+        .cta-glow:hover {
+            box-shadow: 0 0 25px var(--c-accent-orange);
+            transform: translateY(-2px);
         }
 
-        .text-underline {
-            text-decoration: underline;
-            /* Royal Blue underline */
-            text-decoration-color: var(--c-accent-blue);
-            text-underline-offset: 12px;
-            text-decoration-thickness: 4px;
-        }
-        
-        /* --- Pulse Animation for Primary CTA (kept for urgency) --- */
-        .pulse-animation {
-            box-shadow: 0 0 0 0 rgba(0, 83, 155, 0.5);
-            animation: pulse-effect 2s infinite cubic-bezier(0.66, 0, 0, 1);
-        }
-
-        @keyframes pulse-effect {
-            to {
-                box-shadow: 0 0 0 25px rgba(0, 83, 155, 0); 
-            }
-        }
-
-        /* --- Dynamic Hero Background & Shape Animation --- */
-        .hero-section {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-background-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Original subtle grid pattern */
-            background: 
-                linear-gradient(rgba(4, 23, 43, 0.9), rgba(4, 23, 43, 0.9)), 
-                repeating-linear-gradient(0deg, var(--c-bg-light) 0, var(--c-bg-light) 1px, transparent 1px, transparent 80px),
-                repeating-linear-gradient(90deg, var(--c-bg-light) 0, var(--c-bg-light) 1px, transparent 1px, transparent 80px);
-            opacity: 0.1;
-            animation: bg-pan 45s infinite linear;
-            z-index: 0;
-        }
-        @keyframes bg-pan {
-            0% { background-position: 0% 0%; }
-            100% { background-position: -80px -80px; }
-        }
-
-        /* Content should be above the animations */
-        .hero-section > *:not(.hero-background-animation) {
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* Floating Dynamic Shapes */
-        .hero-shapes {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Allows clicks to pass through */
-            opacity: 0.2; /* Subtle opacity */
-            z-index: 0; /* Behind the text */
-        }
-        
-        /* Shape 1: Orange Circle */
-        .hero-shapes::before {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            top: 10%;
-            left: 10%;
-            background: var(--c-accent-orange);
-            border-radius: 50%;
-            filter: blur(150px);
-            animation: float-shape 30s infinite alternate ease-in-out;
-        }
-
-        /* Shape 2: Blue Square/Diamond */
-        .hero-shapes::after {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            bottom: 5%;
-            right: 15%;
-            background: var(--c-accent-blue);
-            transform: rotate(45deg); /* Diamond shape */
-            filter: blur(180px);
-            animation: float-shape-reverse 40s infinite alternate ease-in-out;
-        }
-
-        /* Animation Keyframes for Shapes */
-        @keyframes float-shape {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(150px, 100px) rotate(15deg); }
-            100% { transform: translate(-50px, -80px) rotate(-10deg); }
-        }
-        @keyframes float-shape-reverse {
-            0% { transform: translate(0, 0) rotate(45deg); }
-            50% { transform: translate(-100px, 150px) rotate(60deg); }
-            100% { transform: translate(80px, -50px) rotate(30deg); }
-        }
-
-
-        /* --- Custom Hover/Focus Styles for Buttons and Inputs --- */
-        .cta-primary:hover, .execute-purchase:hover {
-            background-color: var(--c-accent-blue);
-            filter: brightness(1.2);
-            box-shadow: 0 0 30px var(--c-accent-blue); 
-        }
-        .cta-secondary:hover {
-            color: var(--c-accent-orange);
-            border-color: var(--c-accent-orange);
-            box-shadow: 0 0 18px var(--c-accent-orange);
-        }
-        .wallet-btn {
-            border: 1px solid var(--c-bg-light); /* Dark, clean border */
-        }
-        .wallet-btn:hover {
-            background-color: var(--c-bg-light);
-            border-color: var(--c-accent-orange);
-            color: var(--c-accent-orange);
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--c-accent-orange);
-            box-shadow: 0 0 15px var(--c-accent-orange); 
-        }
-
-        /* --- Highwater Section Block Styling --- */
-        .section-block {
-            border-top: 2px solid var(--c-bg-light);
-            padding-top: 4rem;
-            padding-bottom: 4rem;
+        /* Style for the transaction card (inner container) */
+        .app-card {
+            background-color: rgba(0, 48, 87, 0.7); /* Translucent Lighter Navy */
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--c-accent-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center p-4">
 
-    <!-- Small script for mobile navigation toggle -->
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('hidden');
-            navLinks.classList.toggle('flex');
-        }
-    </script>
-
-    <header class="min-h-screen hero-section flex flex-col justify-center items-center p-4">
+    <div id="app-container" class="w-full max-w-lg app-card p-6 md:p-8 rounded-xl space-y-8">
         
-        <!-- 1. Animated Grid Background -->
-        <div class="hero-background-animation"></div>
-
-        <!-- 2. Floating Dynamic Shapes (NEW) -->
-        <div class="hero-shapes"></div>
-
-        <!-- Sticky Navigation Bar (Clean and minimal) -->
-        <nav class="navbar w-full max-w-7xl fixed top-0 z-20 flex justify-between items-center py-5 px-6 lg:px-12 backdrop-blur-md bg-[var(--c-bg)]/80 border-b border-[var(--c-accent-blue)]/50">
-            <div class="logo text-3xl font-extrabold tracking-widest text-white uppercase" style="text-shadow: 0 0 8px var(--c-accent-orange);">SPORTSBEEP</div>
-            
-            <button class="lg:hidden text-white" onclick="toggleMenu()">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
-
-            <!-- Nav Links - Responsive -->
-            <ul id="nav-links" class="nav-links hidden lg:flex space-x-8 text-sm font-semibold tracking-wider uppercase items-center">
-                <li><a href="#about" class="hover:text-[var(--c-accent-orange)] transition duration-200">ABOUT</a></li>
-                <li><a href="#tokenomics" class="hover:text-[var(--c-accent-orange)] transition duration-200">TOKENOMICS</a></li>
-                <li><a href="#drivers" class="hover:text-[var(--c-accent-orange)] transition duration-200">DRIVERS</a></li>
-                <li><a href="#metrics" class="hover:text-[var(--c-accent-orange)] transition duration-200">RELEASE PLAN</a></li>
-                <li><a href="#vending" class="hover:text-[var(--c-accent-orange)] transition duration-200">SWAP</a></li>
-                <li><a href="https://ladmedia.co" target="_blank" class="hover:text-[var(--c-accent-orange)] transition duration-200">LAD MEDIA</a></li>
-                <li><a href="#contact" class="cta-button bg-[var(--c-accent-blue)] text-white py-2 px-6 rounded-lg hover:bg-[var(--c-accent-orange)] transition duration-300 shadow-xl">CONNECT</a></li>
-            </ul>
-        </nav>
-
-        <!-- Hero Content - BIGGER and BOLDER -->
-        <div class="hero-content text-center mt-32 max-w-6xl px-4">
-            
-            <h1 class="text-7xl md:text-9xl lg:text-[10rem] font-extrabold leading-tight tracking-tighter mb-10">
-                <span class="text-stroke block">$BEEP</span>
-                <span class="text-glow block mt-4 text-white">FOUNDERS</span>
-                <span class="text-underline block mt-6 text-white">RELEASE</span>
+        <!-- Header -->
+        <header class="text-center space-y-2">
+            <h1 class="text-6xl font-black uppercase tracking-tighter">
+                <span class="text-stroke">Sports</span><span class="text-white">Beep</span>
             </h1>
-            
-            <p class="tagline text-xl md:text-3xl text-[var(--c-text-muted)] mb-16 max-w-4xl mx-auto font-light">
-                The official Token of SPORTSBEEP. Daily Fantasy Sports built on the backbone of **Cardano**. Secure your allocation in this exclusive Founders Release.
-            </p>
-            <div class="hero-actions flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-10">
-                <a href="#vending" class="cta-primary pulse-animation bg-[var(--c-accent-blue)] text-white font-extrabold py-5 px-12 rounded-xl shadow-2xl transition duration-300 transform hover:scale-105 uppercase tracking-widest">ACCESS THE SWAP</a>
-                <a href="#whitepaper" class="cta-secondary text-white font-bold py-5 px-12 rounded-xl border-2 border-[var(--c-accent-orange)] transition duration-300 hover:bg-orange-900/30 uppercase tracking-widest">READ WHITEPAPER</a>
+            <p class="text-sm font-light text-gray-300 tracking-wider">FOUNDERS RELEASE V1.0</p>
+        </header>
+
+        <!-- Wallet Connection Status Card -->
+        <div class="bg-gray-800/50 p-4 rounded-lg border border-indigo-500/30 space-y-3 shadow-inner">
+            <h2 class="text-lg font-bold text-gray-200 flex items-center justify-between">
+                Wallet Status
+                <span id="connection-indicator" class="w-3 h-3 rounded-full bg-red-500 transition-colors duration-300" title="Disconnected"></span>
+            </h2>
+
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Address:</span>
+                    <span id="wallet-address" class="font-mono text-white break-all text-right">Not Connected</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Network:</span>
+                    <span id="network-name" class="font-medium text-gray-200">N/A</span>
+                </div>
             </div>
+            
+            <button id="connect-button" onclick="connectWallet()" 
+                    class="w-full py-3 mt-4 text-lg font-bold rounded-lg 
+                    bg-[var(--c-accent-orange)] text-white cta-glow 
+                    hover:bg-orange-600 active:scale-[0.98] transition duration-150">
+                Connect Wallet
+            </button>
+            <div id="status-message" class="text-sm text-center pt-2 font-medium text-red-400 hidden"></div>
         </div>
-        
-    </header>
 
-    <main class="max-w-7xl mx-auto px-4">
-        
-        <!-- ABOUT Section (Highwater-style block) -->
-        <section id="about" class="section-block text-center">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest">
-                WHY SPORTSBEEP
-            </h2>
-            <div class="grid-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                
-                <!-- Feature 1 -->
-                <div class="feature-item p-8 rounded-xl border-2 border-[var(--c-bg-light)] bg-[var(--c-bg)] shadow-inner shadow-black/50 transition duration-300 hover:border-[var(--c-accent-orange)]">
-                    <div class="icon text-5xl mb-4 text-[var(--c-accent-orange)]" style="text-shadow: 0 0 10px var(--c-accent-orange);">🏆</div>
-                    <h3 class="text-xl font-bold uppercase mb-2">DAILY FANTASY</h3>
-                    <p class="text-[var(--c-text-muted)] text-sm">Play daily, win often. Seamless fantasy sports integration for major leagues.</p>
-                </div>
-                
-                <!-- Feature 2 -->
-                <div class="feature-item p-8 rounded-xl border-2 border-[var(--c-bg-light)] bg-[var(--c-bg)] shadow-inner shadow-black/50 transition duration-300 hover:border-[var(--c-accent-orange)]">
-                    <div class="icon text-5xl mb-4 text-[var(--c-accent-orange)]" style="text-shadow: 0 0 10px var(--c-accent-orange);">₳</div>
-                    <h3 class="text-xl font-bold uppercase mb-2">POWERED BY CARDANO</h3>
-                    <p class="text-[var(--c-text-muted)] text-sm">Decentralized, low-fee transactions leveraging the security and stability of the Cardano ecosystem.</p>
-                </div>
-                
-                <!-- Feature 3 -->
-                <div class="feature-item p-8 rounded-xl border-2 border-[var(--c-bg-light)] bg-[var(--c-bg)] shadow-inner shadow-black/50 transition duration-300 hover:border-[var(--c-accent-orange)]">
-                    <div class="icon text-5xl mb-4 text-[var(--c-accent-orange)]" style="text-shadow: 0 0 10px var(--c-accent-orange);">🗳️</div>
-                    <h3 class="text-xl font-bold uppercase mb-2">COMMUNITY GOVERNANCE</h3>
-                    <p class="text-[var(--c-text-muted)] text-sm">Future game modes and feature rollouts are determined by token holders.</p>
-                </div>
-
-                <!-- Feature 4 -->
-                <div class="feature-item p-8 rounded-xl border-2 border-[var(--c-bg-light)] bg-[var(--c-bg)] shadow-inner shadow-black/50 transition duration-300 hover:border-[var(--c-accent-orange)]">
-                    <div class="icon text-5xl mb-4 text-[var(--c-accent-orange)]" style="text-shadow: 0 0 10px var(--c-accent-orange);">⚡</div>
-                    <h3 class="text-xl font-bold uppercase mb-2">INSTANT REWARDS</h3>
-                    <p class="text-[var(--c-text-muted)] text-sm">Payouts settled instantly on-chain following contest finalization.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- TOKENOMICS Section (Clean data presentation) -->
-        <section id="tokenomics" class="section-block text-center border-t-2 border-[var(--c-bg-light)]">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest" style="text-shadow: 0 0 10px var(--c-accent-blue);">
-                $BEEP TOKENOMICS: THE ENGINE
-            </h2>
-            <div class="data-grid grid grid-cols-1 sm:grid-cols-3 gap-12 mb-16 p-8 border-2 border-[var(--c-accent-blue)]/50 bg-[var(--c-bg-light)]/50 rounded-2xl shadow-inner shadow-black/50">
-                
-                <div class="data-point p-4 border-b-4 border-[var(--c-accent-blue)]/50">
-                    <p class="large-number text-6xl md:text-8xl font-extrabold text-white mb-2 tracking-tighter">10M</p>
-                    <p class="label text-[var(--c-text-muted)] uppercase tracking-widest text-sm font-bold">TOTAL SUPPLY</p>
-                </div>
-                
-                <div class="data-point p-4 border-b-4 border-[var(--c-accent-orange)]/50">
-                    <!-- Highlighted Founders Release count -->
-                    <p class="large-number text-6xl md:text-8xl font-extrabold text-[var(--c-accent-orange)] mb-2 tracking-tighter text-glow">271</p>
-                    <p class="label text-[var(--c-text-muted)] uppercase tracking-widest text-sm font-bold">FOUNDERS RELEASE</p>
-                </div>
-                
-                <div class="data-point p-4 border-b-4 border-[var(--c-accent-blue)]/50">
-                    <p class="large-number text-6xl md:text-8xl font-extrabold text-white mb-2 tracking-tighter">20%</p>
-                    <p class="label text-[var(--c-text-muted)] uppercase tracking-widest text-sm font-bold">LOCKED LIQUIDITY POOL</p>
-                </div>
-            </div>
-            <a href="#whitepaper" class="cta-secondary inline-block text-white font-bold py-3 px-8 rounded-xl border-2 border-[var(--c-accent-orange)] transition duration-300 hover:bg-orange-900/30 text-sm uppercase tracking-wider">
-                FULL BREAKDOWN IN WHITEPAPER
-            </a>
-        </section>
-        
-        <!-- NEW MARKET DRIVERS Section -->
-        <section id="drivers" class="section-block text-center border-t-2 border-[var(--c-bg-light)]">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest" style="text-shadow: 0 0 10px var(--c-accent-orange);">
-                THE $BEEP ADVANTAGE
-            </h2>
-            <div class="grid-container grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-                
-                <!-- Driver 1: Engagement -->
-                <div class="p-6 rounded-xl border-2 border-[var(--c-accent-blue)] bg-[var(--c-bg-light)]/70 text-left transition duration-300 hover:shadow-2xl hover:shadow-[var(--c-accent-blue)]/50">
-                    <h3 class="text-2xl font-black mb-2 text-[var(--c-accent-orange)] flex items-center">
-                        <span class="mr-3 text-4xl">🔥</span> Deep Player Engagement
-                    </h3>
-                    <p class="text-[var(--c-text)]/80 text-lg">High engagement rate among daily fantasy players (DFS), ensuring a vibrant and competitive ecosystem from day one.</p>
-                </div>
-                
-                <!-- Driver 2: Cardano Foundation -->
-                <div class="p-6 rounded-xl border-2 border-[var(--c-accent-blue)] bg-[var(--c-bg-light)]/70 text-left transition duration-300 hover:shadow-2xl hover:shadow-[var(--c-accent-blue)]/50">
-                    <h3 class="text-2xl font-black mb-2 text-[var(--c-accent-orange)] flex items-center">
-                        <span class="mr-3 text-4xl">🛡️</span> Cardano Foundation
-                    </h3>
-                    <p class="text-[var(--c-text)]/80 text-lg">Strong foundation built on **Cardano**, offering low transaction fees, unparalleled security, and blockchain stability for all operations.</p>
-                </div>
-                
-                <!-- Driver 3: Sustainable Retention -->
-                <div class="p-6 rounded-xl border-2 border-[var(--c-accent-blue)] bg-[var(--c-bg-light)]/70 text-left transition duration-300 hover:shadow-2xl hover:shadow-[var(--c-accent-blue)]/50">
-                    <h3 class="text-2xl font-black mb-2 text-[var(--c-accent-orange)] flex items-center">
-                        <span class="mr-3 text-4xl">🔁</span> Sustainable Retention
-                    </h3>
-                    <p class="text-[var(--c-text)]/80 text-lg">Unique reward mechanisms designed for long-term retention and continuous player participation, stabilizing the token economy.</p>
-                </div>
-                
-                <!-- Driver 4: Community Governance -->
-                <div class="p-6 rounded-xl border-2 border-[var(--c-accent-blue)] bg-[var(--c-bg-light)]/70 text-left transition duration-300 hover:shadow-2xl hover:shadow-[var(--c-accent-blue)]/50">
-                    <h3 class="text-2xl font-black mb-2 text-[var(--c-accent-orange)] flex items-center">
-                        <span class="mr-3 text-4xl">👑</span> Community Governance
-                    </h3>
-                    <p class="text-[var(--c-text)]/80 text-lg">The first DFS platform fully governed by community token holders, giving players a direct say in platform development and future features.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- NEW PHASED RELEASE PLAN (Metrics and Distribution) -->
-        <section id="metrics" class="section-block text-center border-t-2 border-[var(--c-bg-light)]">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest" style="text-shadow: 0 0 10px var(--c-accent-blue);">
-                $BEEP DISTRIBUTION & MILESTONES
-            </h2>
+        <!-- Swap Interface (Enabled upon connection) -->
+        <div id="swap-interface" class="space-y-4 pt-4 opacity-30 pointer-events-none transition-opacity duration-300">
+            <h2 class="text-xl font-bold text-gray-100 border-b border-gray-700 pb-2">Execute Founders Swap</h2>
             
-            <!-- Key Metrics Card -->
-            <div class="metrics-card max-w-6xl mx-auto p-8 md:p-10 rounded-2xl border-4 border-[var(--c-accent-blue)]/50 bg-[var(--c-bg-light)] shadow-[0_0_60px_rgba(0,83,155,0.2)] mb-16">
-                <h3 class="text-3xl font-extrabold uppercase mb-8 text-[var(--c-accent-orange)] tracking-widest">
-                    Key Metrics
-                </h3>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Metric 1 -->
-                    <div class="metric-item border-b-2 border-[var(--c-accent-orange)] pb-2">
-                        <p class="text-xl lg:text-3xl font-bold text-white">$0.12</p>
-                        <p class="text-xs uppercase text-[var(--c-text-muted)] mt-1">Initial Price per $BEEP</p>
-                    </div>
-                    <!-- Metric 2 -->
-                    <div class="metric-item border-b-2 border-[var(--c-accent-orange)] pb-2">
-                        <p class="text-xl lg:text-3xl font-bold text-white">10,000,000</p>
-                        <p class="text-xs uppercase text-[var(--c-text-muted)] mt-1">Fixed Total Supply</p>
-                    </div>
-                    <!-- Metric 3 -->
-                    <div class="metric-item border-b-2 border-[var(--c-accent-orange)] pb-2">
-                        <p class="text-xl lg:text-3xl font-bold text-white">271</p>
-                        <p class="text-xs uppercase text-[var(--c-text-muted)] mt-1">Phase 1 Circulating Supply</p>
-                    </div>
-                    <!-- Metric 4 -->
-                    <div class="metric-item border-b-2 border-[var(--c-accent-orange)] pb-2">
-                        <p class="text-xl lg:text-3xl font-bold text-white">$1.2 Million</p>
-                        <p class="text-xs uppercase text-[var(--c-text-muted)] mt-1">Launch Valuation</p>
-                    </div>
-                </div>
-                <p class="text-sm text-[var(--c-text-muted)] mt-8">
-                    Currency Accepted: **ADA** (Primary), with future expansion potential to ETH, USDT, BTC, and others.
-                </p>
+            <!-- Input Field -->
+            <div class="space-y-2">
+                <label for="swap-amount" class="text-sm font-medium text-gray-400">Amount (ETH)</label>
+                <input type="number" id="swap-amount" value="0.01" step="0.001"
+                       class="w-full p-4 rounded-lg bg-gray-900/80 text-white border border-gray-700 
+                       focus:border-[var(--c-accent-orange)] focus:ring-[var(--c-accent-orange)] focus:outline-none"
+                       placeholder="Enter amount">
             </div>
 
-            <!-- Phased Distribution Plan -->
-            <div class="distribution-plan max-w-5xl mx-auto text-left">
-                <h3 class="text-3xl font-extrabold uppercase mb-8 text-white tracking-widest text-center">
-                    Phased Distribution Plan
-                </h3>
-                
-                <ol class="space-y-8 relative border-l-4 border-[var(--c-accent-orange)] ml-4 md:ml-0">
-                    
-                    <!-- Phase 1 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 1 — Micro-Launch (271 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Create exclusivity, establish price discovery, and prove tradability.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Pool Example: ~49 ADA + 271 $BEEP (anchoring 1 ADA = 5.48 $BEEP).</p>
-                    </li>
-                    
-                    <!-- Phase 2 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 2 — Expansion (50,000 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Deepen liquidity and raise funds for app development.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Allocation: Majority paired with ADA for trading, remainder for marketing and ecosystem pilots.</p>
-                    </li>
-                    
-                    <!-- Phase 3 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 3 — Community Growth (250,000 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Launch staking + referral rewards to incentivize holders.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Allocation: Split between liquidity pools and reward programs.</p>
-                    </li>
-
-                    <!-- Phase 4 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 4 — Ecosystem Build (1,000,000 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Fund app completion, integrations, and partnerships.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Allocation: Liquidity + ecosystem grants.</p>
-                    </li>
-                    
-                    <!-- Phase 5 -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-orange)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">Phase 5 — Market Expansion (2,500,000 $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Objective: Scale liquidity across multiple DEXs, onboard liquidity providers, and stabilize trading.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Allocation: Liquidity + LP incentives.</p>
-                    </li>
-                    
-                    <!-- Remaining Supply -->
-                    <li class="pl-8 relative group">
-                        <div class="absolute w-4 h-4 bg-[var(--c-accent-blue)] rounded-full -left-[10px] top-1 transition duration-300 group-hover:scale-125"></div>
-                        <h4 class="text-xl font-black uppercase text-[var(--c-accent-blue)]">Remaining Supply (6.2M $BEEP)</h4>
-                        <p class="text-sm text-[var(--c-text-muted)] mb-2">Reserved for future milestones, ecosystem growth, and community incentives.</p>
-                        <p class="text-sm text-[var(--c-text-muted)]">Released only as needed to fund development and expansion.</p>
-                    </li>
-
-                </ol>
-            </div>
-        </section>
-
-        <!-- FOUNDERS SWAP Section (Central, Clean Module) -->
-        <section id="vending" class="section-block text-center border-t-2 border-[var(--c-bg-light)]">
-            <h2 class="text-4xl md:text-6xl font-extrabold uppercase mb-16 text-white tracking-widest">
-                ACCESS FOUNDERS SWAP
-            </h2>
-            <div class="vending-card max-w-lg mx-auto p-8 md:p-10 rounded-2xl border-4 border-[var(--c-accent-orange)]/50 bg-black shadow-[0_0_60px_rgba(244,125,48,0.2)]">
-                
-                <p class="rate text-xl text-[var(--c-accent-blue)] font-extrabold mb-8 tracking-wider">RATE: 1 ADA = 5.48 $BEEP</p>
-                
-                <!-- Wallet Connection -->
-                <p class="text-sm text-gray-300 mb-4 uppercase font-bold tracking-wider">Connect Wallet to Proceed</p>
-                <div class="wallet-connect-buttons grid grid-cols-3 gap-3 mb-8">
-                    <button class="wallet-btn text-white py-3 rounded-lg font-bold transition duration-200">Nami</button>
-                    <button class="wallet-btn text-white py-3 rounded-lg font-bold transition duration-200">Lace</button>
-                    <button class="wallet-btn text-white py-3 rounded-lg font-bold transition duration-200">Yoroi</button>
-                </div>
-
-                <!-- Transaction Input -->
-                <div class="transaction-input mb-8 text-left">
-                    <label for="amount" class="block text-gray-300 font-bold mb-2 uppercase text-xs tracking-wider">AMOUNT OF ADA TO SWAP</label>
-                    <input type="number" id="amount" placeholder="Minimum 10 ADA" class="w-full bg-black/80 border-2 border-[var(--c-bg-light)] rounded-xl p-4 text-white text-lg transition duration-200">
-                </div>
-
-                <!-- Swap Button -->
-                <button class="execute-purchase w-full bg-[var(--c-accent-blue)] text-white font-extrabold py-5 rounded-xl shadow-xl transition duration-300 transform hover:scale-[1.01] uppercase tracking-widest">
-                    EXECUTE SWAP FOR $BEEP
-                </button>
-                
-                <!-- Specific Disclaimers for Swap -->
-                <div class="text-xs text-red-400 mt-6 space-y-2 text-left p-3 border border-red-500 rounded-lg bg-red-900/20">
-                    <p class="font-bold uppercase text-sm">WARNING:</p>
-                    <ul class="list-disc pl-4 text-[var(--c-text-muted)]">
-                        <li>All $BEEP purchases are **FINAL** and **NON-REFUNDABLE**.</li>
-                        <li>Token price is locked for this Founders Release phase only.</li>
-                        <li>Ensure you are using a secure, supported Cardano wallet.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Global Footer and Legal Disclaimers -->
-    <footer id="contact" class="text-center py-12 border-t-4 border-[var(--c-accent-blue)] mt-24 text-sm bg-[var(--c-bg-light)]/40">
-        <div class="max-w-7xl mx-auto px-4">
-            
-            <div class="social-links space-x-6 text-2xl mb-8">
-                <a href="#" class="hover:text-[var(--c-accent-orange)] transition duration-200">X</a>
-                <a href="#" class="hover:text-[var(--c-accent-orange)] transition duration-200">Discord</a>
-                <a href="#" class="hover:text-[var(--c-accent-orange)] transition duration-200">Telegram</a>
-            </div>
-
-            <p class="mb-4 text-lg font-semibold text-[var(--c-accent-orange)]">
-                Designed and Engineered by 
-                <a href="https://ladmedia.co" target="_blank" class="hover:underline">LAD MEDIA</a>.
+            <!-- Swap Button -->
+            <button id="swap-button" disabled
+                    class="w-full py-4 text-xl font-extrabold rounded-lg 
+                    bg-[var(--c-accent-blue)] text-white hover:bg-blue-600 
+                    transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
+                Confirm Swap
+            </button>
+            <p class="text-center text-xs text-gray-500">
+                Note: This button is disabled until a wallet is connected to prevent transactions.
             </p>
-            
-            <!-- Mandatory Crypto Disclaimers -->
-            <div class="disclaimer-block text-xs text-left max-w-4xl mx-auto mt-8 p-4 border border-gray-600 rounded-lg bg-black/50">
-                <p class="font-bold uppercase text-white mb-2">Legal Disclaimer & Terms of Service Summary</p>
-                <p class="text-[var(--c-text-muted)] space-y-3">
-                    <span class="block">**RISK WARNING:** Digital assets, including cryptocurrencies and tokens like $BEEP, are highly volatile, carry significant risk, and may not be suitable for all investors. The value can fluctuate dramatically. You should carefully consider whether trading or holding digital assets is suitable for you in light of your financial condition.</span>
-                    <span class="block">**SALES FINALITY:** All token purchases made through this Founders Release swap mechanism are **FINAL** and **NON-REFUNDABLE**. By executing a transaction, you confirm that you have read and agreed to the full terms and conditions (available in the Whitepaper).</span>
-                    <span class="block">**USER RESPONSIBILITY:** You are solely responsible for securing your wallet seed phrase and private keys. LAD MEDIA and SPORTSBEEP are not responsible for lost, stolen, or compromised digital assets.</span>
-                    <span class="block">&copy; 2026 SPORTSBEEP. All rights reserved.</span>
-                </p>
-            </div>
-
         </div>
-    </footer>
+
+    </div>
+
+    <script type="module">
+        // --- Ethers.js Global Variables ---
+        let provider = null;
+        let signer = null;
+        let currentAddress = null;
+
+        // --- DOM Elements ---
+        const connectButton = document.getElementById('connect-button');
+        const statusMessage = document.getElementById('status-message');
+        const indicator = document.getElementById('connection-indicator');
+        const walletAddress = document.getElementById('wallet-address');
+        const networkName = document.getElementById('network-name');
+        const swapInterface = document.getElementById('swap-interface');
+        const swapButton = document.getElementById('swap-button');
+        
+        /**
+         * Updates the UI based on the connection status.
+         * @param {string | null} address 
+         * @param {string | null} network 
+         */
+        function updateUI(address, network) {
+            if (address && network) {
+                // Connected State
+                currentAddress = address;
+                walletAddress.textContent = address.substring(0, 6) + '...' + address.substring(address.length - 4);
+                networkName.textContent = network;
+                indicator.className = 'w-3 h-3 rounded-full bg-green-500 transition-colors duration-300';
+                connectButton.textContent = 'Wallet Connected';
+                connectButton.disabled = true;
+                
+                // Enable Swap Interface
+                swapInterface.classList.remove('opacity-30', 'pointer-events-none');
+                swapButton.disabled = false;
+            } else {
+                // Disconnected State
+                currentAddress = null;
+                walletAddress.textContent = 'Not Connected';
+                networkName.textContent = 'N/A';
+                indicator.className = 'w-3 h-3 rounded-full bg-red-500 transition-colors duration-300';
+                connectButton.textContent = 'Connect Wallet';
+                connectButton.disabled = false;
+                
+                // Disable Swap Interface
+                swapInterface.classList.add('opacity-30', 'pointer-events-none');
+                swapButton.disabled = true;
+            }
+            statusMessage.textContent = '';
+            statusMessage.classList.add('hidden');
+        }
+
+        /**
+         * Initializes Ethers provider and sets up event listeners.
+         */
+        async function initializeProvider() {
+            // Check if the Ethereum provider (e.g., MetaMask) is available
+            if (window.ethereum) {
+                try {
+                    // 1. Set up the Ethers provider
+                    provider = new ethers.BrowserProvider(window.ethereum);
+
+                    // 2. Set up event listeners for real-time updates
+                    // Listen for when the user changes accounts in their wallet
+                    window.ethereum.on('accountsChanged', async (accounts) => {
+                        console.log('Accounts changed:', accounts);
+                        if (accounts.length === 0) {
+                            // User disconnected all accounts
+                            updateUI(null, null);
+                        } else {
+                            // Account switched
+                            await connectWallet(accounts[0]);
+                        }
+                    });
+
+                    // Listen for when the user changes the network/chain
+                    window.ethereum.on('chainChanged', (chainId) => {
+                        console.log('Chain changed:', chainId);
+                        // Reload or re-initialize to use the new chain
+                        window.location.reload(); 
+                    });
+
+                } catch (error) {
+                    console.error("Error initializing provider:", error);
+                    statusMessage.textContent = 'Failed to initialize wallet provider.';
+                    statusMessage.classList.remove('hidden');
+                }
+            } else {
+                statusMessage.textContent = 'Ethereum wallet (like MetaMask) not detected.';
+                statusMessage.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Connects to the wallet and updates UI.
+         */
+        window.connectWallet = async function(initialAddress = null) {
+            if (!provider) {
+                statusMessage.textContent = 'Provider not initialized. Check console for errors.';
+                statusMessage.classList.remove('hidden');
+                return;
+            }
+
+            connectButton.textContent = 'Connecting...';
+            connectButton.disabled = true;
+            statusMessage.textContent = '';
+            statusMessage.classList.add('hidden');
+
+            try {
+                let address = initialAddress;
+                
+                if (!address) {
+                    // Request user accounts if not provided (first connection)
+                    const accounts = await provider.send("eth_requestAccounts", []);
+                    address = accounts[0];
+                }
+
+                if (address) {
+                    signer = await provider.getSigner();
+                    const network = await provider.getNetwork();
+                    
+                    // Update UI with real network and address data
+                    updateUI(address, network.name);
+                    console.log(`Connected successfully to ${address} on ${network.name}`);
+                }
+
+            } catch (error) {
+                console.error("Wallet Connection Error:", error);
+                // Handle common errors (e.g., user rejected the connection)
+                statusMessage.textContent = 'Connection failed. Please ensure your wallet is unlocked and approve the connection request.';
+                statusMessage.classList.remove('hidden');
+                updateUI(null, null); // Revert to disconnected state
+            }
+        };
+
+        // --- Initial Check on Load ---
+        window.onload = async function() {
+            await initializeProvider();
+
+            // Check if the user is already connected from a previous session
+            if (window.ethereum && window.ethereum.selectedAddress) {
+                console.log("Wallet already detected as connected.");
+                // Attempt to reconnect without forcing the popup
+                await connectWallet(window.ethereum.selectedAddress);
+            }
+        };
+
+    </script>
 
 </body>
 </html>

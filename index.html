@@ -260,6 +260,17 @@
             <div class="max-w-md mx-auto bg-[var(--c-bg-light)] p-8 rounded-2xl border-2 border-[var(--c-accent-orange)] shadow-2xl shadow-[var(--c-accent-orange)]/20 space-y-6">
                 
                 <h2 class="text-3xl font-black text-center text-white">ACCESS FOUNDERS SWAP</h2>
+                
+                <!-- Rate Input - NEW FEATURE -->
+                <div class="space-y-3">
+                    <label for="new-swap-rate" class="text-sm font-medium text-gray-400 block">SET $BEEP RECEIVED PER 1 ADA</label>
+                    <input type="number" id="new-swap-rate" value="5.48" min="0.01" step="0.01"
+                            class="w-full p-4 rounded-xl bg-gray-900/80 text-white border border-gray-700 text-2xl font-mono
+                            focus:border-[var(--c-accent-orange)] focus:ring-[var(--c-accent-orange)] focus:outline-none"
+                            oninput="handleRateChange()">
+                    <p class="text-xs text-gray-500 text-right">Adjust this to test different starting prices.</p>
+                </div>
+                
                 <p id="current-rate-display" class="text-center text-xl font-bold text-[var(--c-accent-orange)]">RATE: Loading...</p>
 
                 <!-- Wallet Connection Status -->
@@ -401,7 +412,7 @@
             };
         }
 
-        const SWAP_RATE = 5.48; // 1 ADA = 5.48 $BEEP (Mock/Static Rate)
+        const SWAP_RATE_DEFAULT = 5.48; // Default rate for 1 ADA = X $BEEP
         const SWAP_RECEIVING_ADDRESS = 'addr1q93z...'; // The address where user ADA is sent (mock for now)
         const BEEP_POLICY_ID = '3a3399b1a5e18260b411d87a412c96c14106323c965c490a02f37e40'; // Mock Policy ID
         const BEEP_ASSET_NAME_HEX = '2442454550'; // Hex for "$BEEP"
@@ -421,6 +432,7 @@
         const beepResult = document.getElementById('beep-result');
         const toastMessage = document.getElementById('toast-message');
         const rateDisplay = document.getElementById('current-rate-display');
+        const rateInput = document.getElementById('new-swap-rate'); // New element reference
 
         /**
          * Toggles the wallet selection modal visibility.
@@ -544,13 +556,35 @@
         }
 
         /**
-         * Updates the BEEP received based on the ADA input and the swap rate.
+         * Handles changes in the swap rate input, updates the display, and triggers BEEP calculation.
+         */
+        window.handleRateChange = function() {
+            let newRate = parseFloat(rateInput.value);
+
+            // Validation and resetting to default if invalid
+            if (isNaN(newRate) || newRate <= 0) {
+                newRate = SWAP_RATE_DEFAULT;
+                rateInput.value = SWAP_RATE_DEFAULT; 
+            }
+            
+            // Limit to two decimal places for display clarity
+            rateDisplay.textContent = `RATE: 1 ADA = ${newRate.toFixed(2)} $BEEP`;
+            
+            // Trigger the BEEP amount calculation
+            updateBEEP();
+        }
+
+        /**
+         * Updates the BEEP received based on the ADA input and the current dynamic swap rate.
          */
         function updateBEEP() {
-            // NOTE: In a real app, SWAP_RATE would be fetched from a DEX or Smart Contract
+            // Read rate dynamically from the input field
+            const currentRate = parseFloat(rateInput.value) || SWAP_RATE_DEFAULT;
             const ada = parseFloat(adaAmountInput.value);
+            
             if (!isNaN(ada) && ada > 0) {
-                const beep = (ada * SWAP_RATE).toFixed(2);
+                // Use 0 decimal places for tokens (assuming $BEEP is not fractional)
+                const beep = (ada * currentRate).toFixed(0); 
                 beepResult.textContent = `${beep} $BEEP`;
             } else {
                 beepResult.textContent = '0.00 $BEEP';
@@ -572,52 +606,31 @@
                 return;
             }
 
-            const beepAmount = (adaAmount * SWAP_RATE).toFixed(0); // Use 0 for whole tokens
+            // Get the live rate for the transaction simulation
+            const liveRate = parseFloat(rateInput.value) || SWAP_RATE_DEFAULT;
+            const beepAmount = (adaAmount * liveRate).toFixed(0); // Use 0 for whole tokens
             const adaLovelace = adaAmount * 1_000_000;
             
             swapButton.textContent = 'Building Transaction...';
             swapButton.disabled = true;
 
             try {
-                // --- 1. GET UTXOS ---
-                // In a real app, this is where you'd call walletApi.getUtxos()
-                // For this simulation, we skip UTXO collection and assume the wallet has funds.
+                // --- 1. GET UTXOS (Conceptual) ---
                 
                 
                 // --- 2. BUILD TRANSACTION (Conceptual CSL Steps) ---
-                // NOTE: This part is conceptual. Full transaction building requires a backend
-                // or a full SDK to query chain state (protocol parameters, UTXOs).
-                
                 console.log('Using CSL to build transaction conceptually...');
 
-                // Mock CSL transaction creation
+                // This step requires CSL to be fully implemented to build the transaction body,
+                // including inputs, outputs (to SWAP_RECEIVING_ADDRESS with ADA), and calculated fees.
                 const txBody = CardanoWasm.TransactionBody.new(CardanoWasm.Certificates.new());
-
-                // Mock Output to the Swap Address
-                // You would typically use CardanoWasm.Address.from_bech32() here
-                const swapAddress = userAddress; // Simplified to user's address for mock flow
-                
-                // CSL Assets creation: PolicyID + AssetName + Amount
-                const multiasset = CardanoWasm.MultiAsset.new();
-                const assets = CardanoWasm.Assets.new();
-                const policyId = CardanoWasm.ScriptHash.from_hex(BEEP_POLICY_ID);
-                const assetName = CardanoWasm.AssetName.new(Buffer.from(BEEP_ASSET_NAME_HEX, 'hex'));
-                
-                // Assuming we want to send the BEEP token to the user as part of the transaction
-                // For a *real swap*, the transaction would be *sent to the swap contract/vault address*
-                // which then sends the $BEEP back to the user *in a separate transaction*.
-                // For this simple mock, we simulate sending the ADA *and* expecting a $BEEP output (simplified).
-
-                // Add ADA output to the "Swap Address" (where the user sends the money)
-                // For simplicity, we just assume the wallet will handle the input/output logic correctly.
+                const mockTxCbor = 'a0018301...'; // Mocking the raw CBOR transaction structure
                 
                 // --- 3. REQUEST SIGNATURE (CIP-30) ---
                 swapButton.textContent = 'Awaiting Wallet Signature...';
 
-                // CIP-30: Request the wallet to sign the CBOR transaction body
-                // Mocking the raw CBOR transaction structure (a real one is hundreds of characters long)
-                const mockTxCbor = 'a0018301...'; 
-                const signedTxCbor = await walletApi.signTx(mockTxCbor, false); // false for non-partial
+                // The partial=false means we need the wallet to sign all parts.
+                const signedTxCbor = await walletApi.signTx(mockTxCbor, false); 
 
                 // --- 4. SUBMIT TRANSACTION (CIP-30) ---
                 swapButton.textContent = 'Submitting to Cardano Network...';
@@ -670,11 +683,9 @@
          * Runs on initial load to set up the rate and event listeners.
          */
         window.onload = function() {
-            // Display the current rate (static for now)
-            rateDisplay.textContent = `RATE: 1 ADA = ${SWAP_RATE} $BEEP`;
-            
-            // Initial calculation
-            updateBEEP(); 
+            // Initialize the rate input and display using the default
+            rateInput.value = SWAP_RATE_DEFAULT;
+            handleRateChange(); 
 
             // Listen for input change to update BEEP amount
             adaAmountInput.addEventListener('input', updateBEEP);

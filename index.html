@@ -372,46 +372,10 @@
     <!-- JavaScript (CIP-30 Implementation) -->
     <script>
         // --- CIP-30 and Application State ---
-        // Mocking the window.cardano object for environments without a real wallet extension (like this preview)
-        // In a real environment, the wallet extensions inject these objects.
-        if (typeof window.cardano === 'undefined') {
-            window.cardano = {
-                nami: {
-                    name: 'Nami',
-                    icon: 'data:image/svg+xml;...', // Placeholder for Nami icon
-                    version: '2.0.0',
-                    enable: async () => {
-                        console.log('Mock Nami enabled.');
-                        return { 
-                            getUsedAddresses: async () => ['mock_address'],
-                            getNetworkId: async () => 1, // 1 for Mainnet (0 for Testnet)
-                            signTx: async (tx, partial) => 'mock_signed_tx_cbor',
-                            submitTx: async (tx) => 'mock_tx_hash',
-                            getLovelace: async () => '100000000', // Mocking 100 ADA
-                        };
-                    },
-                    isEnabled: async () => false,
-                },
-                lace: {
-                    name: 'Lace',
-                    icon: 'data:image/svg+xml;...', // Placeholder for Lace icon
-                    version: '1.0.0',
-                    enable: async () => {
-                         console.log('Mock Lace enabled.');
-                        return { 
-                            getUsedAddresses: async () => ['mock_address'],
-                            getNetworkId: async () => 1, 
-                            signTx: async (tx, partial) => 'mock_signed_tx_cbor',
-                            submitTx: async (tx) => 'mock_tx_hash',
-                            getLovelace: async () => '100000000', 
-                        };
-                    },
-                    isEnabled: async () => false,
-                }
-                // ... other wallets like Eternl, Flint
-            };
-        }
-
+        
+        // This code now relies *entirely* on the browser-injected window.cardano object
+        // provided by real extensions like Yoroi, Nami, Lace, etc.
+        
         const SWAP_RATE_DEFAULT = 5.48; // Default rate for 1 ADA = X $BEEP
         const SWAP_RECEIVING_ADDRESS = 'addr1q93z...'; // The address where user ADA is sent (mock for now)
         const BEEP_POLICY_ID = '3a3399b1a5e18260b411d87a412c96c14106323c965c490a02f37e40'; // Mock Policy ID
@@ -432,7 +396,7 @@
         const beepResult = document.getElementById('beep-result');
         const toastMessage = document.getElementById('toast-message');
         const rateDisplay = document.getElementById('current-rate-display');
-        const rateInput = document.getElementById('new-swap-rate'); // New element reference
+        const rateInput = document.getElementById('new-swap-rate'); 
 
         /**
          * Toggles the wallet selection modal visibility.
@@ -456,53 +420,67 @@
 
         /**
          * Populates the wallet list in the modal based on window.cardano.
+         * This function will detect your real Yoroi wallet.
          */
         function populateWalletList() {
+            // Check if window.cardano exists (in case no extensions are installed)
+            if (typeof window.cardano === 'undefined') {
+                walletList.innerHTML = '<p class="text-red-400 text-center">No CIP-30 wallets found. Please install a Cardano wallet extension (like Yoroi).</p>';
+                return;
+            }
+
+            // Filter for available and enabled-ready wallets
             const availableWallets = Object.keys(window.cardano).filter(key => 
                 typeof window.cardano[key] === 'object' && typeof window.cardano[key].enable === 'function'
             );
 
             if (availableWallets.length === 0) {
-                walletList.innerHTML = '<p class="text-red-400 text-center">No CIP-30 wallets found. Please install Nami, Lace, or Eternl.</p>';
+                walletList.innerHTML = '<p class="text-red-400 text-center">No CIP-30 wallets detected. Ensure your extension is active.</p>';
                 return;
             }
 
             walletList.innerHTML = availableWallets.map(walletKey => {
                 const wallet = window.cardano[walletKey];
+                // Check if the name and version are available, often they are for real extensions
+                const name = wallet.name || walletKey.charAt(0).toUpperCase() + walletKey.slice(1);
+                const version = wallet.version || '1.0';
+
                 return `
                     <button data-wallet="${walletKey}" onclick="connectWallet('${walletKey}')" class="w-full flex items-center justify-between p-4 bg-gray-800 rounded-xl hover:bg-gray-700 transition">
                         <div class="flex items-center space-x-3">
-                            <!-- In a real app, we'd use wallet.icon and wallet.name -->
+                            <!-- In a real app, you could use wallet.icon if provided as SVG data -->
                             <span class="wallet-icon text-[var(--c-accent-orange)]">₳</span>
-                            <span class="font-semibold text-lg">${wallet.name || walletKey}</span>
+                            <span class="font-semibold text-lg">${name}</span>
                         </div>
-                        <span class="text-xs text-gray-400">v${wallet.version || '1.0'}</span>
+                        <span class="text-xs text-gray-400">v${version}</span>
                     </button>
                 `;
             }).join('');
         }
 
         /**
-         * Initiates the CIP-30 connection process.
-         * @param {string} key The key of the wallet object (e.g., 'nami', 'lace').
+         * Initiates the CIP-30 connection process with the real extension.
+         * @param {string} key The key of the wallet object (e.g., 'yoroi', 'nami').
          */
         window.connectWallet = async function(key) {
-            if (!window.cardano[key]) {
-                showToast(`Wallet ${key} not detected.`, 'error');
+            if (!window.cardano || !window.cardano[key]) {
+                showToast(`Wallet ${key} API not detected.`, 'error');
                 return;
             }
 
             try {
-                // 1. Request access (CIP-30)
+                // 1. Request access (CIP-30 enable call to your extension)
                 walletApi = await window.cardano[key].enable();
                 walletName = window.cardano[key].name || key;
 
                 // 2. Get user address
+                // This is a direct CIP-30 call to Yoroi/Nami/etc.
                 const addresses = await walletApi.getUsedAddresses();
                 const addressHex = addresses[0];
 
                 // 3. Convert address to Bech32 for display (conceptual)
-                // In a real app, we'd use CSL to convert the hex address to readable Bech32.
+                // CSL is loaded, but converting a hex address to a human-readable Bech32 address
+                // is complex. We'll truncate for display confidence.
                 userAddress = addressHex ? addressHex.slice(0, 10) + '...' + addressHex.slice(-5) : 'Unknown Address';
 
                 // 4. Update UI
@@ -512,7 +490,9 @@
 
             } catch (error) {
                 console.error("Wallet connection failed:", error);
-                showToast(`Connection failed: ${error.message || 'Check your wallet extension.'}`, 'error');
+                // When you deny the connection in the extension, it throws an error
+                const errorMessage = error.message || error.info || 'Connection denied by user or failed.';
+                showToast(`Connection failed: ${errorMessage}`, 'error');
                 updateUIDisconnected();
             }
         }
@@ -615,29 +595,28 @@
             swapButton.disabled = true;
 
             try {
-                // --- 1. GET UTXOS (Conceptual) ---
+                // NOTE: In a real app, you would use CSL or a backend service to:
+                // 1. Fetch UTXOs from the connected wallet (walletApi.getUtxos())
+                // 2. Build a valid TransactionBody (using CardanoWasm.TransactionBuilder)
+                //    - This step includes calculating network fees, min-UTXO values, and change outputs.
                 
-                
-                // --- 2. BUILD TRANSACTION (Conceptual CSL Steps) ---
+                // --- Conceptual Transaction Building ---
                 console.log('Using CSL to build transaction conceptually...');
-
-                // This step requires CSL to be fully implemented to build the transaction body,
-                // including inputs, outputs (to SWAP_RECEIVING_ADDRESS with ADA), and calculated fees.
-                const txBody = CardanoWasm.TransactionBody.new(CardanoWasm.Certificates.new());
-                const mockTxCbor = 'a0018301...'; // Mocking the raw CBOR transaction structure
+                const mockTxCbor = 'a0018301...'; // Placeholder for the actual raw CBOR transaction structure
                 
-                // --- 3. REQUEST SIGNATURE (CIP-30) ---
-                swapButton.textContent = 'Awaiting Wallet Signature...';
+                // --- 3. REQUEST SIGNATURE (CIP-30: This calls your real Yoroi/Nami wallet!) ---
+                swapButton.textContent = 'Awaiting Wallet Signature... (Approve in Extension)';
 
-                // The partial=false means we need the wallet to sign all parts.
                 const signedTxCbor = await walletApi.signTx(mockTxCbor, false); 
 
-                // --- 4. SUBMIT TRANSACTION (CIP-30) ---
+                // --- 4. SUBMIT TRANSACTION (CIP-30: This sends the signed transaction to the network via your wallet's API) ---
                 swapButton.textContent = 'Submitting to Cardano Network...';
                 
+                // Since this transaction CBOR is mocked, the submission will likely fail with a real wallet.
+                // However, this confirms the wallet is functional and responsive.
                 const txHash = await walletApi.submitTx(signedTxCbor);
                 
-                // Success
+                // Success (If this step completes, the CIP-30 pipeline is working)
                 console.log("Transaction Successful! Hash:", txHash);
                 showToast(`Swap submitted! Tx Hash: ${txHash.slice(0, 20)}... You received ${beepAmount} $BEEP.`, 'success');
 
@@ -646,8 +625,12 @@
                 const errorMessage = error.message || (error.info ? JSON.stringify(error.info) : 'Transaction denied or failed.');
                 showToast(`Transaction Failed: ${errorMessage}`, 'error');
             } finally {
-                swapButton.textContent = 'EXECUTE SWAP FOR $BEEP';
-                swapButton.disabled = false;
+                // Re-enable the button
+                // We'll leave it disabled only if the wallet is disconnected (checked by updateUIConnected)
+                if (walletApi) {
+                     swapButton.textContent = 'EXECUTE SWAP FOR $BEEP';
+                     swapButton.disabled = false;
+                }
             }
         }
         

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register for $BEEP - SPORTSBEEP</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VY5KGJXXNZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VY5KGJXXNZ');
+    </script>
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --c-bg-dark: #04172B;
+            --c-bg-card: #0A2540;
+            --c-accent-orange: #E8720C;
+            --c-accent-blue: #2563EB;
+        }
+        body { background: var(--c-bg-dark); }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+    <nav class="bg-[var(--c-bg-card)] border-b border-gray-700/50 sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/" class="flex items-center space-x-3">
+                    <img src="logo.png" alt="SPORTSBEEP Logo" class="h-10 w-auto">
+                    <h1 class="text-2xl font-black uppercase text-[var(--c-accent-orange)]">
+                        SPORTS<span class="text-white">BEEP</span>
+                    </h1>
+                </a>
+                <a href="/" class="text-sm text-gray-400 hover:text-white transition">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+            <p class="text-[var(--c-accent-orange)] font-bold text-sm tracking-wider mb-2">CLOSED ACCESS PHASE</p>
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Register for $BEEP Allocation</h2>
+            <p class="text-gray-400 text-lg">Submit your Cardano wallet address to be considered for a $BEEP token allocation during Phase 1.</p>
+        </div>
+
+        <div id="referred-banner" class="hidden mb-6 bg-green-900/30 border border-green-500/50 rounded-xl p-4 text-center">
+            <p class="text-green-400 text-sm font-medium">You were referred by a SPORTSBEEP community member. Both of you can earn rewards!</p>
+        </div>
+
+        <div id="registration-form-container" class="bg-[var(--c-bg-card)] rounded-2xl p-8 border border-gray-700/50">
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Your Name or Label *</label>
+                    <input type="text" id="reg-label" placeholder="e.g., John D., Beta Tester, Founder"
+                        class="w-full px-4 py-3 bg-[var(--c-bg-dark)] border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:border-[var(--c-accent-orange)] focus:outline-none transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Cardano Wallet Address *</label>
+                    <input type="text" id="reg-address" placeholder="addr1q..."
+                        class="w-full px-4 py-3 bg-[var(--c-bg-dark)] border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:border-[var(--c-accent-orange)] focus:outline-none transition font-mono text-sm">
+                    <p class="text-xs text-gray-500 mt-1">Your Cardano wallet address starting with addr1. This is where your $BEEP tokens will be sent.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Email (Optional)</label>
+                    <input type="email" id="reg-email" placeholder="your@email.com"
+                        class="w-full px-4 py-3 bg-[var(--c-bg-dark)] border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:border-[var(--c-accent-orange)] focus:outline-none transition">
+                    <p class="text-xs text-gray-500 mt-1">For allocation updates only. We will never share your email.</p>
+                </div>
+
+                <div class="bg-[var(--c-bg-dark)] rounded-xl p-4 border border-gray-700/50">
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        By registering, you acknowledge that $BEEP is currently in a pre-liquidity beta phase. Token allocations are at the sole discretion of the SPORTSBEEP team.
+                        Tokens are off-market with no guaranteed value. No public trading is available until the app launches and liquidity is seeded.
+                        Registration does not guarantee an allocation.
+                    </p>
+                </div>
+
+                <button onclick="submitRegistration()" id="submit-btn"
+                    class="w-full py-4 bg-[var(--c-accent-orange)] hover:bg-orange-600 text-white font-bold text-lg rounded-xl transition duration-300">
+                    Submit Registration
+                </button>
+            </div>
+        </div>
+
+        <div id="success-message" class="hidden">
+            <div class="bg-[var(--c-bg-card)] rounded-2xl p-8 border border-green-500/50 text-center mb-6">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-green-400 mb-2">Registration Successful!</h3>
+                <p class="text-gray-400 mb-6">Your wallet address has been recorded. The SPORTSBEEP team will review your registration and notify you of any allocation.</p>
+            </div>
+
+            <div class="bg-[var(--c-bg-card)] rounded-2xl p-8 border border-[var(--c-accent-orange)]/50">
+                <h3 class="text-xl font-bold text-[var(--c-accent-orange)] mb-2">Your Referral Link</h3>
+                <p class="text-gray-400 text-sm mb-4">Earn <span class="text-[var(--c-accent-orange)] font-bold">100 $BEEP</span> for every <span class="text-white font-bold">10 verified referrals</span> you bring into the SPORTSBEEP ecosystem.</p>
+
+                <div class="flex items-center space-x-2 mb-4">
+                    <input type="text" id="referral-link" readonly
+                        class="flex-1 px-4 py-3 bg-[var(--c-bg-dark)] border border-gray-600 rounded-xl text-white font-mono text-sm">
+                    <button onclick="copyReferralLink()" id="copy-btn"
+                        class="px-4 py-3 bg-[var(--c-accent-orange)] hover:bg-orange-600 text-white font-bold rounded-xl transition whitespace-nowrap">
+                        Copy
+                    </button>
+                </div>
+
+                <div class="bg-[var(--c-bg-dark)] rounded-xl p-4 border border-gray-700/50 mb-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-gray-400">Your referral code:</span>
+                        <span id="display-referral-code" class="text-[var(--c-accent-orange)] font-bold font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-gray-400">Referrals so far:</span>
+                        <span id="display-referral-count" class="text-white font-bold">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">Rewards earned:</span>
+                        <span id="display-rewards" class="text-green-400 font-bold">0 $BEEP</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <a id="share-telegram" href="#" target="_blank"
+                        class="py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition text-center text-sm">
+                        Share on Telegram
+                    </a>
+                    <a id="share-x" href="#" target="_blank"
+                        class="py-3 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl transition text-center text-sm">
+                        Share on X
+                    </a>
+                </div>
+
+                <p class="text-xs text-gray-500 mt-4 text-center">Rewards are distributed off-chain during the beta phase. Tokens remain non-tradable until public liquidity is launched.</p>
+            </div>
+
+            <div class="mt-6 grid grid-cols-2 gap-3">
+                <a href="https://t.me/sportsbeepnews" target="_blank" class="py-3 bg-[var(--c-accent-orange)] hover:bg-orange-600 text-white font-bold rounded-xl transition text-center">
+                    Join Telegram
+                </a>
+                <a href="/" class="py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-xl transition text-center">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+
+        <div class="mt-12 bg-[var(--c-bg-card)] rounded-2xl p-8 border border-gray-700/50">
+            <h3 class="text-xl font-bold text-white mb-2">Referral Rewards Program</h3>
+            <p class="text-[var(--c-accent-orange)] font-semibold text-sm mb-6">Closed Beta Only</p>
+            <p class="text-gray-400 text-sm mb-6">Earn <span class="text-[var(--c-accent-orange)] font-bold">100 $BEEP</span> for every <span class="text-white font-bold">10 verified referrals</span> you bring into the SPORTSBEEP ecosystem.</p>
+
+            <div class="space-y-4">
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 bg-[var(--c-accent-orange)]/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="text-[var(--c-accent-orange)] font-bold text-sm">1</span>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white">Register Your Wallet</p>
+                        <p class="text-sm text-gray-400">Submit your Cardano wallet address through the form above.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 bg-[var(--c-accent-orange)]/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="text-[var(--c-accent-orange)] font-bold text-sm">2</span>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white">Get Your Referral Link</p>
+                        <p class="text-sm text-gray-400">After registering, you receive a unique referral link to share.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 bg-[var(--c-accent-orange)]/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="text-[var(--c-accent-orange)] font-bold text-sm">3</span>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white">Refer 10 People</p>
+                        <p class="text-sm text-gray-400">When 10 people register using your referral link, you earn 100 $BEEP.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 bg-[var(--c-accent-orange)]/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="text-[var(--c-accent-orange)] font-bold text-sm">4</span>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white">Receive Tokens</p>
+                        <p class="text-sm text-gray-400">Rewards are distributed off-chain to your wallet. Tokens remain non-tradable until public liquidity launches.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-xs text-gray-500">
+                $BEEP is in pre-liquidity beta. Tokens are off-market. No public trading is available until the app launches and liquidity is seeded.
+            </p>
+        </div>
+    </main>
+
+    <div id="toast" class="fixed bottom-6 right-6 p-4 rounded-xl shadow-2xl transition-all duration-300 hidden opacity-0 text-white max-w-md text-sm z-50"></div>
+
+    <script>
+        let referredByCode = '';
+
+        function init() {
+            const params = new URLSearchParams(window.location.search);
+            referredByCode = params.get('ref') || '';
+            if (referredByCode) {
+                document.getElementById('referred-banner').classList.remove('hidden');
+            }
+        }
+
+        async function submitRegistration() {
+            const label = document.getElementById('reg-label').value.trim();
+            const address = document.getElementById('reg-address').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const btn = document.getElementById('submit-btn');
+
+            if (!label) {
+                showToast('Please enter your name or label.', 'error');
+                return;
+            }
+            if (!address || !address.startsWith('addr1')) {
+                showToast('Please enter a valid Cardano wallet address (starts with addr1).', 'error');
+                return;
+            }
+            if (address.length < 50) {
+                showToast('Wallet address appears too short. Please check and try again.', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ label, address, email, referredBy: referredByCode })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSuccess(data.referralCode);
+                } else if (response.status === 409 && data.referralCode) {
+                    showSuccess(data.referralCode);
+                    showToast('Welcome back! Your wallet was already registered.', 'success');
+                } else {
+                    showToast(data.error || 'Registration failed. Please try again.', 'error');
+                    btn.disabled = false;
+                    btn.textContent = 'Submit Registration';
+                }
+            } catch (error) {
+                showToast('Network error. Please try again.', 'error');
+                btn.disabled = false;
+                btn.textContent = 'Submit Registration';
+            }
+        }
+
+        function showSuccess(referralCode) {
+            document.getElementById('registration-form-container').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+
+            const baseUrl = window.location.origin + '/register.html?ref=' + referralCode;
+            document.getElementById('referral-link').value = baseUrl;
+            document.getElementById('display-referral-code').textContent = referralCode;
+
+            const shareText = encodeURIComponent('Join SPORTSBEEP and earn $BEEP tokens! Register with my referral link:');
+            document.getElementById('share-telegram').href = `https://t.me/share/url?url=${encodeURIComponent(baseUrl)}&text=${shareText}`;
+            document.getElementById('share-x').href = `https://x.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(baseUrl)}`;
+
+            loadReferralStats(referralCode);
+        }
+
+        async function loadReferralStats(code) {
+            try {
+                const response = await fetch('/api/referral-stats?code=' + code);
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('display-referral-count').textContent = data.referralCount;
+                    document.getElementById('display-rewards').textContent = data.rewardsEarned + ' $BEEP';
+                }
+            } catch (e) {
+                console.error('Failed to load referral stats:', e);
+            }
+        }
+
+        async function copyReferralLink() {
+            const link = document.getElementById('referral-link').value;
+            const btn = document.getElementById('copy-btn');
+            try {
+                await navigator.clipboard.writeText(link);
+                btn.textContent = 'Copied!';
+                setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+            } catch (err) {
+                const textArea = document.createElement('textarea');
+                textArea.value = link;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                btn.textContent = 'Copied!';
+                setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+            }
+        }
+
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.remove('hidden', 'opacity-0', 'bg-red-700', 'bg-green-700');
+            toast.classList.add(type === 'success' ? 'bg-green-700' : 'bg-red-700', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 5000);
+        }
+
+        init();
+    </script>
+</body>
+</html>

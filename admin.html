@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPORTSBEEP Admin | Token Distribution Panel</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VY5KGJXXNZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VY5KGJXXNZ');
+    </script>
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script type="module">
+        import * as CSL from 'https://cdn.jsdelivr.net/npm/@emurgo/cardano-serialization-lib-asmjs@11.5.0/cardano_serialization_lib.js';
+        window.CardanoWasm = CSL;
+        window.cslLoaded = true;
+        console.log('CardanoWasm (CSL) loaded successfully');
+        window.dispatchEvent(new Event('csl-loaded'));
+    </script>
+    <style>
+        :root {
+            --c-accent-orange: #F47D30;
+            --c-accent-blue: #00539B;
+            --c-bg: #04172B;
+            --c-bg-light: #002342;
+            --c-text: #E5E7EB;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            background-image: radial-gradient(circle at 1px 1px, var(--c-bg-light) 0.5px, transparent 0);
+            background-size: 50px 50px;
+        }
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid var(--c-accent-orange);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Admin Panel -->
+    <div id="admin-panel">
+        <!-- Navbar -->
+        <nav class="sticky top-0 z-10 bg-[var(--c-bg)]/90 backdrop-blur-sm shadow-xl border-b border-[var(--c-accent-blue)]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center space-x-3">
+                        <img src="logo.png" alt="SPORTSBEEP Logo" class="h-10 w-auto">
+                        <div>
+                            <h1 class="text-xl font-black uppercase text-[var(--c-accent-orange)]">SPORTS<span class="text-white">BEEP</span></h1>
+                            <p class="text-[10px] text-gray-400 -mt-1">ADMIN PANEL</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div id="wallet-status" class="flex items-center space-x-2 text-sm text-red-400">
+                            <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                            <span>No Wallet Connected</span>
+                        </div>
+                        <button id="connect-wallet-btn" onclick="openWalletModal()"
+                            class="px-4 py-2 bg-[var(--c-accent-orange)] text-white text-sm font-bold rounded-lg hover:bg-orange-600 transition">
+                            Connect Wallet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+            <!-- Wallet Balance Section -->
+            <section id="balance-section" class="hidden">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-white/10">
+                        <p class="text-xs text-gray-400 mb-1">Connected Wallet</p>
+                        <p id="display-wallet-name" class="text-lg font-bold text-white">--</p>
+                        <p id="display-wallet-address" class="text-xs text-gray-500 font-mono mt-1 break-all">--</p>
+                    </div>
+                    <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)]/50">
+                        <p class="text-xs text-gray-400 mb-1">ADA Balance</p>
+                        <p id="display-ada-balance" class="text-2xl font-bold text-white">-- ADA</p>
+                    </div>
+                    <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-orange)]/50">
+                        <p class="text-xs text-gray-400 mb-1">$BEEP Balance</p>
+                        <p id="display-beep-balance" class="text-2xl font-bold text-[var(--c-accent-orange)]">-- $BEEP</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Registrations / Allocation Tracker -->
+            <section class="bg-[var(--c-bg-light)] p-8 rounded-xl border border-white/10 shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Allocation Tracker</h2>
+                    <div class="flex space-x-3 items-center">
+                        <span id="registration-count" class="text-sm text-gray-400">0 registrations</span>
+                        <button onclick="loadAllocations()" class="px-3 py-1 bg-gray-700 text-white text-xs rounded-lg hover:bg-gray-600 transition">Refresh</button>
+                        <button onclick="exportAllocations()" class="px-3 py-1 bg-gray-700 text-white text-xs rounded-lg hover:bg-gray-600 transition">Export CSV</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-left text-gray-400 border-b border-gray-700">
+                                <th class="pb-3 pr-4">Date</th>
+                                <th class="pb-3 pr-4">Name / Label</th>
+                                <th class="pb-3 pr-4">Wallet Address</th>
+                                <th class="pb-3 pr-4">Email</th>
+                                <th class="pb-3 pr-4">Referrals</th>
+                                <th class="pb-3 pr-4">Allocation</th>
+                                <th class="pb-3 pr-4">Status</th>
+                                <th class="pb-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocations-table">
+                            <tr>
+                                <td colspan="8" class="text-center text-gray-500 py-8">Loading registrations...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Distribution Form -->
+            <section class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-[var(--c-bg-light)] p-8 rounded-xl border border-white/10 shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-6">Send $BEEP Tokens</h2>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label class="text-sm font-medium text-gray-300 block mb-2">Recipient Cardano Address</label>
+                            <input type="text" id="recipient-address" placeholder="addr1q..."
+                                class="w-full p-4 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-[var(--c-accent-orange)] focus:outline-none font-mono text-sm">
+                            <p id="address-error" class="text-red-400 text-xs mt-1 hidden">Invalid Cardano address. Must start with addr1 or addr_test1</p>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-gray-300 block mb-2">Amount of $BEEP to Send</label>
+                            <input type="number" id="send-amount" placeholder="Enter amount" min="1" step="1"
+                                class="w-full p-4 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-[var(--c-accent-orange)] focus:outline-none text-lg">
+                            <p class="text-xs text-gray-500 mt-1">Available: <span id="available-beep" class="text-[var(--c-accent-orange)]">--</span> $BEEP</p>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-gray-300 block mb-2">Recipient Label (Optional)</label>
+                            <input type="text" id="recipient-label" placeholder="e.g., Beta Tester #1, Founder, etc."
+                                class="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-[var(--c-accent-orange)] focus:outline-none text-sm">
+                        </div>
+
+                        <div class="p-3 bg-blue-900/30 border border-blue-600/40 rounded-lg text-xs text-blue-300">
+                            <p>Each token transfer requires a minimum ADA (~1.5 ADA) to be sent along with the native tokens to satisfy Cardano's minimum UTXO requirement. The exact fee is calculated by the transaction builder.</p>
+                        </div>
+
+                        <!-- Review Section -->
+                        <div id="review-section" class="hidden p-4 bg-gray-800/50 rounded-xl border border-[var(--c-accent-orange)]/30 space-y-2">
+                            <p class="text-sm font-bold text-[var(--c-accent-orange)]">Review Transaction</p>
+                            <div class="text-sm space-y-1">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">To:</span>
+                                    <span id="review-address" class="text-white font-mono text-xs">--</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Amount:</span>
+                                    <span id="review-amount" class="text-[var(--c-accent-orange)] font-bold">--</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Min ADA (auto):</span>
+                                    <span class="text-white">Calculated by builder</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Label:</span>
+                                    <span id="review-label" class="text-white">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-3">
+                            <button id="review-btn" onclick="reviewTransaction()"
+                                class="flex-1 py-4 bg-gray-700 text-white font-bold rounded-xl hover:bg-gray-600 transition text-lg">
+                                Review
+                            </button>
+                            <button id="send-btn" onclick="sendTokens()" disabled
+                                class="flex-1 py-4 bg-gray-600 text-gray-300 font-bold rounded-xl cursor-not-allowed transition text-lg">
+                                Send $BEEP
+                            </button>
+                        </div>
+
+                        <div id="tx-status" class="hidden p-3 rounded-lg text-sm text-center"></div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <div class="bg-[var(--c-bg-light)] p-8 rounded-xl border border-white/10 shadow-lg">
+                        <h2 class="text-2xl font-bold text-white mb-4">Distribution Guide</h2>
+                        <div class="space-y-3 text-sm text-gray-400">
+                            <div class="flex items-start space-x-3">
+                                <span class="text-[var(--c-accent-orange)] font-bold text-lg">1</span>
+                                <p>Connect your wallet containing $BEEP tokens</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-[var(--c-accent-orange)] font-bold text-lg">2</span>
+                                <p>Enter the recipient's Cardano address (addr1...)</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-[var(--c-accent-orange)] font-bold text-lg">3</span>
+                                <p>Enter the amount of $BEEP to send</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="text-[var(--c-accent-orange)] font-bold text-lg">4</span>
+                                <p>Review the details, then confirm and sign in your wallet</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Policy ID Config -->
+                    <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-white/10 shadow-lg">
+                        <h3 class="text-lg font-bold text-white mb-3">Token Configuration</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-1">Policy ID (56 hex characters)</label>
+                                <input type="text" id="config-policy-id" readonly
+                                    class="w-full p-2 rounded-lg bg-gray-800 text-gray-400 border border-gray-700 font-mono text-xs cursor-not-allowed">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-1">Asset Name (Hex encoded) = "SPORTSBEEP"</label>
+                                <input type="text" id="config-asset-name" readonly
+                                    class="w-full p-2 rounded-lg bg-gray-800 text-gray-400 border border-gray-700 font-mono text-xs cursor-not-allowed">
+                            </div>
+                            <div id="csl-status" class="text-xs text-yellow-400">Checking library...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transaction History -->
+            <section class="bg-[var(--c-bg-light)] p-8 rounded-xl border border-white/10 shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Distribution History</h2>
+                    <div class="flex space-x-3 items-center">
+                        <span id="total-distributed" class="text-sm text-[var(--c-accent-orange)] font-bold">0 $BEEP distributed</span>
+                        <button onclick="exportHistory()" class="px-3 py-1 bg-gray-700 text-white text-xs rounded-lg hover:bg-gray-600 transition">Export CSV</button>
+                        <button onclick="clearHistory()" class="px-3 py-1 bg-red-900/50 text-red-400 text-xs rounded-lg hover:bg-red-900 transition">Clear</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-left text-gray-400 border-b border-gray-700">
+                                <th class="pb-3 pr-4">Date</th>
+                                <th class="pb-3 pr-4">Recipient</th>
+                                <th class="pb-3 pr-4">Label</th>
+                                <th class="pb-3 pr-4">Amount</th>
+                                <th class="pb-3">Tx Hash</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table">
+                            <tr>
+                                <td colspan="5" class="text-center text-gray-500 py-8">No distributions yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="py-6 border-t border-[var(--c-accent-blue)]/50">
+            <p class="text-xs text-gray-500 text-center">SPORTSBEEP Admin Panel | Powered by LAD MEDIA</p>
+        </footer>
+    </div>
+
+    <!-- Wallet Selection Modal -->
+    <div id="wallet-modal" class="fixed inset-0 z-20 hidden bg-black bg-opacity-70 flex items-center justify-center p-4" onclick="if(event.target===this)this.classList.add('hidden')">
+        <div class="bg-[var(--c-bg-light)] w-full max-w-sm p-6 rounded-xl shadow-2xl border border-[var(--c-accent-blue)]" onclick="event.stopPropagation()">
+            <h3 class="text-2xl font-bold text-white mb-6 text-center">Select CIP-30 Wallet</h3>
+            <div id="wallet-list" class="space-y-4">
+                <p class="text-gray-400 text-center">Checking for available wallets...</p>
+            </div>
+            <button onclick="document.getElementById('wallet-modal').classList.add('hidden')" class="w-full mt-6 py-2 bg-gray-700 rounded-lg text-sm text-gray-300 hover:bg-gray-600 transition">Close</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="fixed inset-0 z-30 hidden bg-black bg-opacity-70 flex items-center justify-center p-4">
+        <div class="bg-[var(--c-bg-light)] w-full max-w-md p-8 rounded-xl shadow-2xl border border-[var(--c-accent-orange)]">
+            <h3 class="text-xl font-bold text-white mb-4 text-center">Confirm Distribution</h3>
+            <div class="space-y-3 mb-6">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-400">Sending:</span>
+                    <span id="confirm-amount" class="text-[var(--c-accent-orange)] font-bold">--</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-400">To:</span>
+                    <span id="confirm-address" class="text-white font-mono text-xs">--</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-400">+ Min ADA:</span>
+                    <span class="text-white">~1.5 ADA (auto-calculated)</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-400">Network Fee:</span>
+                    <span class="text-white">Auto-calculated</span>
+                </div>
+            </div>
+            <p class="text-xs text-yellow-400 text-center mb-4">Your wallet will ask you to sign. Review carefully before confirming.</p>
+            <div class="flex space-x-3">
+                <button onclick="document.getElementById('confirm-modal').classList.add('hidden')" class="flex-1 py-3 bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition">Cancel</button>
+                <button id="confirm-send-btn" onclick="executeSend()" class="flex-1 py-3 bg-[var(--c-accent-orange)] text-white font-bold rounded-xl hover:bg-orange-600 transition">Confirm & Sign</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 p-4 rounded-xl shadow-2xl transition-all duration-300 hidden opacity-0 text-white max-w-md text-sm"></div>
+
+    <script>
+        const BEEP_POLICY_ID = 'a221e11c9d474ac3709911161bcfd02969d268e927089d3c55a4c3c2';
+        const BEEP_ASSET_NAME_HEX = '42454550';
+
+        localStorage.removeItem('beep_policy_id');
+        localStorage.removeItem('beep_asset_name');
+
+        let walletApi = null;
+        let walletName = null;
+        let userAddressHex = null;
+        let userAddressBech32 = null;
+        let currentBeepBalance = 0;
+        let distributionHistory = [];
+
+        async function loadDistributionHistory() {
+            try {
+                const response = await fetch('/api/distributions', { credentials: 'include' });
+                if (response.ok) {
+                    distributionHistory = await response.json();
+                }
+            } catch (e) {
+                console.error('Failed to load distribution history:', e);
+            }
+            renderHistory();
+        }
+
+        async function testCSLConfig() {
+            if (!window.cslLoaded || !window.CardanoWasm) return;
+            const CSL = window.CardanoWasm;
+            try {
+                const methods = Object.getOwnPropertyNames(CSL.TransactionBuilderConfigBuilder.prototype).filter(m => !m.startsWith('__'));
+                console.log('ConfigBuilder methods:', methods);
+                let cb = CSL.TransactionBuilderConfigBuilder.new();
+                cb = cb.fee_algo(CSL.LinearFee.new(CSL.BigNum.from_str('44'), CSL.BigNum.from_str('155381')));
+                cb = cb.pool_deposit(CSL.BigNum.from_str('500000000'));
+                cb = cb.key_deposit(CSL.BigNum.from_str('2000000'));
+                cb = cb.max_tx_size(16384);
+                cb = cb.max_value_size(5000);
+                cb = cb.ex_unit_prices(CSL.ExUnitPrices.new(
+                    CSL.UnitInterval.new(CSL.BigNum.from_str('577'), CSL.BigNum.from_str('10000')),
+                    CSL.UnitInterval.new(CSL.BigNum.from_str('721'), CSL.BigNum.from_str('10000000'))
+                ));
+                cb = cb.coins_per_utxo_byte(CSL.BigNum.from_str('4310'));
+                cb = cb.prefer_pure_change(true);
+                const config = cb.build();
+                console.log('CSL CONFIG TEST: SUCCESS - TransactionBuilderConfig built OK');
+                const statusEl = document.getElementById('csl-status');
+                if (statusEl) {
+                    statusEl.textContent = 'Library loaded & config test passed';
+                    statusEl.className = 'text-xs text-green-400';
+                }
+            } catch (e) {
+                console.error('CSL CONFIG TEST FAILED:', e.message);
+                const statusEl = document.getElementById('csl-status');
+                if (statusEl) {
+                    statusEl.textContent = 'Config test FAILED: ' + e.message;
+                    statusEl.className = 'text-xs text-red-400';
+                }
+            }
+        }
+
+        function init() {
+            document.getElementById('config-policy-id').value = BEEP_POLICY_ID;
+            document.getElementById('config-asset-name').value = BEEP_ASSET_NAME_HEX;
+            loadDistributionHistory();
+
+            document.getElementById('csl-status').textContent = window.cslLoaded ? 'Library loaded' : 'Loading...';
+            document.getElementById('csl-status').className = window.cslLoaded
+                ? 'text-xs text-green-400' : 'text-xs text-yellow-400';
+
+            if (window.cslLoaded) {
+                testCSLConfig();
+            } else {
+                window.addEventListener('csl-loaded', () => testCSLConfig());
+            }
+        }
+
+        // --- Config ---
+        function isValidHex(str) {
+            return /^[0-9a-fA-F]+$/.test(str);
+        }
+
+        // --- Wallet Connection ---
+        function openWalletModal() {
+            if (walletApi) {
+                disconnectWallet();
+                return;
+            }
+            populateWalletList();
+            document.getElementById('wallet-modal').classList.remove('hidden');
+        }
+
+        function populateWalletList() {
+            const walletList = document.getElementById('wallet-list');
+
+            const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (typeof window.cardano === 'undefined') {
+                if (isMobile) {
+                    walletList.innerHTML = `
+                        <div class="text-center space-y-4">
+                            <p class="text-yellow-400 font-semibold">Mobile device detected</p>
+                            <p class="text-sm text-gray-400">To connect your wallet on mobile, open this page in your wallet's built-in dApp browser:</p>
+                            <ol class="text-sm text-gray-300 text-left space-y-2 mt-3">
+                                <li>1. Open your wallet app (VESPR, Eternl, Yoroi, etc.)</li>
+                                <li>2. Find the dApp browser / browser tab inside the app</li>
+                                <li>3. Navigate to <span class="text-[var(--c-accent-orange)] font-mono">sportsbeep.com/admin.html</span></li>
+                                <li>4. Your wallet will appear automatically for connection</li>
+                            </ol>
+                            <div class="mt-4 space-y-2">
+                                <a href="https://vespr.xyz" target="_blank" class="block w-full p-3 bg-gray-800 rounded-lg text-center text-white hover:bg-gray-700 transition">Open VESPR Wallet</a>
+                                <a href="https://eternl.io" target="_blank" class="block w-full p-3 bg-gray-800 rounded-lg text-center text-white hover:bg-gray-700 transition">Open Eternl Wallet</a>
+                            </div>
+                        </div>`;
+                } else {
+                    walletList.innerHTML = `
+                        <div class="text-center space-y-4">
+                            <p class="text-red-400">No Cardano wallets detected.</p>
+                            <p class="text-sm text-gray-400">Install a CIP-30 compatible wallet extension (Eternl, Nami, Lace, VESPR, etc.)</p>
+                            <div class="mt-3 space-y-2">
+                                <a href="https://vespr.xyz" target="_blank" class="block w-full p-3 bg-gray-800 rounded-lg text-center text-blue-400 hover:bg-gray-700 transition text-sm">Install VESPR →</a>
+                                <a href="https://eternl.io" target="_blank" class="block w-full p-3 bg-gray-800 rounded-lg text-center text-blue-400 hover:bg-gray-700 transition text-sm">Install Eternl →</a>
+                                <a href="https://namiwallet.io" target="_blank" class="block w-full p-3 bg-gray-800 rounded-lg text-center text-blue-400 hover:bg-gray-700 transition text-sm">Install Nami →</a>
+                            </div>
+                        </div>`;
+                }
+                return;
+            }
+
+            const available = Object.keys(window.cardano).filter(key =>
+                typeof window.cardano[key] === 'object' && typeof window.cardano[key].enable === 'function'
+            );
+
+            if (available.length === 0) {
+                walletList.innerHTML = `<p class="text-red-400 text-center">No active wallets found. Make sure your wallet extension is enabled.</p>`;
+                return;
+            }
+
+            walletList.innerHTML = available.map(key => {
+                const w = window.cardano[key];
+                const name = w.name || key.charAt(0).toUpperCase() + key.slice(1);
+                const icon = w.icon ? `<img src="${w.icon}" class="w-7 h-7 rounded" alt="${name}">` : '<span class="text-2xl text-[var(--c-accent-orange)]">₳</span>';
+                return `
+                    <button onclick="connectWallet('${key}')"
+                        class="w-full flex items-center justify-between p-4 bg-gray-800 rounded-xl hover:bg-[var(--c-accent-orange)]/20 hover:border hover:border-[var(--c-accent-orange)] transition">
+                        <div class="flex items-center space-x-3">
+                            ${icon}
+                            <div class="text-left">
+                                <div class="font-semibold text-white">${name}</div>
+                                <div class="text-xs text-gray-500">CIP-30</div>
+                            </div>
+                        </div>
+                    </button>`;
+            }).join('');
+        }
+
+        async function connectWallet(key) {
+            try {
+                walletApi = await window.cardano[key].enable();
+                walletName = window.cardano[key].name || key;
+
+                const addresses = await walletApi.getUsedAddresses();
+                if (!addresses || addresses.length === 0) {
+                    const unused = await walletApi.getUnusedAddresses();
+                    userAddressHex = unused && unused.length > 0 ? unused[0] : null;
+                } else {
+                    userAddressHex = addresses[0];
+                }
+
+                if (!userAddressHex) {
+                    throw new Error('No address found in wallet');
+                }
+
+                userAddressBech32 = hexToAddr(userAddressHex);
+
+                document.getElementById('wallet-modal').classList.add('hidden');
+                updateWalletUI(true);
+                await refreshBalances();
+                showToast(`Connected to ${walletName}`, 'success');
+            } catch (err) {
+                console.error('Wallet connection failed:', err);
+                showToast(`Connection failed: ${err.message || 'Denied by user'}`, 'error');
+            }
+        }
+
+        function disconnectWallet() {
+            walletApi = null;
+            walletName = null;
+            userAddressHex = null;
+            userAddressBech32 = null;
+            currentBeepBalance = 0;
+            updateWalletUI(false);
+            showToast('Wallet disconnected', 'error');
+        }
+
+        function updateWalletUI(connected) {
+            const status = document.getElementById('wallet-status');
+            const btn = document.getElementById('connect-wallet-btn');
+            const balanceSection = document.getElementById('balance-section');
+
+            if (connected) {
+                status.innerHTML = `<span class="w-2 h-2 rounded-full bg-green-400"></span><span class="text-green-400">${walletName} Connected</span>`;
+                btn.textContent = 'Disconnect';
+                balanceSection.classList.remove('hidden');
+                document.getElementById('display-wallet-name').textContent = walletName;
+                document.getElementById('display-wallet-address').textContent = userAddressBech32 || userAddressHex;
+            } else {
+                status.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-400"></span><span class="text-red-400">No Wallet Connected</span>`;
+                btn.textContent = 'Connect Wallet';
+                balanceSection.classList.add('hidden');
+                document.getElementById('display-ada-balance').textContent = '-- ADA';
+                document.getElementById('display-beep-balance').textContent = '-- $BEEP';
+                document.getElementById('available-beep').textContent = '--';
+            }
+        }
+
+        // --- CBOR Decoder (no CSL dependency) ---
+        function decodeCBOR(hex) {
+            const bytes = hexToBytes(hex);
+            let offset = 0;
+
+            function readByte() { return bytes[offset++]; }
+
+            function readUint(count) {
+                let val = BigInt(0);
+                for (let i = 0; i < count; i++) {
+                    val = (val << BigInt(8)) | BigInt(bytes[offset++]);
+                }
+                return val;
+            }
+
+            function readBytes(len) {
+                const result = bytes.slice(offset, offset + len);
+                offset += len;
+                return result;
+            }
+
+            function decode() {
+                const initial = readByte();
+                const majorType = initial >> 5;
+                const additional = initial & 0x1f;
+
+                let value;
+                if (additional < 24) {
+                    value = BigInt(additional);
+                } else if (additional === 24) {
+                    value = BigInt(readByte());
+                } else if (additional === 25) {
+                    value = readUint(2);
+                } else if (additional === 26) {
+                    value = readUint(4);
+                } else if (additional === 27) {
+                    value = readUint(8);
+                } else if (additional === 31) {
+                    value = BigInt(-1);
+                }
+
+                switch (majorType) {
+                    case 0: return value;
+                    case 1: return -(value + BigInt(1));
+                    case 2: {
+                        const len = Number(value);
+                        return readBytes(len);
+                    }
+                    case 3: {
+                        const len = Number(value);
+                        const strBytes = readBytes(len);
+                        return new TextDecoder().decode(strBytes);
+                    }
+                    case 4: {
+                        const len = Number(value);
+                        const arr = [];
+                        for (let i = 0; i < len; i++) arr.push(decode());
+                        return arr;
+                    }
+                    case 5: {
+                        const len = Number(value);
+                        const map = new Map();
+                        for (let i = 0; i < len; i++) {
+                            const key = decode();
+                            const val = decode();
+                            map.set(key, val);
+                        }
+                        return map;
+                    }
+                    case 6: {
+                        return decode();
+                    }
+                    default:
+                        return null;
+                }
+            }
+
+            return decode();
+        }
+
+        function parseCardanoBalance(hex) {
+            const result = { lovelace: BigInt(0), tokens: new Map() };
+
+            try {
+                const decoded = decodeCBOR(hex);
+
+                if (typeof decoded === 'bigint') {
+                    result.lovelace = decoded;
+                } else if (Array.isArray(decoded) && decoded.length >= 2) {
+                    result.lovelace = typeof decoded[0] === 'bigint' ? decoded[0] : BigInt(0);
+                    const multiasset = decoded[1];
+
+                    if (multiasset instanceof Map) {
+                        for (const [policyIdBytes, assetsMap] of multiasset) {
+                            const policyHex = bytesToHex(policyIdBytes);
+                            if (assetsMap instanceof Map) {
+                                for (const [assetNameBytes, amount] of assetsMap) {
+                                    const assetHex = bytesToHex(assetNameBytes);
+                                    const key = policyHex + '.' + assetHex;
+                                    result.tokens.set(key, typeof amount === 'bigint' ? amount : BigInt(0));
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('CBOR parse error:', e);
+            }
+
+            return result;
+        }
+
+        // --- Balance ---
+        async function refreshBalances() {
+            if (!walletApi) return;
+
+            document.getElementById('display-ada-balance').textContent = 'Loading...';
+            document.getElementById('display-beep-balance').textContent = 'Loading...';
+
+            try {
+                const balanceHex = await walletApi.getBalance();
+                console.log('Raw balance hex:', balanceHex);
+
+                const balance = parseCardanoBalance(balanceHex);
+                console.log('Parsed balance - ADA lovelace:', balance.lovelace.toString());
+                console.log('Parsed tokens:', [...balance.tokens.entries()].map(([k,v]) => k + '=' + v.toString()));
+
+                const adaAmount = (Number(balance.lovelace) / 1_000_000).toFixed(6);
+                document.getElementById('display-ada-balance').textContent = `${adaAmount} ADA`;
+
+                const tokenKey = BEEP_POLICY_ID.toLowerCase() + '.' + BEEP_ASSET_NAME_HEX.toLowerCase();
+                let beepBalance = 0;
+
+                for (const [key, amount] of balance.tokens) {
+                    if (key.toLowerCase() === tokenKey) {
+                        beepBalance = Number(amount);
+                        break;
+                    }
+                }
+
+                console.log('Looking for token key:', tokenKey);
+                console.log('Found BEEP balance:', beepBalance);
+
+                currentBeepBalance = beepBalance;
+                document.getElementById('display-beep-balance').textContent = `${currentBeepBalance.toLocaleString()} $BEEP`;
+                document.getElementById('available-beep').textContent = currentBeepBalance.toLocaleString();
+
+            } catch (err) {
+                console.error('Balance fetch error:', err);
+                document.getElementById('display-ada-balance').textContent = 'Error loading';
+                document.getElementById('display-beep-balance').textContent = 'Error loading';
+                document.getElementById('available-beep').textContent = '0';
+                currentBeepBalance = 0;
+            }
+        }
+
+        // --- Review & Send ---
+        function reviewTransaction() {
+            const addr = document.getElementById('recipient-address').value.trim();
+            const amount = parseInt(document.getElementById('send-amount').value.trim());
+            const label = document.getElementById('recipient-label').value.trim() || 'N/A';
+
+            if (!addr.startsWith('addr1') && !addr.startsWith('addr_test1')) {
+                document.getElementById('address-error').textContent = 'Invalid Cardano address. Must start with addr1 or addr_test1';
+                document.getElementById('address-error').classList.remove('hidden');
+                setTimeout(() => document.getElementById('address-error').classList.add('hidden'), 5000);
+                return;
+            }
+
+            if (addr.length < 50) {
+                document.getElementById('address-error').textContent = 'Address appears too short. Please check and try again.';
+                document.getElementById('address-error').classList.remove('hidden');
+                setTimeout(() => document.getElementById('address-error').classList.add('hidden'), 5000);
+                return;
+            }
+
+            try {
+                if (typeof CardanoWasm !== 'undefined' && CardanoWasm.Address) {
+                    CardanoWasm.Address.from_bech32(addr);
+                }
+            } catch (e) {
+                console.warn('CSL address validation failed, proceeding with basic validation:', e.message);
+            }
+
+            if (!amount || amount <= 0) {
+                showToast('Enter a valid amount greater than 0', 'error');
+                return;
+            }
+
+            if (currentBeepBalance > 0 && amount > currentBeepBalance) {
+                showToast(`Insufficient $BEEP balance. You have ${currentBeepBalance.toLocaleString()}`, 'error');
+                return;
+            }
+
+            if (!walletApi) {
+                showToast('Connect your wallet first', 'error');
+                return;
+            }
+
+            if (!isValidHex(BEEP_POLICY_ID) || BEEP_POLICY_ID.length !== 56) {
+                showToast('Invalid Policy ID. Check Token Configuration.', 'error');
+                return;
+            }
+
+            const truncAddr = addr.slice(0, 20) + '...' + addr.slice(-10);
+            document.getElementById('review-address').textContent = truncAddr;
+            document.getElementById('review-amount').textContent = `${amount.toLocaleString()} $BEEP`;
+            document.getElementById('review-label').textContent = label;
+            document.getElementById('review-section').classList.remove('hidden');
+
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = false;
+            sendBtn.classList.remove('bg-gray-600', 'text-gray-300', 'cursor-not-allowed');
+            sendBtn.classList.add('bg-[var(--c-accent-orange)]', 'text-white', 'hover:bg-orange-600');
+        }
+
+        function sendTokens() {
+            const addr = document.getElementById('recipient-address').value.trim();
+            const amount = parseInt(document.getElementById('send-amount').value.trim());
+
+            const truncAddr = addr.slice(0, 20) + '...' + addr.slice(-10);
+            document.getElementById('confirm-amount').textContent = `${amount.toLocaleString()} $BEEP`;
+            document.getElementById('confirm-address').textContent = truncAddr;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+        }
+
+        async function executeSend() {
+            const recipientAddr = document.getElementById('recipient-address').value.trim();
+            const amount = parseInt(document.getElementById('send-amount').value.trim());
+            const label = document.getElementById('recipient-label').value.trim() || 'N/A';
+
+            document.getElementById('confirm-modal').classList.add('hidden');
+
+            const confirmBtn = document.getElementById('confirm-send-btn');
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Processing...';
+
+            const txStatus = document.getElementById('tx-status');
+            txStatus.classList.remove('hidden', 'bg-green-900/50', 'bg-red-900/50', 'text-green-400', 'text-red-400');
+            txStatus.classList.add('bg-blue-900/50', 'text-blue-400');
+            txStatus.innerHTML = '<span class="spinner"></span> Building transaction...';
+
+            try {
+                const txHash = await buildAndSubmitTokenTx(recipientAddr, amount);
+
+                txStatus.classList.remove('bg-blue-900/50', 'text-blue-400');
+                txStatus.classList.add('bg-green-900/50', 'text-green-400');
+                txStatus.innerHTML = `Transaction submitted! Hash: <a href="https://cardanoscan.io/transaction/${txHash}" target="_blank" class="underline">${txHash.slice(0, 20)}...</a>`;
+
+                addToHistory(recipientAddr, label, amount, txHash);
+                await refreshBalances();
+
+                document.getElementById('recipient-address').value = '';
+                document.getElementById('send-amount').value = '';
+                document.getElementById('recipient-label').value = '';
+                document.getElementById('review-section').classList.add('hidden');
+
+                sendBtn.disabled = true;
+                sendBtn.textContent = 'Send $BEEP';
+                sendBtn.classList.remove('bg-[var(--c-accent-orange)]', 'text-white', 'hover:bg-orange-600');
+                sendBtn.classList.add('bg-gray-600', 'text-gray-300', 'cursor-not-allowed');
+
+                showToast(`${amount.toLocaleString()} $BEEP sent successfully!`, 'success');
+
+            } catch (err) {
+                console.error('Transaction failed:', err);
+                txStatus.classList.remove('bg-blue-900/50', 'text-blue-400');
+                txStatus.classList.add('bg-red-900/50', 'text-red-400');
+                txStatus.textContent = `Failed: ${err.message || 'Transaction denied or error'}`;
+
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send $BEEP';
+
+                showToast('Transaction failed. Check details and try again.', 'error');
+            }
+        }
+
+        async function fetchNetworkParams() {
+            const tipRes = await fetch('/api/cardano/tip', { credentials: 'include' });
+            if (!tipRes.ok) throw new Error('Failed to fetch network tip');
+            const tipData = await tipRes.json();
+            const currentSlot = parseInt(tipData[0].abs_slot);
+            const currentEpoch = parseInt(tipData[0].epoch_no);
+            console.log('Network tip - slot:', currentSlot, 'epoch:', currentEpoch);
+
+            const paramsRes = await fetch('/api/cardano/epoch_params?_epoch_no=' + currentEpoch, { credentials: 'include' });
+            if (!paramsRes.ok) throw new Error('Failed to fetch protocol parameters');
+            const paramsData = await paramsRes.json();
+            const p = paramsData[0];
+            console.log('Protocol params:', JSON.stringify(p, null, 2));
+
+            return {
+                currentSlot,
+                minFeeA: p.min_fee_a.toString(),
+                minFeeB: p.min_fee_b.toString(),
+                poolDeposit: p.pool_deposit,
+                keyDeposit: p.key_deposit,
+                coinsPerUtxoByte: p.coins_per_utxo_size || p.coins_per_utxo_word || '4310',
+                maxTxSize: parseInt(p.max_tx_size) || 16384,
+                maxValSize: parseInt(p.max_val_size) || 5000,
+                priceMem: p.price_mem ? p.price_mem.toString() : '0.0577',
+                priceStep: p.price_step ? p.price_step.toString() : '0.0000721'
+            };
+        }
+
+        // --- Transaction Builder ---
+        async function buildAndSubmitTokenTx(recipientAddrBech32, beepAmount) {
+            const txStatus = document.getElementById('tx-status');
+
+            if (!window.cslLoaded || typeof window.CardanoWasm === 'undefined') {
+                throw new Error('Cardano transaction library not loaded yet. Please wait a few seconds and try again, or hard-refresh the page (Ctrl+Shift+R).');
+            }
+
+            const CSL = window.CardanoWasm;
+            console.log('CSL available');
+
+            try {
+                txStatus.innerHTML = '<span class="spinner"></span> Step 1: Fetching network parameters...';
+                const netParams = await fetchNetworkParams();
+                console.log('Using live protocol params:', netParams);
+
+                txStatus.innerHTML = '<span class="spinner"></span> Step 2: Getting wallet UTXOs...';
+                const utxosHex = await walletApi.getUtxos();
+                if (!utxosHex || utxosHex.length === 0) {
+                    throw new Error('No UTXOs available in wallet. Make sure your wallet has ADA and $BEEP tokens.');
+                }
+                console.log('Got', utxosHex.length, 'UTXOs from wallet');
+
+                const utxos = utxosHex.map(hex => CSL.TransactionUnspentOutput.from_bytes(hexToBytes(hex)));
+
+                txStatus.innerHTML = '<span class="spinner"></span> Step 3: Building transaction...';
+
+                const coinsPerUtxoStr = (netParams.coinsPerUtxoByte || '4310').toString();
+                console.log('coinsPerUtxo value:', coinsPerUtxoStr);
+
+                function toFraction(decimalStr) {
+                    const num = parseFloat(decimalStr);
+                    const denom = 100000000;
+                    const numer = Math.round(num * denom);
+                    return { numerator: numer.toString(), denominator: denom.toString() };
+                }
+
+                const memFrac = toFraction(netParams.priceMem);
+                const stepFrac = toFraction(netParams.priceStep);
+
+                let cb = CSL.TransactionBuilderConfigBuilder.new();
+                cb = cb.fee_algo(CSL.LinearFee.new(
+                    CSL.BigNum.from_str(netParams.minFeeA),
+                    CSL.BigNum.from_str(netParams.minFeeB)
+                ));
+                cb = cb.pool_deposit(CSL.BigNum.from_str(netParams.poolDeposit));
+                cb = cb.key_deposit(CSL.BigNum.from_str(netParams.keyDeposit));
+                cb = cb.max_tx_size(netParams.maxTxSize);
+                cb = cb.max_value_size(netParams.maxValSize);
+                cb = cb.ex_unit_prices(CSL.ExUnitPrices.new(
+                    CSL.UnitInterval.new(CSL.BigNum.from_str(memFrac.numerator), CSL.BigNum.from_str(memFrac.denominator)),
+                    CSL.UnitInterval.new(CSL.BigNum.from_str(stepFrac.numerator), CSL.BigNum.from_str(stepFrac.denominator))
+                ));
+                cb = cb.coins_per_utxo_byte(CSL.BigNum.from_str(coinsPerUtxoStr));
+                cb = cb.prefer_pure_change(true);
+                console.log('Config builder fields set, calling build()...');
+                const txBuilderConfig = cb.build();
+                console.log('TransactionBuilderConfig ready');
+
+                const txBuilder = CSL.TransactionBuilder.new(txBuilderConfig);
+
+                const ttl = netParams.currentSlot + 7200;
+                txBuilder.set_ttl(ttl);
+                console.log('TTL set to:', ttl, '(current slot + 7200)');
+
+                const recipientAddress = CSL.Address.from_bech32(recipientAddrBech32);
+                const policyHash = CSL.ScriptHash.from_bytes(hexToBytes(BEEP_POLICY_ID));
+                const assetName = CSL.AssetName.new(hexToBytes(BEEP_ASSET_NAME_HEX));
+
+                const multiAsset = CSL.MultiAsset.new();
+                const assets = CSL.Assets.new();
+                assets.insert(assetName, CSL.BigNum.from_str(beepAmount.toString()));
+                multiAsset.insert(policyHash, assets);
+
+                const outputValue = CSL.Value.new(CSL.BigNum.from_str('1500000'));
+                outputValue.set_multiasset(multiAsset);
+
+                let minAda = CSL.BigNum.from_str('1500000');
+                try {
+                    const dummyOutput = CSL.TransactionOutput.new(recipientAddress, outputValue);
+                    minAda = CSL.min_ada_for_output(dummyOutput, CSL.DataCost.new_coins_per_byte(coinsPerUtxoByte));
+                    console.log('Calculated min ADA for output:', minAda.to_str());
+                } catch (e) {
+                    console.warn('min_ada_for_output failed, using 1.5 ADA:', e.message);
+                }
+                if (minAda.compare(CSL.BigNum.from_str('1500000')) < 0) {
+                    minAda = CSL.BigNum.from_str('1500000');
+                }
+
+                const finalOutputValue = CSL.Value.new(minAda);
+                finalOutputValue.set_multiasset(multiAsset);
+                txBuilder.add_output(CSL.TransactionOutput.new(recipientAddress, finalOutputValue));
+
+                const remainingUtxos = CSL.TransactionUnspentOutputs.new();
+                let hasBeepToken = false;
+                for (const utxo of utxos) {
+                    const ma = utxo.output().amount().multiasset();
+                    if (ma) {
+                        const policyAssets = ma.get(policyHash);
+                        if (policyAssets) {
+                            const tokenAmount = policyAssets.get(assetName);
+                            if (tokenAmount) {
+                                console.log('Adding UTXO with', tokenAmount.to_str(), '$BEEP tokens as explicit input');
+                                txBuilder.add_input(
+                                    utxo.output().address(),
+                                    utxo.input(),
+                                    utxo.output().amount()
+                                );
+                                hasBeepToken = true;
+                                continue;
+                            }
+                        }
+                    }
+                    remainingUtxos.add(utxo);
+                }
+
+                if (!hasBeepToken) {
+                    throw new Error('No UTXOs contain $BEEP tokens. Make sure your connected wallet holds $BEEP tokens (Policy: ' + BEEP_POLICY_ID.slice(0, 12) + '...)');
+                }
+
+                const changeAddress = CSL.Address.from_bytes(hexToBytes(userAddressHex));
+                if (remainingUtxos.len() > 0) {
+                    txBuilder.add_inputs_from(remainingUtxos, CSL.CoinSelectionStrategyCIP2.LargestFirstMultiAsset);
+                }
+                txBuilder.add_change_if_needed(changeAddress);
+
+                const txBody = txBuilder.build();
+                const unsignedTx = CSL.Transaction.new(txBody, CSL.TransactionWitnessSet.new());
+                const unsignedTxCbor = bytesToHex(unsignedTx.to_bytes());
+                console.log('Transaction built, CBOR length:', unsignedTxCbor.length);
+
+                txStatus.innerHTML = '<span class="spinner"></span> Step 4: Awaiting wallet signature...';
+
+                let witnessSetHex;
+                try {
+                    witnessSetHex = await walletApi.signTx(unsignedTxCbor, false);
+                } catch (signErr) {
+                    console.error('signTx error:', signErr);
+                    let signMsg = typeof signErr === 'string' ? signErr
+                        : signErr?.info || signErr?.message || '';
+                    if (!signMsg) { try { signMsg = JSON.stringify(signErr); } catch(_) { signMsg = String(signErr); } }
+                    throw new Error('Wallet refused to sign: ' + signMsg);
+                }
+                console.log('Transaction signed, witness length:', witnessSetHex.length);
+
+                const witnessSet = CSL.TransactionWitnessSet.from_bytes(hexToBytes(witnessSetHex));
+                const signedTx = CSL.Transaction.new(txBody, witnessSet);
+                const signedTxCbor = bytesToHex(signedTx.to_bytes());
+                console.log('Assembled signed tx, CBOR length:', signedTxCbor.length);
+
+                txStatus.innerHTML = '<span class="spinner"></span> Step 5: Submitting to Cardano network...';
+
+                let txHash;
+                try {
+                    txHash = await walletApi.submitTx(signedTxCbor);
+                } catch (submitErr) {
+                    console.error('submitTx error:', submitErr);
+                    let subMsg = typeof submitErr === 'string' ? submitErr
+                        : submitErr?.info || submitErr?.message || '';
+                    if (!subMsg) { try { subMsg = JSON.stringify(submitErr); } catch(_) { subMsg = String(submitErr); } }
+
+                    console.log('Trying server-side submission as fallback...');
+                    txStatus.innerHTML = '<span class="spinner"></span> Step 5b: Submitting via server...';
+                    try {
+                        const serverRes = await fetch('/api/cardano/submit', {
+                            method: 'POST',
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ txCbor: signedTxCbor })
+                        });
+                        const serverData = await serverRes.json();
+                        if (serverRes.ok && serverData.txHash) {
+                            txHash = serverData.txHash;
+                            console.log('Submitted via server:', txHash);
+                        } else {
+                            console.error('Server submit error:', serverData);
+                            throw new Error('Wallet: ' + subMsg + ' | Network: ' + (serverData.error || JSON.stringify(serverData)));
+                        }
+                    } catch (serverE) {
+                        if (serverE.message && serverE.message.startsWith('Wallet:')) throw serverE;
+                        throw new Error('Wallet: ' + subMsg + ' | Server fallback failed: ' + (serverE.message || serverE));
+                    }
+                }
+                console.log('Transaction submitted:', txHash);
+
+                return txHash;
+
+            } catch (e) {
+                console.error('TX error detail:', e);
+                let errMsg = 'Unknown error';
+                if (typeof e === 'string') {
+                    errMsg = e;
+                } else if (e && e.message) {
+                    errMsg = e.message;
+                } else if (e && e.info) {
+                    errMsg = e.info;
+                } else {
+                    try { errMsg = JSON.stringify(e); } catch (_) { errMsg = String(e); }
+                }
+                throw new Error(errMsg);
+            }
+        }
+
+        // --- History ---
+        async function addToHistory(address, label, amount, txHash) {
+            const entry = {
+                date: new Date().toISOString(),
+                address: address,
+                label: label,
+                amount: amount,
+                txHash: txHash
+            };
+
+            try {
+                await fetch('/api/distributions/add', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(entry)
+                });
+            } catch (e) {
+                console.error('Failed to save distribution to server:', e);
+            }
+            await loadDistributionHistory();
+        }
+
+        function renderHistory() {
+            const tbody = document.getElementById('history-table');
+            if (distributionHistory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500 py-8">No distributions yet</td></tr>';
+                document.getElementById('total-distributed').textContent = '0 $BEEP distributed';
+                return;
+            }
+
+            let totalDist = 0;
+            tbody.innerHTML = distributionHistory.map((entry, index) => {
+                totalDist += entry.amount;
+                const date = new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const truncAddr = entry.address.slice(0, 12) + '...' + entry.address.slice(-6);
+                const truncHash = entry.txHash.slice(0, 12) + '...';
+                return `
+                    <tr class="border-b border-gray-800 hover:bg-gray-800/30">
+                        <td class="py-3 pr-4 text-gray-400 text-xs">${date}</td>
+                        <td class="py-3 pr-4 font-mono text-xs text-white">${truncAddr}</td>
+                        <td class="py-3 pr-4 text-gray-300">${entry.label}</td>
+                        <td class="py-3 pr-4 text-[var(--c-accent-orange)] font-bold">${entry.amount.toLocaleString()} $BEEP</td>
+                        <td class="py-3 flex items-center space-x-2">
+                            <a href="https://cardanoscan.io/transaction/${entry.txHash}" target="_blank" class="text-blue-400 hover:text-blue-300 underline text-xs">${truncHash}</a>
+                            <button onclick="deleteDistributionEntry(${entry.id})"
+                                class="px-2 py-1 bg-red-900/30 text-red-400 text-xs rounded hover:bg-red-900/50 transition" title="Delete this record">✕</button>
+                        </td>
+                    </tr>`;
+            }).join('');
+
+            document.getElementById('total-distributed').textContent = `${totalDist.toLocaleString()} $BEEP distributed`;
+        }
+
+        function clearHistory() {
+            showToast('Use the delete buttons to remove individual entries', 'error');
+        }
+
+        function exportHistory() {
+            if (distributionHistory.length === 0) {
+                showToast('No history to export', 'error');
+                return;
+            }
+            let csv = 'Date,Recipient,Label,Amount,TxHash\n';
+            distributionHistory.forEach(e => {
+                csv += `"${e.date}","${e.address}","${e.label}",${e.amount},"${e.txHash}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `beep_distribution_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // --- Utilities ---
+        function hexToBytes(hex) {
+            const bytes = new Uint8Array(hex.length / 2);
+            for (let i = 0; i < hex.length; i += 2) {
+                bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
+            }
+            return bytes;
+        }
+
+        function bytesToHex(bytes) {
+            return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function hexToAddr(hex) {
+            try {
+                const addr = CardanoWasm.Address.from_bytes(hexToBytes(hex));
+                return addr.to_bech32();
+            } catch {
+                return hex.slice(0, 20) + '...' + hex.slice(-8);
+            }
+        }
+
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.remove('hidden', 'opacity-0', 'bg-red-700', 'bg-green-700');
+            toast.classList.add(type === 'success' ? 'bg-green-700' : 'bg-red-700', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 5000);
+        }
+
+        // --- Allocation Tracker ---
+        let allocations = [];
+
+        async function loadAllocations() {
+            try {
+                const response = await fetch('/api/allocations', { credentials: 'include' });
+                if (!response.ok) throw new Error('Failed to load');
+                allocations = await response.json();
+                renderAllocations();
+            } catch (e) {
+                console.error('Failed to load allocations:', e);
+                document.getElementById('allocations-table').innerHTML =
+                    '<tr><td colspan="8" class="text-center text-gray-500 py-8">Failed to load registrations</td></tr>';
+            }
+        }
+
+        function renderAllocations() {
+            const tbody = document.getElementById('allocations-table');
+            const countEl = document.getElementById('registration-count');
+
+            if (allocations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center text-gray-500 py-8">No registrations yet. Share the registration link with your beta testers.</td></tr>';
+                countEl.textContent = '0 registrations';
+                return;
+            }
+
+            countEl.textContent = `${allocations.length} registration${allocations.length !== 1 ? 's' : ''}`;
+
+            tbody.innerHTML = allocations.map(a => {
+                const truncAddr = a.address ? a.address.slice(0, 15) + '...' + a.address.slice(-6) : '--';
+                const statusColor = a.status === 'sent' ? 'text-green-400' : a.status === 'allocated' ? 'text-yellow-400' : 'text-gray-400';
+                const statusLabel = a.status === 'sent' ? 'Sent' : a.status === 'allocated' ? 'Allocated' : 'Pending';
+                const refCount = (a.referrals || []).length;
+                const refReward = Math.floor(refCount / 10) * 100;
+                const refDisplay = refCount > 0 ? `<span class="text-[var(--c-accent-orange)]">${refCount}</span>` + (refReward > 0 ? ` <span class="text-green-400 text-[10px]">(+${refReward})</span>` : '') : '<span class="text-gray-600">0</span>';
+                return `
+                    <tr class="border-b border-gray-800 hover:bg-gray-800/30">
+                        <td class="py-3 pr-4 text-gray-400 text-xs">${a.registeredAt || '--'}</td>
+                        <td class="py-3 pr-4 text-white font-medium">${a.label || '--'}${a.referredBy ? '<br><span class="text-[10px] text-gray-500">ref: ' + a.referredBy + '</span>' : ''}</td>
+                        <td class="py-3 pr-4 font-mono text-xs text-gray-300 cursor-pointer" title="${a.address}" onclick="fillRecipient('${a.address}', '${(a.label || '').replace(/'/g, "\\'")}')">${truncAddr}</td>
+                        <td class="py-3 pr-4 text-gray-400 text-xs">${a.email || '--'}</td>
+                        <td class="py-3 pr-4 text-xs">${refDisplay}</td>
+                        <td class="py-3 pr-4">
+                            <input type="number" value="${a.amount || ''}" min="0" step="1" placeholder="0"
+                                class="w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white text-xs focus:border-[var(--c-accent-orange)] focus:outline-none"
+                                onchange="updateAllocation('${a.id}', this.value)">
+                        </td>
+                        <td class="py-3 pr-4 ${statusColor} text-xs font-bold">${statusLabel}</td>
+                        <td class="py-3">
+                            <div class="flex space-x-2">
+                                <button onclick="fillRecipient('${a.address}', '${(a.label || '').replace(/'/g, "\\'")}')"
+                                    class="px-2 py-1 bg-[var(--c-accent-orange)]/20 text-[var(--c-accent-orange)] text-xs rounded hover:bg-[var(--c-accent-orange)]/40 transition" title="Send tokens to this address">
+                                    Send
+                                </button>
+                                ${a.status !== 'sent' ? `<button onclick="markAllocated('${a.id}')"
+                                    class="px-2 py-1 bg-yellow-900/30 text-yellow-400 text-xs rounded hover:bg-yellow-900/50 transition" title="Mark as allocated">
+                                    Allocate
+                                </button>` : ''}
+                                <button onclick="deleteAllocation('${a.id}', '${(a.label || '').replace(/'/g, "\\'")}')"
+                                    class="px-2 py-1 bg-red-900/30 text-red-400 text-xs rounded hover:bg-red-900/50 transition" title="Delete this registration">
+                                    ✕
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+            }).join('');
+        }
+
+        function fillRecipient(address, label) {
+            document.getElementById('recipient-address').value = address;
+            document.getElementById('recipient-label').value = label;
+            const allocation = allocations.find(a => a.address === address);
+            if (allocation && allocation.amount) {
+                document.getElementById('send-amount').value = allocation.amount;
+            }
+            document.querySelector('section.grid').scrollIntoView({ behavior: 'smooth' });
+            showToast('Recipient filled from allocation tracker. Review and send.', 'success');
+        }
+
+        async function updateAllocation(id, amount) {
+            try {
+                await fetch('/api/allocations/update', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, amount, status: amount ? 'allocated' : 'pending' })
+                });
+                const a = allocations.find(a => a.id === id);
+                if (a) {
+                    a.amount = amount;
+                    a.status = amount ? 'allocated' : 'pending';
+                    renderAllocations();
+                }
+            } catch (e) {
+                showToast('Failed to update allocation', 'error');
+            }
+        }
+
+        async function deleteAllocation(id, label) {
+            if (!confirm(`Are you sure you want to delete the registration for "${label || id}"? This cannot be undone.`)) return;
+            try {
+                const response = await fetch('/api/allocations/delete', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                if (!response.ok) throw new Error('Failed to delete');
+                allocations = allocations.filter(a => a.id !== id);
+                renderAllocations();
+                showToast(`Registration for "${label}" deleted`, 'success');
+            } catch (e) {
+                showToast('Failed to delete registration', 'error');
+            }
+        }
+
+        async function deleteDistributionEntry(id) {
+            if (!confirm('Are you sure you want to delete this distribution record? This cannot be undone.')) return;
+            try {
+                const response = await fetch('/api/distributions/delete', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                if (!response.ok) throw new Error('Failed to delete');
+                distributionHistory = distributionHistory.filter(d => d.id !== id);
+                renderHistory();
+                showToast('Distribution record deleted', 'success');
+            } catch (e) {
+                showToast('Failed to delete distribution record', 'error');
+            }
+        }
+
+        async function markAllocated(id) {
+            const a = allocations.find(a => a.id === id);
+            if (!a) return;
+            const amount = prompt(`Enter $BEEP allocation for ${a.label}:`, a.amount || '');
+            if (amount === null) return;
+            await updateAllocation(id, amount);
+        }
+
+        async function markSent(id, txHash) {
+            try {
+                await fetch('/api/allocations/update', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, status: 'sent', txHash })
+                });
+                const a = allocations.find(a => a.id === id);
+                if (a) {
+                    a.status = 'sent';
+                    a.txHash = txHash;
+                    renderAllocations();
+                }
+            } catch (e) {
+                showToast('Failed to update status', 'error');
+            }
+        }
+
+        function exportAllocations() {
+            if (allocations.length === 0) {
+                showToast('No allocations to export', 'error');
+                return;
+            }
+            let csv = 'Date,Name,Address,Email,Allocation,Status,TxHash\n';
+            allocations.forEach(a => {
+                csv += `"${a.registeredAt || ''}","${a.label || ''}","${a.address || ''}","${a.email || ''}","${a.amount || ''}","${a.status || ''}","${a.txHash || ''}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `beep_allocations_${new Date().toISOString().slice(0, 10)}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function updateCslStatus() {
+            const el = document.getElementById('csl-status');
+            if (window.cslLoaded && typeof window.CardanoWasm !== 'undefined') {
+                el.textContent = 'Cardano library: Ready';
+                el.className = 'text-xs text-green-400';
+            }
+        }
+
+        window.onload = function() {
+            init();
+            loadAllocations();
+
+            if (window.cslLoaded) {
+                updateCslStatus();
+            } else {
+                window.addEventListener('csl-loaded', () => {
+                    updateCslStatus();
+                    showToast('Cardano library loaded and ready', 'success');
+                });
+                setTimeout(() => {
+                    if (!window.cslLoaded) {
+                        const el = document.getElementById('csl-status');
+                        el.textContent = 'Cardano library: FAILED to load - refresh the page';
+                        el.className = 'text-xs text-red-400';
+                        showToast('Cardano library failed to load. Please hard-refresh (Ctrl+Shift+R).', 'error');
+                    }
+                }, 15000);
+            }
+        };
+    </script>
+</body>
+</html>

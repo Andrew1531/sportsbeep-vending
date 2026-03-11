@@ -337,9 +337,15 @@
                     <input type="hidden" name="_subject" value="New SPORTSBEEP Beta Registration!">
                     <input type="hidden" name="_template" value="table">
                     
-                    <div>
-                        <label class="form-label">Full Name</label>
-                        <input type="text" name="name" class="form-input" placeholder="e.g. John Doe" required>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-input" placeholder="John Doe" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Promo Code</label>
+                            <input type="text" name="promo_code" class="form-input" placeholder="e.g. BEEP-12345">
+                        </div>
                     </div>
                     <div>
                         <label class="form-label">Email Address</label>
@@ -405,7 +411,7 @@
                     <ul class="space-y-4 text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
                         <li><button onclick="showPage('register')" class="hover:text-sb-orange transition bg-transparent border-none p-0 cursor-pointer">Beta Registration</button></li>
                         <li><a href="#" class="hover:text-white transition">Sportsbook (Soon)</a></li>
-                        <li><a href="#" class="hover:text-white transition">Whitepaper</a></li>
+                        <li><a href="https://sportsbeep.com/whitepaper.html" target="_blank" class="hover:text-white transition">Whitepaper</a></li>
                         <li><a href="#" class="hover:text-white transition">Tokenomics</a></li>
                     </ul>
                 </div>
@@ -450,9 +456,11 @@
         function showPage(pageId) {
             window.scrollTo(0, 0);
             ['index-page', 'register-page', 'thanks-page'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
             });
-            document.getElementById(pageId + '-page').classList.remove('hidden');
+            const target = document.getElementById(pageId + '-page');
+            if (target) target.classList.remove('hidden');
         }
 
         function generatePromo() {

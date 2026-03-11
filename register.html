@@ -28,7 +28,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <a href="/" class="flex items-center space-x-3">
-                    <img src="logo.png" alt="SPORTSBEEP Logo" class="h-10 w-auto">
+                    <img src="logo.png" alt="SPORTSBEEP Logo">
                     <h1 class="text-2xl font-black uppercase text-[var(--c-accent-orange)]">
                         SPORTS<span class="text-white">BEEP</span>
                     </h1>
@@ -79,7 +79,7 @@
                     </p>
                 </div>
 
-                <button onclick="submitRegistration()" id="submit-btn"
+                <button onclick="window.submitRegistration()" id="submit-btn"
                     class="w-full py-4 bg-[var(--c-accent-orange)] hover:bg-orange-600 text-white font-bold text-lg rounded-xl transition duration-300">
                     Submit Registration
                 </button>
@@ -104,7 +104,7 @@
                 <div class="flex items-center space-x-2 mb-4">
                     <input type="text" id="referral-link" readonly
                         class="flex-1 px-4 py-3 bg-[var(--c-bg-dark)] border border-gray-600 rounded-xl text-white font-mono text-sm">
-                    <button onclick="copyReferralLink()" id="copy-btn"
+                    <button onclick="window.copyReferralLink()" id="copy-btn"
                         class="px-4 py-3 bg-[var(--c-accent-orange)] hover:bg-orange-600 text-white font-bold rounded-xl transition whitespace-nowrap">
                         Copy
                     </button>
@@ -203,7 +203,29 @@
 
     <div id="toast" class="fixed bottom-6 right-6 p-4 rounded-xl shadow-2xl transition-all duration-300 hidden opacity-0 text-white max-w-md text-sm z-50"></div>
 
-    <script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
+        // Import Cloud Firestore specific functions
+        import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDScROvBbA_v-TvvQMZCIdIMVo7MuN4abE",
+            authDomain: "sportsbeep-registration.firebaseapp.com",
+            projectId: "sportsbeep-registration",
+            storageBucket: "sportsbeep-registration.firebasestorage.app",
+            messagingSenderId: "473032930500",
+            appId: "1:473032930500:web:03dc1f4e9c4a89e9694591",
+            measurementId: "G-01HE0WV81C"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app); // Initialize Firestore
+
         let referredByCode = '';
 
         function init() {
@@ -214,7 +236,7 @@
             }
         }
 
-        async function submitRegistration() {
+        window.submitRegistration = async function() { // Expose to global scope for onclick
             const label = document.getElementById('reg-label').value.trim();
             const address = document.getElementById('reg-address').value.trim();
             const email = document.getElementById('reg-email').value.trim();
@@ -237,28 +259,46 @@
             btn.textContent = 'Submitting...';
 
             try {
-                const response = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ label, address, email, referredBy: referredByCode })
-                });
+                // Check if address already exists to avoid duplicates
+                const q = query(collection(db, 'registrations'), where('address', '==', address));
+                const querySnapshot = await getDocs(q);
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    showSuccess(data.referralCode);
-                } else if (response.status === 409 && data.referralCode) {
-                    showSuccess(data.referralCode);
+                if (!querySnapshot.empty) {
+                    const existingDoc = querySnapshot.docs[0];
+                    showSuccess(existingDoc.id); // Use existing document ID as referral code
                     showToast('Welcome back! Your wallet was already registered.', 'success');
-                } else {
-                    showToast(data.error || 'Registration failed. Please try again.', 'error');
+                    return; // Exit function after finding existing registration
+                }
+
+
+                // Construct the registration data object
+                const registrationData = {
+                    label: label,
+                    address: address,
+                    email: email,
+                    referredBy: referredByCode || null, // Store who referred this user
+                    registeredAt: new Date().toISOString(),
+                    status: 'pending', // Initial status
+                    referrals: 0, // Initialize referral count for this user
+                    allocatedAmount: 0 // Initialize allocated $BEEP for this user
+                };
+
+                // Add the document to the 'registrations' collection in Firestore
+                const docRef = await addDoc(collection(db, 'registrations'), registrationData);
+                const newReferralCode = docRef.id; // Use Firestore document ID as referral code
+
+                showSuccess(newReferralCode);
+                showToast('Registration successful!', 'success');
+
+            } catch (error) {
+                console.error('Error submitting registration:', error);
+                showToast('Registration failed. Please try again. ' + error.message, 'error');
+            } finally {
+                // Ensure button is re-enabled if error and not successful
+                if (document.getElementById('success-message').classList.contains('hidden')) {
                     btn.disabled = false;
                     btn.textContent = 'Submit Registration';
                 }
-            } catch (error) {
-                showToast('Network error. Please try again.', 'error');
-                btn.disabled = false;
-                btn.textContent = 'Submit Registration';
             }
         }
 
@@ -274,23 +314,16 @@
             document.getElementById('share-telegram').href = `https://t.me/share/url?url=${encodeURIComponent(baseUrl)}&text=${shareText}`;
             document.getElementById('share-x').href = `https://x.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(baseUrl)}`;
 
-            loadReferralStats(referralCode);
+            // For now, client-side referral stats will show 0 without a backend
+            // or more complex client-side queries.
+            // A simple client-side count of direct referrals for the *current* user (if available) would be:
+            // This would require a query that counts documents where 'referredBy' == referralCode.
+            // However, this might be too much data exposed for a no-cost tier without careful rules.
+            document.getElementById('display-referral-count').textContent = '0';
+            document.getElementById('display-rewards').textContent = '0 $BEEP';
         }
 
-        async function loadReferralStats(code) {
-            try {
-                const response = await fetch('/api/referral-stats?code=' + code);
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('display-referral-count').textContent = data.referralCount;
-                    document.getElementById('display-rewards').textContent = data.rewardsEarned + ' $BEEP';
-                }
-            } catch (e) {
-                console.error('Failed to load referral stats:', e);
-            }
-        }
-
-        async function copyReferralLink() {
+        window.copyReferralLink = async function() { // Expose to global scope for onclick
             const link = document.getElementById('referral-link').value;
             const btn = document.getElementById('copy-btn');
             try {
@@ -311,7 +344,7 @@
             }
         }
 
-        function showToast(message, type) {
+        window.showToast = function(message, type) { // Expose to global scope for onclick or other scripts
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.remove('hidden', 'opacity-0', 'bg-red-700', 'bg-green-700');
@@ -323,30 +356,7 @@
             }, 5000);
         }
 
-        init();
+        init(); // Call init when the module loads
     </script>
 </body>
-    <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDScROvBbA_v-TvvQMZCIdIMVo7MuN4abE",
-    authDomain: "sportsbeep-registration.firebaseapp.com",
-    projectId: "sportsbeep-registration",
-    storageBucket: "sportsbeep-registration.firebasestorage.app",
-    messagingSenderId: "473032930500",
-    appId: "1:473032930500:web:03dc1f4e9c4a89e9694591",
-    measurementId: "G-01HE0WV81C"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
 </html>

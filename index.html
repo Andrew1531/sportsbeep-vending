@@ -6,14 +6,13 @@
     <title>SPORTSBEEP | $BEEP Token Allocation</title>
     <!-- Tailwind CSS for rapid layout and modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Importing fonts mentioned in the source code -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Saira+Condensed:wght@400;700;800&family=Saira+Extra+Condensed:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Importing fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Saira+Condensed:wght@400;700;800&family=Saira+Extra+Condensed:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --sb-orange: #f7760d;
             --sb-orange-hover: #ff8c2e;
-            --sb-dark-blue: #0a192f;
             --sb-card-bg: #112240;
         }
 
@@ -23,6 +22,7 @@
             font-family: 'Open Sans', sans-serif;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
         h1, h2, h3, h4 {
@@ -34,7 +34,6 @@
         .sb-orange-text { color: var(--sb-orange); }
         .bg-sb-orange { background-color: var(--sb-orange); }
         
-        /* Merged Header & Hero with Arena Background */
         .hero-banner {
             position: relative;
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=1600');
@@ -54,20 +53,31 @@
             align-items: center;
         }
 
-        .hero-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem 1rem 4rem 1rem;
+        .cta-button {
+            background-color: var(--sb-orange);
+            color: #000;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 800;
+            padding: 1.25rem 3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            box-shadow: 0 0 20px rgba(247, 118, 13, 0.3);
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-button:hover {
+            background-color: var(--sb-orange-hover);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(247, 118, 13, 0.5);
         }
 
         .info-card {
             background-color: var(--sb-card-bg);
             border: 1px solid #233554;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 2.5rem;
             height: 100%;
         }
@@ -102,25 +112,6 @@
             letter-spacing: 0.1em;
         }
 
-        .cta-button {
-            background-color: var(--sb-orange);
-            color: #000;
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 800;
-            padding: 1.25rem 3rem;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.2s;
-            box-shadow: 0 0 20px rgba(247, 118, 13, 0.3);
-        }
-
-        .cta-button:hover {
-            background-color: var(--sb-orange-hover);
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(247, 118, 13, 0.5);
-        }
-
         .phase-line {
             border-bottom: 1px solid #233554;
             padding-bottom: 1.5rem;
@@ -131,302 +122,396 @@
             border-bottom: none;
         }
 
-        /* Modern Footer Styles */
-        footer {
-            background: linear-gradient(to bottom, #050505, #000);
-        }
-        
-        .footer-social-pill {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
-        }
-        
-        .footer-social-pill:hover {
-            background: rgba(247, 118, 13, 0.1);
-            border-color: var(--sb-orange);
-            color: var(--sb-orange);
-            transform: translateY(-2px);
+        .registration-card {
+            background-color: var(--sb-card-bg);
+            border: 1px solid #233554;
+            border-radius: 12px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .legal-block {
-            background: rgba(255, 255, 255, 0.02);
-            border-left: 3px solid var(--sb-orange);
+        .form-input {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid #233554;
+            color: #fff;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 6px;
+            outline: none;
+            font-family: 'Saira Condensed', sans-serif;
+            font-size: 1.1rem;
         }
-        
-        /* Official Logo Styling */
-        .brand-logo {
-            width: 80px;
-            height: auto;
+
+        .form-input:focus {
+            border-color: var(--sb-orange);
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .form-label {
             display: block;
-        }
-        
-        .check-list li {
-            position: relative;
-            padding-left: 24px;
-            margin-bottom: 8px;
-            color: #94a3b8;
-            font-size: 13px;
-        }
-        
-        .check-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
+            text-transform: uppercase;
+            font-family: 'Saira Condensed', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
             color: var(--sb-orange);
-            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-box {
+            background: #000;
+            border: 2px dashed var(--sb-orange);
+            padding: 1.5rem;
+            font-family: 'Saira Extra Condensed', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 0.1em;
+            color: #fff;
+            position: relative;
+        }
+
+        .hidden { display: none; }
+        .brand-logo { width: 80px; height: auto; }
+
+        .legal-text {
+            font-size: 10px;
+            line-height: 1.6;
+            color: #4b5563;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
         }
     </style>
 </head>
 <body>
 
-    <!-- Hero Banner containing both Header and CTA content -->
-    <div class="hero-banner">
-        <!-- Transparent Header -->
-        <header class="transparent-header">
-            <div class="max-w-7xl mx-auto flex flex-col items-center">
-                <a href="index.html" class="flex items-center group">
-                    <!-- Official Logo Replacement -->
-                    <img src="logo.png" alt="SPORTSBEEP Logo" class="brand-logo transform transition group-hover:scale-110">
-                    <div class="ml-6 text-center md:text-left">
-                        <span class="block font-black text-4xl md:text-6xl italic tracking-tighter leading-none">SPORTS<span class="sb-orange-text">BEEP</span></span>
-                        <span class="block text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400 mt-1">Next-Gen Sports Ecosystem</span>
-                    </div>
-                </a>
+    <header class="transparent-header absolute top-0 left-0 z-50">
+        <button onclick="showPage('index')" class="flex items-center group cursor-pointer bg-transparent border-none">
+            <img src="logo.png" alt="SPORTSBEEP Logo" class="brand-logo transform transition group-hover:scale-110">
+            <div class="ml-6 text-left">
+                <span class="block font-black text-4xl md:text-6xl italic tracking-tighter leading-none">SPORTS<span class="sb-orange-text">BEEP</span></span>
+                <span class="block text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400 mt-1">Next-Gen Sports Ecosystem</span>
             </div>
-        </header>
+        </button>
+    </header>
 
-        <!-- Hero Content Overlay -->
-        <div class="hero-content">
-            <div class="max-w-4xl mx-auto px-4">
+    <!-- LANDING PAGE VIEW -->
+    <div id="index-page">
+        <div class="hero-banner pt-32">
+            <div class="flex-grow flex flex-col justify-center items-center text-center px-4 py-20">
                 <h1 class="text-6xl md:text-8xl font-black mb-6 italic tracking-tight">JOIN THE <span class="sb-orange-text">CLOSED BETA</span></h1>
-                <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
+                <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl font-medium leading-relaxed">
                     Register your Cardano wallet for a chance to receive a <span class="sb-orange-text font-bold">$BEEP</span> token allocation during Phase 1. Earn <span class="sb-orange-text font-bold">100 $BEEP</span> for every <span class="font-bold">10 verified referrals</span>.
                 </p>
                 <div class="space-y-6">
-                    <a href="register.html" class="cta-button text-xl uppercase italic">
-                        Register for $BEEP Allocation
-                    </a>
+                    <button onclick="showPage('register')" class="cta-button text-xl uppercase italic">Register for $BEEP Allocation</button>
                     <p class="text-[10px] font-black uppercase text-gray-500 tracking-[0.3em]">Phase 1 Distribution is currently live</p>
                 </div>
             </div>
         </div>
-    </div>
 
-    <main>
-        <!-- Updated Distribution & Milestones Section: THE ENGINE -->
-        <section class="max-w-7xl mx-auto px-4 py-24">
-            <h2 class="text-5xl font-black mb-16 text-center tracking-tight italic">$BEEP DISTRIBUTION & MILESTONES</h2>
-            <div class="grid lg:grid-cols-2 gap-10">
-                <!-- Key Metrics Card -->
-                <div class="info-card">
-                    <div class="mb-10">
-                        <h3 class="text-3xl font-black italic text-zinc-100 mb-1">KEY METRICS</h3>
-                        <p class="text-xs font-bold text-sb-orange uppercase tracking-widest">Fixed Infrastructure</p>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <div class="flex justify-between border-b border-white/5 pb-4">
-                            <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Initial Price per $BEEP:</span>
-                            <span class="sb-orange-text font-black text-xl">$0.12</span>
+        <main>
+            <!-- DISTRIBUTION & MILESTONES -->
+            <section class="max-w-7xl mx-auto px-4 py-24">
+                <h2 class="text-5xl font-black mb-16 text-center tracking-tight italic">$BEEP DISTRIBUTION & MILESTONES</h2>
+                <div class="grid lg:grid-cols-2 gap-10">
+                    <div class="info-card">
+                        <div class="mb-10">
+                            <h3 class="text-3xl font-black italic text-zinc-100 mb-1 uppercase">Key Metrics</h3>
+                            <p class="text-xs font-bold text-sb-orange uppercase tracking-widest">Fixed Infrastructure</p>
                         </div>
-                        <div class="flex justify-between border-b border-white/5 pb-4">
-                            <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Fixed Total Supply:</span>
-                            <span class="text-white font-black text-xl">10,000,000</span>
-                        </div>
-                        <div class="flex justify-between border-b border-white/5 pb-4">
-                            <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Phase 1:</span>
-                            <span class="text-white font-black text-xl italic uppercase">Closed Beta Allocation</span>
-                        </div>
-                        
-                        <!-- Policy ID Display -->
-                        <div class="bg-black/40 p-5 rounded-lg border border-white/5 mt-8 space-y-3">
-                            <p class="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em]">Official Cardano Policy ID</p>
-                            <code class="block text-[10px] text-sb-orange font-mono break-all leading-relaxed bg-zinc-900/50 p-2 rounded">a221e11c9d474ac3709911161bcfd02969d268e927089d3c55a4c3c2</code>
-                            <div class="flex items-center space-x-2">
-                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                                <span class="text-[9px] text-zinc-400 font-bold uppercase italic">Policy locked since 2025-10-14 18:31:24 UTC</span>
+                        <div class="space-y-6">
+                            <div class="flex justify-between border-b border-white/5 pb-4">
+                                <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Initial Price per $BEEP:</span>
+                                <span class="sb-orange-text font-black text-xl">$0.12</span>
                             </div>
+                            <div class="flex justify-between border-b border-white/5 pb-4">
+                                <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Fixed Total Supply:</span>
+                                <span class="text-white font-black text-xl">10,000,000</span>
+                            </div>
+                            <div class="flex justify-between border-b border-white/5 pb-4">
+                                <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Phase 1:</span>
+                                <span class="text-white font-black text-xl italic uppercase">Closed Beta Allocation</span>
+                            </div>
+                            <div class="bg-black/40 p-5 rounded-lg border border-white/5 mt-8 space-y-3">
+                                <p class="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em]">Official Cardano Policy ID</p>
+                                <code class="block text-[10px] text-sb-orange font-mono break-all leading-relaxed bg-zinc-900/50 p-2 rounded">a221e11c9d474ac3709911161bcfd02969d268e927089d3c55a4c3c2</code>
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                    <span class="text-[9px] text-zinc-400 font-bold uppercase italic">Policy locked since 2025-10-14 18:31:24 UTC</span>
+                                </div>
+                            </div>
+                            <p class="text-[9px] text-zinc-500 italic font-bold">*Phase 1 valuation is illustrative. Actual market pricing will be established after public liquidity launch.</p>
                         </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="mb-10">
+                            <h3 class="text-3xl font-black italic text-zinc-100 mb-1 uppercase">Phased Distribution Plan</h3>
+                            <p class="text-xs font-bold text-sb-orange uppercase tracking-widest">Ecosystem Roadmap</p>
+                        </div>
+                        <div class="space-y-8">
+                            <div class="phase-line">
+                                <h4 class="sb-orange-text text-xl font-black mb-2 tracking-tight">Phase 1 — Closed Beta Allocation</h4>
+                                <p class="text-xs text-zinc-400 leading-relaxed">This phase distributes tokens to founders, contributors, and select beta testers only. These tokens are not publicly tradable. Purpose: test app utility, reward early contributors, and prepare controlled liquidity launch.</p>
+                            </div>
+                            <div class="phase-line">
+                                <h4 class="text-white text-xl font-black mb-2 tracking-tight">Phase 2 — Expansion (50,000 $BEEP)</h4>
+                                <p class="text-[10px] text-sb-orange font-black uppercase mb-1">Objective:</p>
+                                <p class="text-xs text-zinc-400 leading-relaxed">Deepen liquidity and raise funds for app development.</p>
+                            </div>
+                            <div class="phase-line">
+                                <h4 class="text-white text-xl font-black mb-2 tracking-tight">Phase 3 — Community Growth (250,000 $BEEP)</h4>
+                                <p class="text-[10px] text-sb-orange font-black uppercase mb-1">Objective:</p>
+                                <p class="text-xs text-zinc-400 leading-relaxed">Launch staking + referral rewards to incentivize holders.</p>
+                            </div>
+                            <p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Remaining Supply (6.2M $BEEP) Reserved for future milestones, ecosystem growth, and community incentives.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                        <p class="text-[11px] text-zinc-500 italic leading-relaxed pt-4">
-                            *Phase 1 valuation is illustrative. Actual market pricing will be established after public liquidity launch.
+            <!-- CARDANO WALLET GUIDES -->
+            <section class="bg-zinc-950 py-24 px-4 border-y border-white/5">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-16">
+                        <p class="text-sb-orange text-xs font-black uppercase tracking-[0.3em] mb-4">Coming from Ethereum or New to Crypto?</p>
+                        <h2 class="text-6xl md:text-7xl font-black italic tracking-tighter">NEW TO CARDANO?</h2>
+                        <p class="text-gray-400 mt-8 max-w-3xl mx-auto text-lg leading-relaxed">
+                            $BEEP lives on the Cardano blockchain. If you currently use MetaMask or another Ethereum wallet, you'll need a Cardano wallet to participate. It only takes 2 minutes to set up.
                         </p>
                     </div>
-                </div>
-
-                <!-- Phased Distribution Plan -->
-                <div class="info-card">
-                    <div class="mb-10">
-                        <h3 class="text-3xl font-black italic text-zinc-100 mb-1">PHASED DISTRIBUTION PLAN</h3>
-                        <p class="text-xs font-bold text-sb-orange uppercase tracking-widest">Ecosystem Roadmap</p>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="wallet-card">
+                            <div class="recommended-badge">Recommended</div>
+                            <div class="text-sb-orange text-3xl mb-4">₳</div>
+                            <h4 class="text-2xl font-black mb-2 italic tracking-tight uppercase">Eternl</h4>
+                            <p class="text-sm text-gray-400 mb-6">Full-featured Cardano wallet with browser extension and mobile app. Great for beginners and power users alike.</p>
+                            <ul class="text-[10px] font-black uppercase tracking-widest text-zinc-500 space-y-3 mb-8">
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-sb-orange rounded-full mr-3"></span> Browser extension + mobile app</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-sb-orange rounded-full mr-3"></span> Multi-account support</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-sb-orange rounded-full mr-3"></span> Built-in dApp connector</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-sb-orange rounded-full mr-3"></span> Hardware wallet support</li>
+                            </ul>
+                            <a href="#" class="mt-auto block text-center bg-sb-orange text-black font-black py-4 rounded-lg text-xs uppercase tracking-widest">Download Eternl</a>
+                        </div>
+                        <div class="wallet-card">
+                            <div class="text-white text-3xl mb-4">₳</div>
+                            <h4 class="text-2xl font-black mb-2 italic tracking-tight uppercase">Lace</h4>
+                            <p class="text-sm text-gray-400 mb-6">Built by IOG (the creators of Cardano). Clean, simple interface designed for ease of use. Perfect if you're brand new.</p>
+                            <ul class="text-[10px] font-black uppercase tracking-widest text-zinc-500 space-y-3 mb-8">
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-white/20 rounded-full mr-3"></span> Official IOG wallet</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-white/20 rounded-full mr-3"></span> Simple, clean interface</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-white/20 rounded-full mr-3"></span> Built-in staking</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-white/20 rounded-full mr-3"></span> Multi-chain coming soon</li>
+                            </ul>
+                            <a href="#" class="mt-auto block text-center bg-white/10 text-white font-black py-4 rounded-lg text-xs uppercase tracking-widest">Download Lace</a>
+                        </div>
+                        <div class="wallet-card">
+                            <div class="text-white text-3xl mb-4">₳</div>
+                            <h4 class="text-2xl font-black mb-2 italic tracking-tight uppercase">Nami</h4>
+                            <p class="text-sm text-gray-400 mb-6">Lightweight browser extension wallet. Minimal and fast — great if you just want to get started quickly.</p>
+                            <ul class="text-[10px] font-black uppercase tracking-widest text-zinc-500 space-y-3 mb-8">
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-white/20 rounded-full mr-3"></span> Lightweight & fast</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-white/20 rounded-full mr-3"></span> Simple browser extension</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-white/20 rounded-full mr-3"></span> One-click dApp connection</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 bg-white/20 rounded-full mr-3"></span> Easy token management</li>
+                            </ul>
+                            <a href="#" class="mt-auto block text-center bg-white/10 text-white font-black py-4 rounded-lg text-xs uppercase tracking-widest">Download Nami</a>
+                        </div>
                     </div>
-
-                    <div class="space-y-8">
-                        <div class="phase-line">
-                            <h4 class="sb-orange-text text-xl font-black mb-3 tracking-tight">Phase 1 — Closed Beta Allocation</h4>
-                            <p class="text-xs text-zinc-400 leading-relaxed">
-                                This phase distributes tokens to founders, contributors, and select beta testers only. These tokens are not publicly tradable. Purpose: test app utility, reward early contributors, and prepare controlled liquidity launch.
-                            </p>
-                        </div>
-
-                        <div class="phase-line">
-                            <h4 class="text-white text-xl font-black mb-3 tracking-tight">Phase 2 — Expansion (50,000 $BEEP)</h4>
-                            <p class="text-[11px] text-zinc-500 font-bold uppercase tracking-widest mb-1">Objective:</p>
-                            <p class="text-xs text-zinc-400 leading-relaxed">
-                                Deepen liquidity and raise funds for app development.
-                            </p>
-                        </div>
-
-                        <div class="phase-line">
-                            <h4 class="text-white text-xl font-black mb-3 tracking-tight">Phase 3 — Community Growth (250,000 $BEEP)</h4>
-                            <p class="text-[11px] text-zinc-500 font-bold uppercase tracking-widest mb-1">Objective:</p>
-                            <p class="text-xs text-zinc-400 leading-relaxed">
-                                Launch staking + referral rewards to incentivize holders.
-                            </p>
-                        </div>
-                        
-                        <div class="bg-black/40 p-4 border-l-2 border-sb-orange">
-                            <p class="text-[11px] text-zinc-400 font-medium italic">
-                                Remaining Supply (6.2M $BEEP) Reserved for future milestones, ecosystem growth, and community incentives.
-                            </p>
-                        </div>
-                    </div>
                 </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- REGISTRATION PAGE VIEW -->
+    <div id="register-page" class="hidden">
+        <div class="hero-banner min-h-screen pt-32 flex flex-col items-center justify-center px-4">
+            <div class="text-center mb-8">
+                <h1 class="text-5xl md:text-7xl font-black italic tracking-tight">BETA <span class="sb-orange-text">ACCESS</span></h1>
+                <p class="text-gray-400 font-medium max-w-md mx-auto mt-4">Complete the form below to register your wallet for the Phase 1 $BEEP token allocation.</p>
             </div>
-        </section>
 
-        <!-- New to Cardano Section -->
-        <section class="bg-zinc-950 py-24 px-4 border-y border-white/5">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-16">
-                    <p class="sb-orange-text font-black text-xs tracking-[0.4em] uppercase mb-4">Coming from Ethereum or New to Crypto?</p>
-                    <h2 class="text-6xl md:text-7xl font-black italic tracking-tighter">NEW TO CARDANO?</h2>
-                    <p class="text-gray-400 mt-8 max-w-3xl mx-auto font-medium text-lg leading-relaxed">
-                        $BEEP lives on the Cardano blockchain. If you currently use MetaMask or another Ethereum wallet, you'll need a Cardano wallet to participate. It only takes 2 minutes to set up.
-                    </p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Eternl -->
-                    <div class="wallet-card">
-                        <div class="recommended-badge">Recommended</div>
-                        <div class="text-4xl font-black mb-6 text-sb-orange">₳</div>
-                        <h4 class="text-2xl font-black mb-3 italic tracking-tight">Eternl</h4>
-                        <p class="text-sm text-gray-400 mb-6 leading-relaxed">Full-featured Cardano wallet with browser extension and mobile app. Great for beginners and power users alike.</p>
-                        <ul class="check-list mb-8 flex-grow">
-                            <li>Browser extension + mobile app</li>
-                            <li>Multi-account support</li>
-                            <li>Built-in dApp connector</li>
-                            <li>Hardware wallet support</li>
-                        </ul>
-                        <a href="#" class="block text-center bg-sb-orange text-black font-black py-4 rounded-lg text-xs uppercase tracking-[0.2em] hover:bg-white transition duration-300">Download Eternl</a>
+            <div class="registration-card w-full max-w-lg">
+                <form id="regForm" action="https://formsubmit.co/ajax/andrew@ladmedia.co" method="POST" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <input type="hidden" name="_subject" value="New SPORTSBEEP Beta Registration!">
+                    <input type="hidden" name="_template" value="table">
+                    
+                    <div>
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-input" placeholder="e.g. John Doe" required>
                     </div>
-
-                    <!-- Lace -->
-                    <div class="wallet-card">
-                        <div class="text-4xl font-black mb-6 text-blue-500">₳</div>
-                        <h4 class="text-2xl font-black mb-3 italic tracking-tight">Lace</h4>
-                        <p class="text-sm text-gray-400 mb-6 leading-relaxed">Built by IOG (the creators of Cardano). Clean, simple interface designed for ease of use. Perfect if you're brand new.</p>
-                        <ul class="check-list mb-8 flex-grow">
-                            <li>Official IOG wallet</li>
-                            <li>Simple, clean interface</li>
-                            <li>Built-in staking</li>
-                            <li>Multi-chain coming soon</li>
-                        </ul>
-                        <a href="#" class="block text-center bg-white/10 text-white font-black py-4 rounded-lg text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition duration-300">Download Lace</a>
+                    <div>
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-input" placeholder="name@example.com" required>
                     </div>
-
-                    <!-- Nami -->
-                    <div class="wallet-card">
-                        <div class="text-4xl font-black mb-6 text-zinc-500">₳</div>
-                        <h4 class="text-2xl font-black mb-3 italic tracking-tight">Nami</h4>
-                        <p class="text-sm text-gray-400 mb-6 leading-relaxed">Lightweight browser extension wallet. Minimal and fast — great if you just want to get started quickly.</p>
-                        <ul class="check-list mb-8 flex-grow">
-                            <li>Lightweight & fast</li>
-                            <li>Simple browser extension</li>
-                            <li>One-click dApp connection</li>
-                            <li>Easy token management</li>
-                        </ul>
-                        <a href="#" class="block text-center bg-white/10 text-white font-black py-4 rounded-lg text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition duration-300">Download Nami</a>
+                    <div>
+                        <label class="form-label">Cardano Wallet Address (Shelley)</label>
+                        <input type="text" name="wallet" class="form-input" placeholder="addr1..." required>
+                        <p class="text-[10px] text-zinc-500 mt-2 italic font-bold">Use Eternl, Lace, or Nami for best compatibility.</p>
                     </div>
-                </div>
+                    <button type="submit" id="submitBtn" class="cta-button w-full text-center uppercase italic font-black text-xl">Confirm Registration</button>
+                </form>
             </div>
-        </section>
-    </main>
+            <button onclick="showPage('index')" class="mt-8 text-xs font-black uppercase tracking-widest text-zinc-500 hover:text-white transition bg-transparent border-none">← Back to Homepage</button>
+        </div>
+    </div>
 
-    <!-- Modern Footer -->
-    <footer class="pt-24 pb-12 px-6">
+    <!-- THANK YOU VIEW -->
+    <div id="thanks-page" class="hidden">
+        <div class="hero-banner min-h-screen pt-32 flex flex-col items-center justify-center px-4 text-center">
+            <div class="mb-6">
+                <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(34,197,94,0.4)]">
+                    <span class="text-black text-4xl font-bold">✓</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black italic tracking-tight mb-2">THANK <span class="sb-orange-text">YOU</span></h1>
+                <p class="text-zinc-400 font-bold uppercase tracking-widest text-sm">Registration Complete. Check your email soon.</p>
+            </div>
+
+            <div class="registration-card w-full max-w-lg">
+                <p class="text-xs font-black uppercase text-sb-orange mb-4 tracking-widest">Your Unique Referral Promo Code</p>
+                <div class="promo-box mb-6" id="promoCodeDisplay">BEEP-XXXXX</div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="copyPromo()" id="copyBtn" class="bg-white/10 hover:bg-white/20 text-white font-black py-4 rounded uppercase text-xs tracking-widest transition">Copy Code</button>
+                    <button onclick="shareTwitter()" class="bg-[#1DA1F2] hover:opacity-90 text-white font-black py-4 rounded uppercase text-xs tracking-widest transition">Tweet Code</button>
+                </div>
+                
+                <p class="mt-8 text-[10px] text-zinc-500 font-bold uppercase leading-relaxed">
+                    Share this code. Once 10 people register using your code, <br>
+                    you'll be credited with an additional <span class="text-white">100 $BEEP</span>.
+                </p>
+            </div>
+
+            <button onclick="showPage('index')" class="mt-8 text-xs font-black uppercase tracking-widest text-zinc-500 hover:text-white transition bg-transparent border-none italic">Return to Ecosystem Home</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="py-24 px-6 border-t border-white/5 bg-black">
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                <!-- Brand Column -->
                 <div class="lg:col-span-2">
-                    <a href="index.html" class="flex items-center mb-6">
-                        <img src="logo.png" alt="SB Logo" class="h-10 w-auto mr-4">
-                        <span class="text-3xl font-black italic tracking-tighter">SPORTS<span class="sb-orange-text">BEEP</span></span>
-                    </a>
-                    <p class="text-zinc-500 text-sm max-w-sm mb-8 leading-relaxed">
-                        The next-generation sports ecosystem built on Cardano. Empowering fans through decentralized utility and community-driven rewards.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="footer-social-pill px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-widest">X</a>
-                        <a href="#" class="footer-social-pill px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-widest">Discord</a>
-                        <a href="#" class="footer-social-pill px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-widest">Telegram</a>
+                    <span class="text-3xl font-black italic tracking-tighter">SPORTS<span class="sb-orange-text">BEEP</span></span>
+                    <p class="text-zinc-500 text-sm max-w-sm mt-4 leading-relaxed font-bold uppercase tracking-wider">The next-generation sports ecosystem built on Cardano. Empowering fans through decentralized utility and community-driven rewards.</p>
+                    <div class="flex space-x-6 mt-8">
+                        <a href="#" class="text-white hover:text-sb-orange font-black text-xs uppercase tracking-widest">X</a>
+                        <a href="#" class="text-white hover:text-sb-orange font-black text-xs uppercase tracking-widest">Discord</a>
+                        <a href="#" class="text-white hover:text-sb-orange font-black text-xs uppercase tracking-widest">Telegram</a>
                     </div>
                 </div>
-
-                <!-- Fast Links -->
                 <div>
                     <h5 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-6 italic">Navigation</h5>
-                    <ul class="space-y-4 text-sm text-zinc-500 font-semibold">
-                        <li><a href="register.html" class="hover:text-sb-orange transition">Beta Registration</a></li>
-                        <li><a href="#" class="hover:text-white transition line-through">Sportsbook (Soon)</a></li>
+                    <ul class="space-y-4 text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
+                        <li><button onclick="showPage('register')" class="hover:text-sb-orange transition bg-transparent border-none p-0 cursor-pointer">Beta Registration</button></li>
+                        <li><a href="#" class="hover:text-white transition">Sportsbook (Soon)</a></li>
                         <li><a href="#" class="hover:text-white transition">Whitepaper</a></li>
                         <li><a href="#" class="hover:text-white transition">Tokenomics</a></li>
                     </ul>
                 </div>
-
-                <!-- Lad Media Credit -->
-                <div class="flex flex-col items-start md:items-end md:text-right">
+                <div>
                     <h5 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-6 italic">Engineering</h5>
-                    <p class="text-zinc-500 text-xs leading-relaxed mb-4">
-                        Designed and Engineered by<br>
-                        <a href="https://ladmedia.co" class="text-white hover:text-sb-orange transition font-black tracking-widest uppercase mt-1 inline-block">LAD MEDIA</a>
+                    <p class="text-[9px] text-zinc-600 uppercase font-black mb-2">Designed and Engineered by</p>
+                    <a href="https://ladmedia.co" class="text-white hover:text-sb-orange transition font-black tracking-widest uppercase text-xl block">LAD MEDIA</a>
+                    <p class="text-[9px] text-zinc-600 uppercase font-black mt-2 tracking-[0.3em]">EST. 2026</p>
+                </div>
+            </div>
+
+            <!-- LEGAL DISCLAIMER -->
+            <div class="border-t border-white/5 pt-12">
+                <h6 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-6 italic">Legal Disclaimer</h6>
+                <div class="mb-10 p-8 bg-zinc-950/50 border border-white/5 rounded-lg">
+                    <p class="legal-text mb-6 italic text-zinc-400">Terms of Service Summary</p>
+                    <p class="legal-text mb-6">
+                        <span class="text-sb-orange">RISK WARNING:</span> Digital assets, including cryptocurrencies and tokens like $BEEP, are highly volatile, carry significant risk, and may not be suitable for all investors. The value can fluctuate dramatically. You should carefully consider whether trading or holding digital assets is suitable for you in light of your financial condition.
                     </p>
-                    <span class="text-[10px] text-zinc-700 font-bold uppercase tracking-widest">EST. 2026</span>
+                    <p class="legal-text mb-6">
+                        <span class="text-sb-orange">BETA PHASE:</span> $BEEP is currently in pre-liquidity closed beta. Tokens are distributed off-chain to founders, contributors, and select beta testers only. Public trading will commence after app utility is live and liquidity is seeded.
+                    </p>
+                    <p class="legal-text">
+                        <span class="text-sb-orange">USER RESPONSIBILITY:</span> You are solely responsible for securing your wallet seed phrase and private keys. LAD MEDIA and SPORTSBEEP are not responsible for lost, stolen, or compromised digital assets.
+                    </p>
                 </div>
-            </div>
-
-            <!-- Legal Disclaimer Area -->
-            <div class="legal-block p-8 md:p-10 mb-12">
-                <div class="grid lg:grid-cols-12 gap-10">
-                    <div class="lg:col-span-3">
-                        <h6 class="text-white font-black text-xs uppercase tracking-[0.2em] mb-4 italic underline decoration-sb-orange underline-offset-8">Legal Disclaimer</h6>
-                        <p class="text-[10px] text-zinc-500 uppercase font-black leading-loose">Terms of Service Summary</p>
+                <div class="flex flex-col md:flex-row justify-between items-center text-[10px] font-bold text-zinc-600 tracking-widest uppercase">
+                    <div class="flex space-x-6">
+                        <span>© 2026 SPORTSBEEP. ALL RIGHTS RESERVED.</span>
+                        <a href="#" class="hover:text-zinc-400">Privacy Policy</a>
+                        <a href="#" class="hover:text-zinc-400">Cookie Settings</a>
                     </div>
-                    <div class="lg:col-span-9 text-xs text-zinc-400 leading-relaxed space-y-6">
-                        <p><strong class="text-zinc-200">RISK WARNING:</strong> Digital assets, including cryptocurrencies and tokens like $BEEP, are highly volatile, carry significant risk, and may not be suitable for all investors. The value can fluctuate dramatically. You should carefully consider whether trading or holding digital assets is suitable for you in light of your financial condition.</p>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <p><strong class="text-zinc-200">BETA PHASE:</strong> $BEEP is currently in pre-liquidity closed beta. Tokens are distributed off-chain to founders, contributors, and select beta testers only. Public trading will commence after app utility is live and liquidity is seeded.</p>
-                            <p><strong class="text-zinc-200">USER RESPONSIBILITY:</strong> You are solely responsible for securing your wallet seed phrase and private keys. LAD MEDIA and SPORTSBEEP are not responsible for lost, stolen, or compromised digital assets.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom Bar -->
-            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold text-zinc-600 tracking-[0.2em] uppercase">
-                <div class="flex flex-col md:flex-row items-center md:space-x-8 space-y-4 md:space-y-0 mb-6 md:mb-0">
-                    <span>© 2026 SPORTSBEEP. ALL RIGHTS RESERVED.</span>
-                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
-                    <a href="#" class="hover:text-white transition">Cookie Settings</a>
-                </div>
-                <div class="text-zinc-800 font-black">
-                    1-800-GAMBLER
+                    <span class="text-zinc-800 font-black mt-4 md:mt-0 italic tracking-[0.5em]">1-800-GAMBLER</span>
                 </div>
             </div>
         </div>
     </footer>
 
+    <script>
+        let currentPromo = "";
+
+        function showPage(pageId) {
+            window.scrollTo(0, 0);
+            ['index-page', 'register-page', 'thanks-page'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(pageId + '-page').classList.remove('hidden');
+        }
+
+        function generatePromo() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let result = 'BEEP-';
+            for (let i = 0; i < 5; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const form = document.getElementById('regForm');
+            const formData = new FormData(form);
+            
+            btn.innerText = "SENDING...";
+            btn.disabled = true;
+
+            currentPromo = generatePromo();
+            document.getElementById('promoCodeDisplay').innerText = currentPromo;
+
+            try {
+                await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+                showPage('thanks');
+            } catch (error) {
+                console.error("Submission error:", error);
+                showPage('thanks');
+            }
+        }
+
+        function copyPromo() {
+            const text = document.getElementById('promoCodeDisplay').innerText;
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "COPIED!";
+            btn.style.color = "#22c55e";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.color = "";
+            }, 2000);
+        }
+
+        function shareTwitter() {
+            const text = encodeURIComponent(`I just registered for the $BEEP token allocation! Use my code ${currentPromo} to join the SPORTSBEEP beta! 🚀 #Cardano #BEEP @SportsBeep`);
+            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+        }
+    </script>
 </body>
 </html>

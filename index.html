@@ -1,1257 +1,432 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPORTSBEEP: Pre-Liquidity Beta | Closed Access Phase</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VY5KGJXXNZ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-VY5KGJXXNZ');
-    </script>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="logo.png">
-
-    <!-- Load Tailwind CSS -->
+    <title>SPORTSBEEP | $BEEP Token Allocation</title>
+    <!-- Tailwind CSS for rapid layout and modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-
-    <script type="module">
-        import * as CSL from 'https://cdn.jsdelivr.net/npm/@emurgo/cardano-serialization-lib-asmjs@11.5.0/cardano_serialization_lib.min.js';
-        window.CardanoWasm = CSL;
-        window.cslLoaded = true;
-    </script>
-
+    <!-- Importing fonts mentioned in the source code -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Saira+Condensed:wght@400;700;800&family=Saira+Extra+Condensed:wght@700;800&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- Custom CSS & Color Palette --- */
         :root {
-            --c-accent-orange: #F47D30;
-            --c-accent-blue: #00539B;
-            --c-bg: #04172B; /* Deep Navy */
-            --c-bg-light: #002342; /* Lighter navy for cards/sections */
-            --c-text: #E5E7EB; /* Light Gray */
+            --sb-orange: #f7760d;
+            --sb-orange-hover: #ff8c2e;
+            --sb-dark-blue: #0a192f;
+            --sb-card-bg: #112240;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--c-bg);
-            color: var(--c-text);
-            /* Subtle background texture */
-            background-image: radial-gradient(circle at 1px 1px, var(--c-bg-light) 0.5px, transparent 0);
-            background-size: 50px 50px;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
-        .hero-title {
-            letter-spacing: -0.05em;
+        h1, h2, h3, h4 {
+            font-family: 'Saira Extra Condensed', sans-serif;
+            text-transform: uppercase;
+            line-height: 1;
         }
 
-        .wallet-icon {
-            width: 28px;
-            height: 28px;
-            fill: currentColor;
+        .sb-orange-text { color: var(--sb-orange); }
+        .bg-sb-orange { background-color: var(--sb-orange); }
+        
+        /* Merged Header & Hero with Arena Background */
+        .hero-banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover;
+            background-position: center;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 2px solid var(--sb-orange);
+        }
+
+        .transparent-header {
+            width: 100%;
+            padding: 2.5rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1rem 4rem 1rem;
+        }
+
+        .info-card {
+            background-color: var(--sb-card-bg);
+            border: 1px solid #233554;
+            border-radius: 8px;
+            padding: 2.5rem;
+            height: 100%;
+        }
+
+        .wallet-card {
+            background-color: var(--sb-card-bg);
+            border: 1px solid #233554;
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
+            transition: transform 0.2s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wallet-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--sb-orange);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: var(--sb-orange);
+            color: #000;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .cta-button {
+            background-color: var(--sb-orange);
+            color: #000;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 800;
+            padding: 1.25rem 3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            box-shadow: 0 0 20px rgba(247, 118, 13, 0.3);
+        }
+
+        .cta-button:hover {
+            background-color: var(--sb-orange-hover);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(247, 118, 13, 0.5);
+        }
+
+        .phase-line {
+            border-bottom: 1px solid #233554;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .phase-line:last-child {
+            border-bottom: none;
+        }
+
+        /* Modern Footer Styles */
+        footer {
+            background: linear-gradient(to bottom, #050505, #000);
+        }
+        
+        .footer-social-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .footer-social-pill:hover {
+            background: rgba(247, 118, 13, 0.1);
+            border-color: var(--sb-orange);
+            color: var(--sb-orange);
+            transform: translateY(-2px);
+        }
+
+        .legal-block {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid var(--sb-orange);
+        }
+        
+        /* Official Logo Styling */
+        .brand-logo {
+            width: 80px;
+            height: auto;
+            display: block;
+        }
+        
+        .check-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        
+        .check-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--sb-orange);
+            font-weight: bold;
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-    <!-- Navbar (Fixed) -->
-    <nav class="sticky top-0 z-10 bg-[var(--c-bg)]/90 backdrop-blur-sm shadow-xl border-b border-[var(--c-accent-blue)]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-3">
-                    <img src="logo.png" alt="SPORTSBEEP Logo" class="h-10 w-auto">
-                    <h1 class="text-2xl font-black uppercase text-[var(--c-accent-orange)]">
-                        SPORTS<span class="text-white">BEEP</span>
-                    </h1>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="#swap-section" class="text-sm font-medium text-gray-500 cursor-default">SWAP (COMING SOON)</a>
-                    <button id="nav-connect-button" class="px-3 py-1.5 text-sm font-semibold rounded-full bg-gray-700 hover:bg-[var(--c-accent-orange)] transition duration-200">
-                        Connect Wallet
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
-
-        <!-- 1. Hero Section -->
-        <section class="text-center pt-8">
-            <p class="text-xl font-bold text-[var(--c-accent-orange)] mb-4 tracking-wider">$BEEP IS IN PRE-LIQUIDITY BETA</p>
-            <h2 class="text-5xl md:text-7xl font-black uppercase text-white hero-title mb-6">
-                CLOSED ACCESS <span class="text-[var(--c-accent-orange)]">PHASE</span>
-            </h2>
-            <p class="max-w-3xl mx-auto text-lg text-gray-300">
-                Phase 1 is reserved for founders, contributors, and beta testers. Public trading will open after app utility is live.
-            </p>
-            <div class="mt-8 flex flex-wrap justify-center gap-4">
-                <a href="https://t.me/sportsbeepnews" target="_blank" rel="noopener noreferrer" class="px-8 py-3 text-lg font-bold rounded-xl text-white bg-[var(--c-accent-orange)] hover:bg-orange-600 transition duration-300">
-                    JOIN TELEGRAM
-                </a>
-                <a href="https://discord.gg/hNaeTP5b" target="_blank" rel="noopener noreferrer" class="px-8 py-3 text-lg font-bold rounded-xl text-white bg-[var(--c-accent-blue)] hover:bg-blue-600 transition duration-300">
-                    JOIN DISCORD
-                </a>
-                <a href="whitepaper.html" target="_blank" class="px-8 py-3 text-lg font-medium rounded-xl border-2 border-white/50 text-white hover:border-[var(--c-accent-orange)] hover:text-[var(--c-accent-orange)] transition duration-300">
-                    READ WHITEPAPER
+    <!-- Hero Banner containing both Header and CTA content -->
+    <div class="hero-banner">
+        <!-- Transparent Header -->
+        <header class="transparent-header">
+            <div class="max-w-7xl mx-auto flex flex-col items-center">
+                <a href="index.html" class="flex items-center group">
+                    <!-- Official Logo Replacement -->
+                    <img src="logo.png" alt="SPORTSBEEP Logo" class="brand-logo transform transition group-hover:scale-110">
+                    <div class="ml-6 text-center md:text-left">
+                        <span class="block font-black text-4xl md:text-6xl italic tracking-tighter leading-none">SPORTS<span class="sb-orange-text">BEEP</span></span>
+                        <span class="block text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400 mt-1">Next-Gen Sports Ecosystem</span>
+                    </div>
                 </a>
             </div>
-        </section>
+        </header>
 
-        <!-- Pre-Liquidity Disclaimer Banner -->
-        <div class="max-w-4xl mx-auto bg-red-900/40 border-2 border-red-500/60 rounded-xl p-4 text-center">
-            <p class="text-red-300 font-bold text-sm md:text-base">
-                <span class="text-red-400">Important:</span> $BEEP is in pre-liquidity beta. Tokens are off-market. No public trading is available until the app launches and liquidity is seeded.
-            </p>
-        </div>
-
-        <!-- Registration & Referral CTA -->
-        <section class="max-w-4xl mx-auto">
-            <div class="bg-gradient-to-r from-[var(--c-accent-orange)]/20 to-[var(--c-accent-blue)]/20 border border-[var(--c-accent-orange)]/40 rounded-2xl p-8 md:p-10">
-                <div class="text-center mb-6">
-                    <h2 class="text-3xl md:text-4xl font-black text-white mb-3">Join the Closed Beta</h2>
-                    <p class="text-gray-300 text-lg max-w-2xl mx-auto">Register your Cardano wallet for a chance to receive a $BEEP token allocation during Phase 1. Earn <span class="text-[var(--c-accent-orange)] font-bold">100 $BEEP</span> for every <span class="text-white font-bold">10 verified referrals</span>.</p>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <a href="/register.html" class="px-8 py-4 bg-[var(--c-accent-orange)] hover:bg-orange-600 text-white font-bold text-lg rounded-xl transition duration-300 shadow-lg shadow-orange-500/20">
+        <!-- Hero Content Overlay -->
+        <div class="hero-content">
+            <div class="max-w-4xl mx-auto px-4">
+                <h1 class="text-6xl md:text-8xl font-black mb-6 italic tracking-tight">JOIN THE <span class="sb-orange-text">CLOSED BETA</span></h1>
+                <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
+                    Register your Cardano wallet for a chance to receive a <span class="sb-orange-text font-bold">$BEEP</span> token allocation during Phase 1. Earn <span class="sb-orange-text font-bold">100 $BEEP</span> for every <span class="font-bold">10 verified referrals</span>.
+                </p>
+                <div class="space-y-6">
+                    <a href="register.html" class="cta-button text-xl uppercase italic">
                         Register for $BEEP Allocation
                     </a>
-                </div>
-                <div class="mt-8 grid grid-cols-3 gap-4 text-center" id="homepage-stats">
-                    <div>
-                        <p class="text-2xl font-black text-[var(--c-accent-orange)]" id="stat-registrations">0</p>
-                        <p class="text-xs text-gray-400 mt-1">Registered</p>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-black text-green-400" id="stat-allocated">0</p>
-                        <p class="text-xs text-gray-400 mt-1">$BEEP Allocated</p>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-black text-blue-400" id="stat-distributed">0</p>
-                        <p class="text-xs text-gray-400 mt-1">$BEEP Distributed</p>
-                    </div>
+                    <p class="text-[10px] font-black uppercase text-gray-500 tracking-[0.3em]">Phase 1 Distribution is currently live</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <hr class="border-[var(--c-accent-blue)]/50">
-
-        <!-- 2. WHY SPORTSBEEP (Features Grid) -->
-        <section class="space-y-10">
-            <h2 class="text-4xl font-extrabold text-center text-white">WHY SPORTSBEEP?</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- Feature Card 1 -->
-                <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)] shadow-xl space-y-3">
-                    <span class="text-4xl text-[var(--c-accent-orange)]">🏆</span>
-                    <h3 class="text-xl font-bold text-white">DAILY FANTASY</h3>
-                    <p class="text-gray-400 text-sm">Play daily, win often. Seamless fantasy sports integration for major leagues.</p>
-                </div>
-
-                <!-- Feature Card 2 -->
-                <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)] shadow-xl space-y-3">
-                    <span class="text-4xl text-[var(--c-accent-orange)]">₳</span>
-                    <h3 class="text-xl font-bold text-white">POWERED BY CARDANO</h3>
-                    <p class="text-gray-400 text-sm">Decentralized, low-fee transactions leveraging the security and stability of the <a href="https://cardano.org/" class="text-[var(--c-accent-orange)] underline hover:text-white transition duration-200">Cardano</a> ecosystem.</p>
-                </div>
-                
-                <!-- Feature Card 3 -->
-                <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)] shadow-xl space-y-3">
-                    <span class="text-4xl text-[var(--c-accent-orange)]">🗳️</span>
-                    <h3 class="text-xl font-bold text-white">COMMUNITY GOVERNANCE</h3>
-                    <p class="text-gray-400 text-sm">Future game modes and feature rollouts are determined by token holders.</p>
-                </div>
-
-                <!-- Feature Card 4 -->
-                <div class="bg-[var(--c-bg-light)] p-6 rounded-xl border border-[var(--c-accent-blue)] shadow-xl space-y-3">
-                    <span class="text-4xl text-[var(--c-accent-orange)]">⚡</span>
-                    <h3 class="text-xl font-bold text-white">INSTANT REWARDS</h3>
-                    <p class="text-gray-400 text-sm">Payouts settled instantly on-chain following contest finalization.</p>
-                </div>
-            </div>
-        </section>
-
-        <hr class="border-[var(--c-accent-blue)]/50">
-
-        <!-- 3. $BEEP TOKENOMICS & ADVANTAGE -->
-        <section class="lg:grid lg:grid-cols-3 gap-12">
-            
-            <!-- Tokenomics Card -->
-            <div class="lg:col-span-1 bg-[var(--c-bg-light)] p-8 rounded-xl border border-[var(--c-accent-orange)]/50 shadow-2xl mb-10 lg:mb-0">
-                <h3 class="text-3xl font-extrabold text-[var(--c-accent-orange)] mb-2">
-                    $BEEP TOKENOMICS
-                </h3>
-                <p class="text-gray-300 mb-6 text-sm font-semibold">THE ENGINE</p>
-                
-                <div class="space-y-4 text-sm">
-                    <!-- Total Supply -->
-                    <div class="border-b border-gray-600 pb-3">
-                        <p class="text-white font-bold text-lg">Total Supply: 10,000,000 BEEP</p>
-                        <p class="text-gray-400 text-xs mt-1">Fixed supply. No inflation.</p>
-                    </div>
-                    
-                    <!-- Phase 1 -->
-                    <div class="border-b border-gray-600 pb-3">
-                        <p class="text-[var(--c-accent-orange)] font-bold">Phase 1: Closed Beta Allocation</p>
-                        <ul class="text-gray-400 text-xs mt-2 space-y-1 pl-4">
-                            <li>• Allocated from the Ecosystem & Rewards pool</li>
-                            <li>• Distributed to founders, contributors, and beta testers</li>
-                            <li>• Off-market and not publicly tradable</li>
-                            <li>• Subject to vesting and lockups as defined in the whitepaper</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Reserved Liquidity -->
-                    <div class="border-b border-gray-600 pb-3">
-                        <p class="text-white font-bold">Reserved Liquidity: 20% of total supply</p>
-                        <ul class="text-gray-400 text-xs mt-2 space-y-1 pl-4">
-                            <li>• Locked until public launch</li>
-                            <li>• Released in phases after confirmed app utility and demand</li>
-                            <li>• Designed to support healthy, sustainable markets</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Treasury Allocation -->
-                    <div class="border-b border-gray-600 pb-3">
-                        <p class="text-white font-bold">Treasury Allocation</p>
-                        <ul class="text-gray-400 text-xs mt-2 space-y-1 pl-4">
-                            <li>• DAO-governed</li>
-                            <li>• Reserved for development, audits, partnerships, and ecosystem growth</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <p class="text-xs text-gray-500 mt-4 pt-3 border-t border-gray-700">
-                    FULL TOKEN DISTRIBUTION, VESTING SCHEDULES, AND GOVERNANCE RULES ARE DETAILED IN THE WHITEPAPER
-                </p>
-                
-                <!-- Key Notes -->
-                <div class="mt-4 p-3 bg-gray-800/50 rounded-lg text-xs text-gray-400 space-y-2">
-                    <p class="font-semibold text-white">Key Notes:</p>
-                    <p>$BEEP powers gameplay, staking, burning, and governance.</p>
-                    <p>No public swaps or liquidity until beta completion and product validation.</p>
-                </div>
-            </div>
-
-            <!-- Advantage List -->
-            <div class="lg:col-span-2 space-y-6">
-                <h3 class="text-3xl font-extrabold text-white">THE $BEEP ADVANTAGE</h3>
-                
-                <div class="space-y-4">
-                    <div class="flex items-start space-x-4 bg-[var(--c-bg-light)] p-4 rounded-lg">
-                        <span class="text-2xl text-[var(--c-accent-orange)] mt-1">🔥</span>
-                        <div>
-                            <p class="text-lg font-bold text-white">Deep Player Engagement</p>
-                            <p class="text-gray-400 text-sm">High engagement rate among daily fantasy players (DFS), ensuring a vibrant and competitive ecosystem from day one.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start space-x-4 bg-[var(--c-bg-light)] p-4 rounded-lg">
-                        <span class="text-2xl text-[var(--c-accent-orange)] mt-1">🛡️</span>
-                        <div>
-                            <p class="text-lg font-bold text-white">Cardano Foundation</p>
-                            <p class="text-gray-400 text-sm">Strong foundation built on <a href="https://cardano.org/" class="text-[var(--c-accent-orange)] underline hover:text-white transition duration-200">Cardano</a>, offering low transaction fees, unparalleled security, and blockchain stability for all operations.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 bg-[var(--c-bg-light)] p-4 rounded-lg">
-                        <span class="text-2xl text-[var(--c-accent-orange)] mt-1">🔁</span>
-                        <div>
-                            <p class="text-lg font-bold text-white">Sustainable Retention</p>
-                            <p class="text-gray-400 text-sm">Unique reward mechanisms designed for long-term retention and continuous player participation, stabilizing the token economy.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start space-x-4 bg-[var(--c-bg-light)] p-4 rounded-lg">
-                        <span class="text-2xl text-[var(--c-accent-orange)] mt-1">👑</span>
-                        <div>
-                            <p class="text-lg font-bold text-white">Community Governance</p>
-                            <p class="text-gray-400 text-sm">The first DFS platform fully governed by community token holders, giving players a direct say in platform development and future features.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <hr class="border-[var(--c-accent-blue)]/50">
-
-        <!-- 4. DISTRIBUTION & MILESTONES -->
-        <section class="space-y-10">
-            <h2 class="text-4xl font-extrabold text-center text-white">$BEEP DISTRIBUTION & MILESTONES</h2>
-            
+    <main>
+        <!-- Updated Distribution & Milestones Section: THE ENGINE -->
+        <section class="max-w-7xl mx-auto px-4 py-24">
+            <h2 class="text-5xl font-black mb-16 text-center tracking-tight italic">$BEEP DISTRIBUTION & MILESTONES</h2>
             <div class="grid lg:grid-cols-2 gap-10">
-                
-                <!-- Key Metrics -->
-                <div class="bg-[var(--c-bg-light)] p-8 rounded-xl border border-white/10 shadow-lg space-y-4">
-                    <h3 class="text-2xl font-bold text-white mb-4">Key Metrics</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-lg font-medium">
-                            <span class="text-gray-400">Initial Price per $BEEP:</span>
-                            <span class="text-[var(--c-accent-orange)] font-bold">$0.12</span>
-                        </div>
-                        <div class="flex justify-between text-lg font-medium">
-                            <span class="text-gray-400">Fixed Total Supply:</span>
-                            <span class="text-white font-bold">10,000,000</span>
-                        </div>
-                        <div class="flex justify-between text-lg font-medium">
-                            <span class="text-gray-400">Phase 1:</span>
-                            <span class="text-white font-bold">Closed Beta Allocation</span>
-                        </div>
+                <!-- Key Metrics Card -->
+                <div class="info-card">
+                    <div class="mb-10">
+                        <h3 class="text-3xl font-black italic text-zinc-100 mb-1">KEY METRICS</h3>
+                        <p class="text-xs font-bold text-sb-orange uppercase tracking-widest">Fixed Infrastructure</p>
                     </div>
-                    <p class="text-sm text-gray-500 pt-4">Currency Accepted: **ADA** (Primary), with future expansion potential to ETH, USDT, BTC, and others.</p>
-                    <p class="text-xs text-gray-500 pt-2 italic">Phase 1 valuation is illustrative. Actual market pricing will be established after public liquidity launch.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex justify-between border-b border-white/5 pb-4">
+                            <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Initial Price per $BEEP:</span>
+                            <span class="sb-orange-text font-black text-xl">$0.12</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/5 pb-4">
+                            <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Fixed Total Supply:</span>
+                            <span class="text-white font-black text-xl">10,000,000</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/5 pb-4">
+                            <span class="text-gray-400 font-semibold uppercase text-xs tracking-wider">Phase 1:</span>
+                            <span class="text-white font-black text-xl italic uppercase">Closed Beta Allocation</span>
+                        </div>
+                        
+                        <!-- Policy ID Display -->
+                        <div class="bg-black/40 p-5 rounded-lg border border-white/5 mt-8 space-y-3">
+                            <p class="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em]">Official Cardano Policy ID</p>
+                            <code class="block text-[10px] text-sb-orange font-mono break-all leading-relaxed bg-zinc-900/50 p-2 rounded">a221e11c9d474ac3709911161bcfd02969d268e927089d3c55a4c3c2</code>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-[9px] text-zinc-400 font-bold uppercase italic">Policy locked since 2025-10-14 18:31:24 UTC</span>
+                            </div>
+                        </div>
+
+                        <p class="text-[11px] text-zinc-500 italic leading-relaxed pt-4">
+                            *Phase 1 valuation is illustrative. Actual market pricing will be established after public liquidity launch.
+                        </p>
+                    </div>
                 </div>
 
-                <!-- Phased Distribution -->
-                <div class="bg-[var(--c-bg-light)] p-8 rounded-xl border border-white/10 shadow-lg">
-                    <h3 class="text-2xl font-bold text-white mb-6">Phased Distribution Plan</h3>
-                    
-                    <ul class="space-y-6">
-                        <li class="border-b border-gray-700 pb-3">
-                            <p class="font-bold text-[var(--c-accent-orange)]">Phase 1 — Closed Beta Allocation</p>
-                            <p class="text-sm text-gray-400 mt-1">This phase distributes tokens to founders, contributors, and select beta testers only. These tokens are not publicly tradable. Purpose: test app utility, reward early contributors, and prepare controlled liquidity launch.</p>
-                        </li>
-                        <li class="border-b border-gray-700 pb-3">
-                            <p class="font-bold text-white">Phase 2 — Expansion (50,000 $BEEP)</p>
-                            <p class="text-sm text-gray-400 mt-1">Objective: Deepen liquidity and raise funds for app development.</p>
-                        </li>
-                        <li class="border-b border-gray-700 pb-3">
-                            <p class="font-bold text-white">Phase 3 — Community Growth (250,000 $BEEP)</p>
-                            <p class="text-sm text-gray-400 mt-1">Objective: Launch staking + referral rewards to incentivize holders.</p>
-                        </li>
-                    </ul>
-                    <p class="text-sm text-gray-500 mt-6">
-                        Remaining Supply (6.2M $BEEP) Reserved for future milestones, ecosystem growth, and community incentives.
+                <!-- Phased Distribution Plan -->
+                <div class="info-card">
+                    <div class="mb-10">
+                        <h3 class="text-3xl font-black italic text-zinc-100 mb-1">PHASED DISTRIBUTION PLAN</h3>
+                        <p class="text-xs font-bold text-sb-orange uppercase tracking-widest">Ecosystem Roadmap</p>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="phase-line">
+                            <h4 class="sb-orange-text text-xl font-black mb-3 tracking-tight">Phase 1 — Closed Beta Allocation</h4>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                This phase distributes tokens to founders, contributors, and select beta testers only. These tokens are not publicly tradable. Purpose: test app utility, reward early contributors, and prepare controlled liquidity launch.
+                            </p>
+                        </div>
+
+                        <div class="phase-line">
+                            <h4 class="text-white text-xl font-black mb-3 tracking-tight">Phase 2 — Expansion (50,000 $BEEP)</h4>
+                            <p class="text-[11px] text-zinc-500 font-bold uppercase tracking-widest mb-1">Objective:</p>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Deepen liquidity and raise funds for app development.
+                            </p>
+                        </div>
+
+                        <div class="phase-line">
+                            <h4 class="text-white text-xl font-black mb-3 tracking-tight">Phase 3 — Community Growth (250,000 $BEEP)</h4>
+                            <p class="text-[11px] text-zinc-500 font-bold uppercase tracking-widest mb-1">Objective:</p>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Launch staking + referral rewards to incentivize holders.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-black/40 p-4 border-l-2 border-sb-orange">
+                            <p class="text-[11px] text-zinc-400 font-medium italic">
+                                Remaining Supply (6.2M $BEEP) Reserved for future milestones, ecosystem growth, and community incentives.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New to Cardano Section -->
+        <section class="bg-zinc-950 py-24 px-4 border-y border-white/5">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <p class="sb-orange-text font-black text-xs tracking-[0.4em] uppercase mb-4">Coming from Ethereum or New to Crypto?</p>
+                    <h2 class="text-6xl md:text-7xl font-black italic tracking-tighter">NEW TO CARDANO?</h2>
+                    <p class="text-gray-400 mt-8 max-w-3xl mx-auto font-medium text-lg leading-relaxed">
+                        $BEEP lives on the Cardano blockchain. If you currently use MetaMask or another Ethereum wallet, you'll need a Cardano wallet to participate. It only takes 2 minutes to set up.
                     </p>
                 </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Eternl -->
+                    <div class="wallet-card">
+                        <div class="recommended-badge">Recommended</div>
+                        <div class="text-4xl font-black mb-6 text-sb-orange">₳</div>
+                        <h4 class="text-2xl font-black mb-3 italic tracking-tight">Eternl</h4>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed">Full-featured Cardano wallet with browser extension and mobile app. Great for beginners and power users alike.</p>
+                        <ul class="check-list mb-8 flex-grow">
+                            <li>Browser extension + mobile app</li>
+                            <li>Multi-account support</li>
+                            <li>Built-in dApp connector</li>
+                            <li>Hardware wallet support</li>
+                        </ul>
+                        <a href="#" class="block text-center bg-sb-orange text-black font-black py-4 rounded-lg text-xs uppercase tracking-[0.2em] hover:bg-white transition duration-300">Download Eternl</a>
+                    </div>
+
+                    <!-- Lace -->
+                    <div class="wallet-card">
+                        <div class="text-4xl font-black mb-6 text-blue-500">₳</div>
+                        <h4 class="text-2xl font-black mb-3 italic tracking-tight">Lace</h4>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed">Built by IOG (the creators of Cardano). Clean, simple interface designed for ease of use. Perfect if you're brand new.</p>
+                        <ul class="check-list mb-8 flex-grow">
+                            <li>Official IOG wallet</li>
+                            <li>Simple, clean interface</li>
+                            <li>Built-in staking</li>
+                            <li>Multi-chain coming soon</li>
+                        </ul>
+                        <a href="#" class="block text-center bg-white/10 text-white font-black py-4 rounded-lg text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition duration-300">Download Lace</a>
+                    </div>
+
+                    <!-- Nami -->
+                    <div class="wallet-card">
+                        <div class="text-4xl font-black mb-6 text-zinc-500">₳</div>
+                        <h4 class="text-2xl font-black mb-3 italic tracking-tight">Nami</h4>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed">Lightweight browser extension wallet. Minimal and fast — great if you just want to get started quickly.</p>
+                        <ul class="check-list mb-8 flex-grow">
+                            <li>Lightweight & fast</li>
+                            <li>Simple browser extension</li>
+                            <li>One-click dApp connection</li>
+                            <li>Easy token management</li>
+                        </ul>
+                        <a href="#" class="block text-center bg-white/10 text-white font-black py-4 rounded-lg text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition duration-300">Download Nami</a>
+                    </div>
+                </div>
             </div>
         </section>
-
-        <hr class="border-[var(--c-accent-blue)]/50">
-
-        <!-- 5. SUPPORTED WALLETS -->
-        <section class="space-y-6">
-            <h2 class="text-4xl font-extrabold text-center text-white">SUPPORTED CARDANO WALLETS</h2>
-            <p class="text-center text-gray-400 max-w-2xl mx-auto">
-                Connect with any CIP-30 compatible Cardano wallet. Your funds remain secure in your wallet at all times.
-            </p>
-            
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">Eternl</div>
-                    <div class="text-xs text-gray-500">Browser & Mobile</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">Nami</div>
-                    <div class="text-xs text-gray-500">Browser Extension</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">Yoroi</div>
-                    <div class="text-xs text-gray-500">Browser & Mobile</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">Lace</div>
-                    <div class="text-xs text-gray-500">IOG Official</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">Flint</div>
-                    <div class="text-xs text-gray-500">Browser Extension</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">GeroWallet</div>
-                    <div class="text-xs text-gray-500">Built-in Swap</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">Typhon</div>
-                    <div class="text-xs text-gray-500">Hardware Support</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">NuFi</div>
-                    <div class="text-xs text-gray-500">Multi-chain</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">VESPR</div>
-                    <div class="text-xs text-gray-500">Mobile First</div>
-                </div>
-                <div class="bg-[var(--c-bg-light)] p-4 rounded-lg border border-gray-700 text-center">
-                    <div class="text-3xl mb-2">₳</div>
-                    <div class="text-sm font-semibold text-white">Begin</div>
-                    <div class="text-xs text-gray-500">dApp Browser</div>
-                </div>
-            </div>
-            
-            <p class="text-center text-sm text-gray-500 pt-4">
-                All wallets use the CIP-30 standard for secure, decentralized connections. We never have access to your private keys.
-            </p>
-        </section>
-
-        <hr class="border-[var(--c-accent-blue)]/50">
-
-        <!-- NEW TO CARDANO? Onboarding Guide -->
-        <section class="max-w-4xl mx-auto">
-            <div class="text-center mb-8">
-                <p class="text-[var(--c-accent-orange)] font-bold text-sm tracking-wider mb-2">COMING FROM ETHEREUM OR NEW TO CRYPTO?</p>
-                <h2 class="text-3xl md:text-4xl font-black text-white mb-3">New to Cardano?</h2>
-                <p class="text-gray-400 text-lg max-w-2xl mx-auto">$BEEP lives on the Cardano blockchain. If you currently use MetaMask or another Ethereum wallet, you'll need a Cardano wallet to participate. It only takes 2 minutes to set up.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-6 mb-10">
-                <div class="bg-[var(--c-bg-light)] rounded-2xl p-6 border border-[var(--c-accent-orange)]/30 relative">
-                    <div class="absolute -top-3 left-6 bg-[var(--c-accent-orange)] text-white text-xs font-bold px-3 py-1 rounded-full">RECOMMENDED</div>
-                    <div class="text-4xl mb-3 mt-2">₳</div>
-                    <h3 class="text-xl font-bold text-white mb-1">Eternl</h3>
-                    <p class="text-sm text-gray-400 mb-4">Full-featured Cardano wallet with browser extension and mobile app. Great for beginners and power users alike.</p>
-                    <ul class="text-xs text-gray-500 space-y-1 mb-4">
-                        <li>&#10003; Browser extension + mobile app</li>
-                        <li>&#10003; Multi-account support</li>
-                        <li>&#10003; Built-in dApp connector</li>
-                        <li>&#10003; Hardware wallet support</li>
-                    </ul>
-                    <a href="https://eternl.io" target="_blank" rel="noopener noreferrer" class="block w-full py-2.5 bg-[var(--c-accent-orange)] hover:bg-orange-600 text-white font-bold rounded-xl transition text-center text-sm">
-                        Download Eternl
-                    </a>
-                </div>
-
-                <div class="bg-[var(--c-bg-light)] rounded-2xl p-6 border border-gray-700">
-                    <div class="text-4xl mb-3 mt-2">₳</div>
-                    <h3 class="text-xl font-bold text-white mb-1">Lace</h3>
-                    <p class="text-sm text-gray-400 mb-4">Built by IOG (the creators of Cardano). Clean, simple interface designed for ease of use. Perfect if you're brand new.</p>
-                    <ul class="text-xs text-gray-500 space-y-1 mb-4">
-                        <li>&#10003; Official IOG wallet</li>
-                        <li>&#10003; Simple, clean interface</li>
-                        <li>&#10003; Built-in staking</li>
-                        <li>&#10003; Multi-chain coming soon</li>
-                    </ul>
-                    <a href="https://www.lace.io" target="_blank" rel="noopener noreferrer" class="block w-full py-2.5 bg-[var(--c-accent-blue)] hover:bg-blue-700 text-white font-bold rounded-xl transition text-center text-sm">
-                        Download Lace
-                    </a>
-                </div>
-
-                <div class="bg-[var(--c-bg-light)] rounded-2xl p-6 border border-gray-700">
-                    <div class="text-4xl mb-3 mt-2">₳</div>
-                    <h3 class="text-xl font-bold text-white mb-1">Nami</h3>
-                    <p class="text-sm text-gray-400 mb-4">Lightweight browser extension wallet. Minimal and fast — great if you just want to get started quickly.</p>
-                    <ul class="text-xs text-gray-500 space-y-1 mb-4">
-                        <li>&#10003; Lightweight &amp; fast</li>
-                        <li>&#10003; Simple browser extension</li>
-                        <li>&#10003; One-click dApp connection</li>
-                        <li>&#10003; Easy token management</li>
-                    </ul>
-                    <a href="https://namiwallet.io" target="_blank" rel="noopener noreferrer" class="block w-full py-2.5 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition text-center text-sm">
-                        Download Nami
-                    </a>
-                </div>
-            </div>
-
-            <div class="bg-[var(--c-bg-light)] rounded-2xl p-8 border border-gray-700">
-                <h3 class="text-xl font-bold text-white mb-6 text-center">How to Get Started in 4 Steps</h3>
-                <div class="grid md:grid-cols-4 gap-6">
-                    <div class="text-center">
-                        <div class="w-12 h-12 bg-[var(--c-accent-orange)]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <span class="text-[var(--c-accent-orange)] font-black text-lg">1</span>
-                        </div>
-                        <h4 class="font-bold text-white text-sm mb-1">Install a Wallet</h4>
-                        <p class="text-xs text-gray-400">Download one of the Cardano wallets above. We recommend Eternl for the best experience.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-12 h-12 bg-[var(--c-accent-orange)]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <span class="text-[var(--c-accent-orange)] font-black text-lg">2</span>
-                        </div>
-                        <h4 class="font-bold text-white text-sm mb-1">Create Your Wallet</h4>
-                        <p class="text-xs text-gray-400">Follow the setup wizard. Save your recovery phrase securely — never share it with anyone.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-12 h-12 bg-[var(--c-accent-orange)]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <span class="text-[var(--c-accent-orange)] font-black text-lg">3</span>
-                        </div>
-                        <h4 class="font-bold text-white text-sm mb-1">Copy Your Address</h4>
-                        <p class="text-xs text-gray-400">Your Cardano address starts with <span class="font-mono text-[var(--c-accent-orange)]">addr1</span>. Copy it from your wallet's receive section.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-12 h-12 bg-[var(--c-accent-orange)]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <span class="text-[var(--c-accent-orange)] font-black text-lg">4</span>
-                        </div>
-                        <h4 class="font-bold text-white text-sm mb-1">Register for $BEEP</h4>
-                        <p class="text-xs text-gray-400">Paste your address on our <a href="/register.html" class="text-[var(--c-accent-orange)] hover:underline">registration page</a> to join the closed beta.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-6 bg-yellow-900/20 border border-yellow-600/30 rounded-xl p-4">
-                <p class="text-sm text-yellow-300/80 text-center">
-                    <span class="font-bold">MetaMask &amp; Ethereum users:</span> MetaMask does not support Cardano. You'll need to install a separate Cardano wallet (it takes less than 2 minutes). Your MetaMask and Cardano wallets can coexist on the same browser without any conflicts.
-                </p>
-            </div>
-        </section>
-
-        <hr class="border-[var(--c-accent-blue)]/50">
-
-        <!-- 6. SWAP SECTION (Disabled during Pre-Liquidity Beta) -->
-        <section id="swap-section" class="pt-8">
-            <div class="max-w-md mx-auto bg-[var(--c-bg-light)] p-8 rounded-2xl border-2 border-gray-600 shadow-2xl space-y-6 opacity-75">
-                
-                <h2 class="text-3xl font-black text-center text-gray-400">SWAP INTERFACE</h2>
-                
-                <!-- Rate Display (Disabled) -->
-                <div class="space-y-3 opacity-50">
-                    <label class="text-sm font-medium text-gray-500 block">$BEEP RECEIVED PER 1 ADA</label>
-                    <input type="number" id="new-swap-rate" value="5.48" min="0.01" step="0.01" disabled
-                            class="w-full p-4 rounded-xl bg-gray-800/50 text-gray-500 border border-gray-700 text-2xl font-mono cursor-not-allowed">
-                </div>
-                
-                <p id="current-rate-display" class="text-center text-xl font-bold text-gray-500">RATE: 1 ADA = 5.48 $BEEP</p>
-
-                <!-- Real-Time Price Ticker (Disabled) -->
-                <div class="bg-gradient-to-r from-gray-900/80 to-gray-800/80 p-4 rounded-xl border border-gray-700 space-y-3 opacity-50">
-                    <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
-                        <span>LIVE PRICES</span>
-                        <span id="price-update-time" class="flex items-center space-x-1">
-                            <svg class="w-3 h-3 animate-spin hidden" id="price-loading-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            <span id="last-update-text">--</span>
-                        </span>
-                    </div>
-                    
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="text-center p-2 bg-gray-900/50 rounded-lg">
-                            <div class="text-xs text-gray-600 mb-1">1 ADA</div>
-                            <div id="ada-usd-price" class="text-lg font-bold text-gray-500">$--</div>
-                        </div>
-                        <div class="text-center p-2 bg-gray-900/50 rounded-lg">
-                            <div class="text-xs text-gray-600 mb-1">1 ADA</div>
-                            <div id="beep-per-ada" class="text-lg font-bold text-gray-500">-- $BEEP</div>
-                        </div>
-                        <div class="text-center p-2 bg-gray-900/50 rounded-lg">
-                            <div class="text-xs text-gray-600 mb-1">1 $BEEP</div>
-                            <div id="beep-usd-price" class="text-lg font-bold text-gray-500">$--</div>
-                        </div>
-                    </div>
-                    
-                    <div id="price-alert" class="hidden text-xs text-yellow-400 text-center p-2 bg-yellow-900/20 rounded border border-yellow-600/30">
-                        Price data may be stale. Using last known values.
-                    </div>
-                </div>
-
-                <!-- Swap Input (Disabled) -->
-                <div class="space-y-3 opacity-50">
-                    <label class="text-sm font-medium text-gray-500 block">AMOUNT OF ADA TO SWAP</label>
-                    <input type="number" id="ada-amount" value="--" disabled
-                            class="w-full p-4 rounded-xl bg-gray-800/50 text-gray-500 border border-gray-700 text-2xl font-mono cursor-not-allowed"
-                            placeholder="--">
-                </div>
-
-                <!-- Result Display (Disabled) -->
-                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 opacity-50">
-                    <p class="text-sm text-gray-500">You Receive (Approx.)</p>
-                    <p id="beep-result" class="text-4xl font-extrabold text-gray-500 mt-1">-- $BEEP</p>
-                </div>
-
-                <!-- Swap Disabled Notice -->
-                <div class="p-4 bg-yellow-900/30 border border-yellow-600/50 rounded-xl text-center">
-                    <p class="text-yellow-400 font-bold text-lg mb-2">SWAP TEMPORARILY DISABLED</p>
-                    <p class="text-gray-300 text-sm">Swap functionality is temporarily disabled until pre-liquidity beta concludes. Tokens for beta participants will be distributed off-chain to ensure a fair launch.</p>
-                </div>
-
-                <!-- Beta Info -->
-                <div class="p-3 bg-blue-900/30 border border-blue-600/40 rounded-lg text-sm text-blue-300 text-center">
-                    <p class="font-semibold">Phase 1: Closed Access</p>
-                    <p class="text-xs mt-1 text-gray-400">Public trading will open after app utility is live.</p>
-                </div>
-
-            </div>
-        </section>
-
     </main>
 
-    <!-- Modal for Wallet Selection (Hidden by default) -->
-    <div id="wallet-modal" class="fixed inset-0 z-20 hidden bg-black bg-opacity-70 flex items-center justify-center p-4" onclick="closeModal(event)">
-        <div class="bg-[var(--c-bg-light)] w-full max-w-sm p-6 rounded-xl shadow-2xl border border-[var(--c-accent-blue)]" onclick="event.stopPropagation()">
-            <h3 class="text-2xl font-bold text-white mb-6 text-center">Select CIP-30 Wallet</h3>
-
-            <!-- Wallet Buttons: The data-wallet name must match the window.cardano.<name> property -->
-            <div id="wallet-list" class="space-y-4">
-                <p class="text-gray-400 text-center">Checking for available wallets...</p>
-                <!-- Dynamic wallet buttons will be inserted here -->
-            </div>
-            
-            <button onclick="toggleModal()" class="w-full mt-6 py-2 bg-gray-700 rounded-lg text-sm text-gray-300 hover:bg-gray-600 transition">Close</button>
-        </div>
-    </div>
-    
-    <!-- Mobile Wallet Instructions Modal -->
-    <div id="mobile-wallet-modal" class="fixed inset-0 z-20 hidden bg-black bg-opacity-70 flex items-center justify-center p-4" onclick="closeMobileModal(event)">
-        <div class="bg-[var(--c-bg-light)] w-full max-w-md p-6 rounded-xl shadow-2xl border border-[var(--c-accent-orange)]" onclick="event.stopPropagation()">
-            <h3 class="text-2xl font-bold text-white mb-4 text-center">Connect on Mobile</h3>
-            
-            <div class="space-y-4 text-gray-300 text-sm mb-6">
-                <p class="text-center">To connect your wallet on mobile, please open this page in your Cardano wallet's built-in browser:</p>
-                
-                <div class="bg-gray-800/50 p-4 rounded-lg space-y-3">
-                    <p class="font-semibold text-[var(--c-accent-orange)]">Step 1: Open Your Wallet App</p>
-                    <p>Launch your Cardano wallet app (Eternl, Yoroi, VESPR, etc.)</p>
-                    
-                    <p class="font-semibold text-[var(--c-accent-orange)] mt-4">Step 2: Find the Browser</p>
-                    <p>Look for "Browser", "dApp Browser", or "Discover" section in your wallet</p>
-                    
-                    <p class="font-semibold text-[var(--c-accent-orange)] mt-4">Step 3: Enter This URL</p>
-                    <div class="bg-gray-900 p-2 rounded text-xs font-mono break-all text-green-400" id="current-url"></div>
+    <!-- Modern Footer -->
+    <footer class="pt-24 pb-12 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <!-- Brand Column -->
+                <div class="lg:col-span-2">
+                    <a href="index.html" class="flex items-center mb-6">
+                        <img src="logo.png" alt="SB Logo" class="h-10 w-auto mr-4">
+                        <span class="text-3xl font-black italic tracking-tighter">SPORTS<span class="sb-orange-text">BEEP</span></span>
+                    </a>
+                    <p class="text-zinc-500 text-sm max-w-sm mb-8 leading-relaxed">
+                        The next-generation sports ecosystem built on Cardano. Empowering fans through decentralized utility and community-driven rewards.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="footer-social-pill px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-widest">X</a>
+                        <a href="#" class="footer-social-pill px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-widest">Discord</a>
+                        <a href="#" class="footer-social-pill px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-widest">Telegram</a>
+                    </div>
                 </div>
-                
-                <div class="border-t border-gray-700 pt-4">
-                    <p class="font-semibold text-white mb-2">Copy URL:</p>
-                    <button onclick="copyUrlToClipboard()" class="w-full flex items-center justify-between p-3 bg-gray-800 rounded-lg hover:bg-[var(--c-accent-orange)]/20 transition mb-4">
-                        <span class="flex items-center space-x-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                            </svg>
-                            <span id="copy-button-text">Copy URL to Clipboard</span>
-                        </span>
-                    </button>
-                    
-                    <p class="font-semibold text-white mb-2">Compatible Mobile Wallets:</p>
-                    <div class="grid grid-cols-2 gap-2 text-xs text-gray-400">
-                        <div class="flex items-center space-x-1">
-                            <span>✓</span>
-                            <span>Eternl Mobile</span>
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <span>✓</span>
-                            <span>Yoroi Mobile</span>
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <span>✓</span>
-                            <span>VESPR Wallet</span>
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <span>✓</span>
-                            <span>Tokeo Wallet</span>
+
+                <!-- Fast Links -->
+                <div>
+                    <h5 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-6 italic">Navigation</h5>
+                    <ul class="space-y-4 text-sm text-zinc-500 font-semibold">
+                        <li><a href="register.html" class="hover:text-sb-orange transition">Beta Registration</a></li>
+                        <li><a href="#" class="hover:text-white transition line-through">Sportsbook (Soon)</a></li>
+                        <li><a href="#" class="hover:text-white transition">Whitepaper</a></li>
+                        <li><a href="#" class="hover:text-white transition">Tokenomics</a></li>
+                    </ul>
+                </div>
+
+                <!-- Lad Media Credit -->
+                <div class="flex flex-col items-start md:items-end md:text-right">
+                    <h5 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-6 italic">Engineering</h5>
+                    <p class="text-zinc-500 text-xs leading-relaxed mb-4">
+                        Designed and Engineered by<br>
+                        <a href="https://ladmedia.co" class="text-white hover:text-sb-orange transition font-black tracking-widest uppercase mt-1 inline-block">LAD MEDIA</a>
+                    </p>
+                    <span class="text-[10px] text-zinc-700 font-bold uppercase tracking-widest">EST. 2026</span>
+                </div>
+            </div>
+
+            <!-- Legal Disclaimer Area -->
+            <div class="legal-block p-8 md:p-10 mb-12">
+                <div class="grid lg:grid-cols-12 gap-10">
+                    <div class="lg:col-span-3">
+                        <h6 class="text-white font-black text-xs uppercase tracking-[0.2em] mb-4 italic underline decoration-sb-orange underline-offset-8">Legal Disclaimer</h6>
+                        <p class="text-[10px] text-zinc-500 uppercase font-black leading-loose">Terms of Service Summary</p>
+                    </div>
+                    <div class="lg:col-span-9 text-xs text-zinc-400 leading-relaxed space-y-6">
+                        <p><strong class="text-zinc-200">RISK WARNING:</strong> Digital assets, including cryptocurrencies and tokens like $BEEP, are highly volatile, carry significant risk, and may not be suitable for all investors. The value can fluctuate dramatically. You should carefully consider whether trading or holding digital assets is suitable for you in light of your financial condition.</p>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <p><strong class="text-zinc-200">BETA PHASE:</strong> $BEEP is currently in pre-liquidity closed beta. Tokens are distributed off-chain to founders, contributors, and select beta testers only. Public trading will commence after app utility is live and liquidity is seeded.</p>
+                            <p><strong class="text-zinc-200">USER RESPONSIBILITY:</strong> You are solely responsible for securing your wallet seed phrase and private keys. LAD MEDIA and SPORTSBEEP are not responsible for lost, stolen, or compromised digital assets.</p>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <button onclick="toggleMobileModal()" class="w-full py-2 bg-[var(--c-accent-orange)] text-white rounded-lg hover:bg-orange-600 transition">Got It</button>
-        </div>
-    </div>
-    
-    <!-- Toast/Modal for Transaction Confirmation -->
-    <div id="toast-message" class="fixed bottom-6 right-6 p-4 rounded-xl shadow-2xl transition-opacity duration-300 hidden opacity-0 text-white max-w-sm"></div>
 
-    <!-- Footer -->
-    <footer class="mt-20 py-8 border-t border-[var(--c-accent-blue)]/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            
-            <div class="flex justify-between items-center flex-wrap gap-4">
-                <div class="flex items-center space-x-2">
-                    <img src="logo.png" alt="SPORTSBEEP Logo" class="h-8 w-auto">
-                    <div class="text-lg font-black uppercase text-[var(--c-accent-orange)]">
-                        SPORTS<span class="text-white">BEEP</span>
-                    </div>
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold text-zinc-600 tracking-[0.2em] uppercase">
+                <div class="flex flex-col md:flex-row items-center md:space-x-8 space-y-4 md:space-y-0 mb-6 md:mb-0">
+                    <span>© 2026 SPORTSBEEP. ALL RIGHTS RESERVED.</span>
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Cookie Settings</a>
                 </div>
-                
-                <div class="flex space-x-4 text-gray-400">
-                    <a href="https://x.com/playsportsbeep" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--c-accent-orange)] transition">X</a>
-                    <a href="https://discord.gg/hNaeTP5b" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--c-accent-orange)] transition">Discord</a>
-                    <a href="https://t.me/sportsbeepnews" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--c-accent-orange)] transition">Telegram</a>
+                <div class="text-zinc-800 font-black">
+                    1-800-GAMBLER
                 </div>
             </div>
-
-            <p class="text-xs text-gray-500 text-center">
-                Designed and Engineered by <a href="https://ladmedia.co" class="hover:text-[var(--c-accent-orange)] transition duration-200">LAD MEDIA</a>.
-            </p>
-            
-            <!-- Legal Disclaimer -->
-            <div class="pt-4 text-xs text-gray-500 space-y-2 border-t border-gray-700">
-                <p class="font-bold text-white">Legal Disclaimer & Terms of Service Summary</p>
-                <p>**RISK WARNING:** Digital assets, including cryptocurrencies and tokens like $BEEP, are highly volatile, carry significant risk, and may not be suitable for all investors. The value can fluctuate dramatically. You should carefully consider whether trading or holding digital assets is suitable for you in light of your financial condition.</p>
-                <p>**BETA PHASE:** $BEEP is currently in pre-liquidity closed beta. Tokens are distributed off-chain to founders, contributors, and select beta testers only. Public trading will commence after app utility is live and liquidity is seeded.</p>
-                <p>**USER RESPONSIBILITY:** You are solely responsible for securing your wallet seed phrase and private keys. <a href="https://ladmedia.co" class="hover:text-white transition duration-200 underline">LAD MEDIA</a> and SPORTSBEEP are not responsible for lost, stolen, or compromised digital assets.</p>
-            </div>
-            
-            <p class="text-center text-xs text-gray-500 pt-4">© 2026 SPORTSBEEP. All rights reserved.</p>
-
         </div>
     </footer>
 
-    <!-- JavaScript (CIP-30 Implementation) -->
-    <script>
-        // --- CIP-30 and Application State ---
-        
-        // This code now relies *entirely* on the browser-injected window.cardano object
-        // provided by real extensions like Yoroi, Nami, Lace, etc.
-        
-        const SWAP_RATE_DEFAULT = 5.48; // Default rate for 1 ADA = X $BEEP
-        const SWAP_RECEIVING_ADDRESS = 'addr1q93z...'; // The address where user ADA is sent (mock for now)
-        const BEEP_POLICY_ID = 'a221e11c9d474ac3709911161bcfd02969d268e927089d3c55a4c3c2'; // Mock Policy ID
-        const BEEP_ASSET_NAME_HEX = '42454550';
-
-        let walletApi = null; // The CIP-30 API object from the connected wallet
-        let userAddress = null;
-        let walletName = null;
-
-        // --- DOM Elements (some may not exist in closed-access mode) ---
-        const modal = document.getElementById('wallet-modal');
-        const walletList = document.getElementById('wallet-list');
-        const walletStatus = document.getElementById('wallet-status');
-        const swapButton = document.getElementById('execute-swap-button');
-        const navConnectButton = document.getElementById('nav-connect-button');
-        const swapConnectButton = document.getElementById('swap-connect-button');
-        const adaAmountInput = document.getElementById('ada-amount');
-        const beepResult = document.getElementById('beep-result');
-        const toastMessage = document.getElementById('toast-message');
-        const rateDisplay = document.getElementById('current-rate-display');
-        const rateInput = document.getElementById('new-swap-rate');
-        
-        // --- Price Ticker Elements ---
-        const adaUsdPriceEl = document.getElementById('ada-usd-price');
-        const beepPerAdaEl = document.getElementById('beep-per-ada');
-        const beepUsdPriceEl = document.getElementById('beep-usd-price');
-        const lastUpdateTextEl = document.getElementById('last-update-text');
-        const priceLoadingIcon = document.getElementById('price-loading-icon');
-        const priceAlertEl = document.getElementById('price-alert');
-
-        // --- Price Service State ---
-        let currentAdaPrice = null;
-        let lastPriceUpdate = null;
-        let priceUpdateInterval = null;
-        let retryDelay = 30000; // Start with 30 seconds
-        const MAX_RETRY_DELAY = 120000; // Cap at 2 minutes
-
-        /**
-         * Fetches current ADA price from CoinGecko API (free, no key required)
-         */
-        async function fetchAdaPrice() {
-            try {
-                if (priceLoadingIcon) priceLoadingIcon.classList.remove('hidden');
-                
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`API returned ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data.cardano && data.cardano.usd) {
-                    currentAdaPrice = data.cardano.usd;
-                    lastPriceUpdate = Date.now();
-                    retryDelay = 30000;
-                    if (priceAlertEl) priceAlertEl.classList.add('hidden');
-                    updatePriceDisplay();
-                    return true;
-                } else {
-                    throw new Error('Invalid API response format');
-                }
-                
-            } catch (error) {
-                console.error('Failed to fetch ADA price:', error);
-                
-                retryDelay = Math.min(retryDelay * 1.5, MAX_RETRY_DELAY);
-                
-                if (lastPriceUpdate && (Date.now() - lastPriceUpdate > 120000)) {
-                    if (priceAlertEl) priceAlertEl.classList.remove('hidden');
-                }
-                
-                if (currentAdaPrice) {
-                    updatePriceDisplay();
-                }
-                
-                return false;
-            } finally {
-                if (priceLoadingIcon) priceLoadingIcon.classList.add('hidden');
-            }
-        }
-
-        /**
-         * Updates the price display with current values
-         */
-        function updatePriceDisplay() {
-            const swapRate = (rateInput ? parseFloat(rateInput.value) : null) || SWAP_RATE_DEFAULT;
-            
-            if (currentAdaPrice && adaUsdPriceEl) {
-                adaUsdPriceEl.textContent = `$${currentAdaPrice.toFixed(4)}`;
-            }
-            
-            if (beepPerAdaEl) beepPerAdaEl.textContent = `${swapRate.toFixed(2)} $BEEP`;
-            
-            if (currentAdaPrice && swapRate > 0 && beepUsdPriceEl) {
-                const beepPriceUsd = currentAdaPrice / swapRate;
-                beepUsdPriceEl.textContent = `$${beepPriceUsd.toFixed(6)}`;
-            }
-            
-            if (lastPriceUpdate && lastUpdateTextEl) {
-                const secondsAgo = Math.floor((Date.now() - lastPriceUpdate) / 1000);
-                if (secondsAgo < 60) {
-                    lastUpdateTextEl.textContent = `${secondsAgo}s ago`;
-                } else {
-                    const minutesAgo = Math.floor(secondsAgo / 60);
-                    lastUpdateTextEl.textContent = `${minutesAgo}m ago`;
-                }
-            }
-        }
-
-        /**
-         * Starts the price ticker service
-         */
-        function startPriceTicker() {
-            // Initial fetch
-            fetchAdaPrice();
-            
-            // Set up periodic updates
-            if (priceUpdateInterval) {
-                clearInterval(priceUpdateInterval);
-            }
-            
-            priceUpdateInterval = setInterval(() => {
-                fetchAdaPrice();
-            }, retryDelay);
-        }
-
-        /**
-         * Detects if user is on a mobile device
-         */
-        function isMobileDevice() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
-        
-        /**
-         * Checks if wallet is available (with retry for mobile wallet browsers)
-         */
-        async function checkWalletAvailability() {
-            // Wait up to 2 seconds for wallet injection
-            for (let i = 0; i < 20; i++) {
-                if (typeof window.cardano !== 'undefined') {
-                    return true;
-                }
-                await new Promise(resolve => setTimeout(resolve, 100));
-            }
-            return typeof window.cardano !== 'undefined';
-        }
-        
-        /**
-         * Toggles the wallet selection modal visibility.
-         * On mobile, shows instructions modal instead if wallet not detected.
-         */
-        async function toggleModal() {
-            // Check if user is on mobile
-            if (isMobileDevice()) {
-                // Wait a bit for wallet injection if in wallet browser
-                const hasWallet = await checkWalletAvailability();
-                
-                if (!hasWallet) {
-                    // Show mobile instructions modal
-                    toggleMobileModal();
-                    return;
-                }
-            }
-            
-            if (!walletApi) {
-                // Populate the wallet list only if the modal is shown and we aren't connected
-                populateWalletList();
-            }
-            modal.classList.toggle('hidden');
-        }
-        
-        /**
-         * Toggles mobile wallet instructions modal
-         */
-        function toggleMobileModal() {
-            const mobileModal = document.getElementById('mobile-wallet-modal');
-            const currentUrlEl = document.getElementById('current-url');
-            
-            // Set current URL
-            if (currentUrlEl) {
-                currentUrlEl.textContent = window.location.href;
-            }
-            
-            mobileModal.classList.toggle('hidden');
-        }
-        
-        /**
-         * Copies the current URL to clipboard
-         */
-        async function copyUrlToClipboard() {
-            const url = window.location.href;
-            const copyButton = document.getElementById('copy-button-text');
-            
-            try {
-                await navigator.clipboard.writeText(url);
-                copyButton.textContent = 'Copied!';
-                setTimeout(() => {
-                    copyButton.textContent = 'Copy URL to Clipboard';
-                }, 2000);
-            } catch (err) {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = url;
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-999999px';
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    copyButton.textContent = 'Copied!';
-                    setTimeout(() => {
-                        copyButton.textContent = 'Copy URL to Clipboard';
-                    }, 2000);
-                } catch (err) {
-                    copyButton.textContent = 'Failed to copy';
-                    setTimeout(() => {
-                        copyButton.textContent = 'Copy URL to Clipboard';
-                    }, 2000);
-                }
-                document.body.removeChild(textArea);
-            }
-        }
-        
-        /**
-         * Closes the mobile modal when clicking outside
-         */
-        function closeMobileModal(event) {
-            const mobileModal = document.getElementById('mobile-wallet-modal');
-            if (event.target === mobileModal) {
-                mobileModal.classList.add('hidden');
-            }
-        }
-
-        /**
-         * Closes the modal, only if the click is outside the content.
-         */
-        function closeModal(event) {
-            if (event.target === modal) {
-                modal.classList.add('hidden');
-            }
-        }
-
-        /**
-         * Populates the wallet list in the modal based on window.cardano.
-         * Supports all major CIP-30 compatible Cardano wallets including:
-         * Eternl, Nami, Yoroi, Lace, Flint, GeroWallet, Typhon, NuFi, VESPR, Begin, and more.
-         */
-        function populateWalletList() {
-            // Check if window.cardano exists (in case no extensions are installed)
-            if (typeof window.cardano === 'undefined') {
-                walletList.innerHTML = `
-                    <div class="text-center space-y-4">
-                        <p class="text-red-400">No Cardano wallets detected.</p>
-                        <p class="text-sm text-gray-400">Please install a CIP-30 compatible wallet:</p>
-                        <div class="text-xs text-gray-500 space-y-1">
-                            <p>• Eternl • Nami • Yoroi • Lace</p>
-                            <p>• Flint • GeroWallet • Typhon • NuFi</p>
-                            <p>• VESPR • Begin Wallet</p>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            // Filter for available and enabled-ready wallets
-            const availableWallets = Object.keys(window.cardano).filter(key => 
-                typeof window.cardano[key] === 'object' && typeof window.cardano[key].enable === 'function'
-            );
-
-            if (availableWallets.length === 0) {
-                walletList.innerHTML = `
-                    <div class="text-center space-y-4">
-                        <p class="text-red-400">No active Cardano wallets found.</p>
-                        <p class="text-sm text-gray-400">Install a CIP-30 compatible wallet extension:</p>
-                        <div class="text-xs text-gray-500 space-y-1">
-                            <p>• Eternl • Nami • Yoroi • Lace</p>
-                            <p>• Flint • GeroWallet • Typhon • NuFi</p>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            walletList.innerHTML = availableWallets.map(walletKey => {
-                const wallet = window.cardano[walletKey];
-                const name = wallet.name || walletKey.charAt(0).toUpperCase() + walletKey.slice(1);
-                const version = wallet.apiVersion || wallet.version || '1.0';
-                
-                // Use wallet icon if available (many CIP-30 wallets provide base64 icon)
-                let walletIcon = '';
-                if (wallet.icon) {
-                    walletIcon = `<img src="${wallet.icon}" class="w-7 h-7 rounded" alt="${name} icon" />`;
-                } else {
-                    // Fallback to Cardano symbol
-                    walletIcon = '<span class="text-2xl text-[var(--c-accent-orange)]">₳</span>';
-                }
-
-                return `
-                    <button data-wallet="${walletKey}" onclick="connectWallet('${walletKey}')" 
-                            class="w-full flex items-center justify-between p-4 bg-gray-800 rounded-xl hover:bg-[var(--c-accent-orange)]/20 hover:border hover:border-[var(--c-accent-orange)] transition duration-200">
-                        <div class="flex items-center space-x-3">
-                            ${walletIcon}
-                            <div class="text-left">
-                                <div class="font-semibold text-lg text-white">${name}</div>
-                                <div class="text-xs text-gray-500">CIP-30 Compatible</div>
-                            </div>
-                        </div>
-                        <span class="text-xs text-gray-400">API ${version}</span>
-                    </button>
-                `;
-            }).join('');
-        }
-
-        /**
-         * Initiates the CIP-30 connection process with the real extension.
-         * @param {string} key The key of the wallet object (e.g., 'yoroi', 'nami').
-         */
-        window.connectWallet = async function(key) {
-            if (!window.cardano || !window.cardano[key]) {
-                showToast(`Wallet ${key} API not detected.`, 'error');
-                return;
-            }
-
-            try {
-                // 1. Request access (CIP-30 enable call to your extension)
-                walletApi = await window.cardano[key].enable();
-                walletName = window.cardano[key].name || key;
-
-                // 2. Get user address
-                // This is a direct CIP-30 call to Yoroi/Nami/etc.
-                const addresses = await walletApi.getUsedAddresses();
-                const addressHex = addresses[0];
-
-                // 3. Convert address to Bech32 for display (conceptual)
-                // CSL is loaded, but converting a hex address to a human-readable Bech32 address
-                // is complex. We'll truncate for display confidence.
-                userAddress = addressHex ? addressHex.slice(0, 10) + '...' + addressHex.slice(-5) : 'Unknown Address';
-
-                // 4. Update UI
-                updateUIConnected();
-                toggleModal();
-                showToast(`Successfully connected to ${walletName}. Address: ${userAddress}`, 'success');
-
-            } catch (error) {
-                console.error("Wallet connection failed:", error);
-                // When you deny the connection in the extension, it throws an error
-                const errorMessage = error.message || error.info || 'Connection denied by user or failed.';
-                showToast(`Connection failed: ${errorMessage}`, 'error');
-                updateUIDisconnected();
-            }
-        }
-
-        /**
-         * Updates the UI state to CONNECTED.
-         */
-        function updateUIConnected() {
-            if (walletStatus) {
-                walletStatus.innerHTML = `<svg class="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14 10 12"></polyline></svg>
-                                            <span>Connected: ${walletName}</span>`;
-                walletStatus.classList.remove('text-red-400');
-                walletStatus.classList.add('text-green-400');
-            }
-            
-            if (swapButton) {
-                swapButton.disabled = false;
-                swapButton.classList.remove('bg-gray-600', 'text-gray-300');
-                swapButton.classList.add('bg-[var(--c-accent-orange)]', 'text-white');
-            }
-            
-            if (navConnectButton) navConnectButton.textContent = 'Disconnect';
-            if (swapConnectButton) swapConnectButton.textContent = 'Change';
-        }
-        
-        /**
-         * Updates the UI state to DISCONNECTED.
-         */
-        function updateUIDisconnected() {
-            walletApi = null;
-            userAddress = null;
-            walletName = null;
-            
-            if (walletStatus) {
-                walletStatus.innerHTML = `<svg class="w-4 h-4 text-red-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10l4 4m0 -4l-4 4"></path><circle cx="12" cy="12" r="10"></circle></svg>
-                                            <span>CIP-30 Wallet Disconnected</span>`;
-                walletStatus.classList.remove('text-green-400');
-                walletStatus.classList.add('text-red-400');
-            }
-
-            if (swapButton) {
-                swapButton.disabled = true;
-                swapButton.classList.remove('bg-[var(--c-accent-orange)]', 'text-white');
-                swapButton.classList.add('bg-gray-600', 'text-gray-300');
-            }
-
-            if (navConnectButton) navConnectButton.textContent = 'Connect Wallet';
-            if (swapConnectButton) swapConnectButton.textContent = 'Connect';
-        }
-
-        /**
-         * Handles changes in the swap rate input, updates the display, and triggers BEEP calculation.
-         */
-        window.handleRateChange = function() {
-            if (!rateInput || !rateDisplay) return;
-            let newRate = parseFloat(rateInput.value);
-
-            if (isNaN(newRate) || newRate <= 0) {
-                newRate = SWAP_RATE_DEFAULT;
-                rateInput.value = SWAP_RATE_DEFAULT; 
-            }
-            
-            rateDisplay.textContent = `RATE: 1 ADA = ${newRate.toFixed(2)} $BEEP`;
-            
-            updateBEEP();
-            updatePriceDisplay();
-        }
-
-        function updateBEEP() {
-            if (!rateInput || !adaAmountInput || !beepResult) return;
-            const currentRate = parseFloat(rateInput.value) || SWAP_RATE_DEFAULT;
-            const ada = parseFloat(adaAmountInput.value);
-            
-            if (!isNaN(ada) && ada > 0) {
-                const beep = (ada * currentRate).toFixed(0); 
-                beepResult.textContent = `${beep} $BEEP`;
-            } else {
-                beepResult.textContent = '0.00 $BEEP';
-            }
-        }
-
-        /**
-         * Implements the CIP-30 Transaction Flow (Build, Sign, Submit).
-         */
-        window.executeSwap = async function() {
-            if (!walletApi) {
-                showToast('Please connect a CIP-30 wallet first.', 'error');
-                return;
-            }
-
-            if (!adaAmountInput) return;
-            const adaAmount = parseFloat(adaAmountInput.value);
-            if (isNaN(adaAmount) || adaAmount < 5) {
-                showToast('Minimum ADA for swap is 5 ADA.', 'error');
-                return;
-            }
-
-            const liveRate = (rateInput ? parseFloat(rateInput.value) : null) || SWAP_RATE_DEFAULT;
-            const beepAmount = (adaAmount * liveRate).toFixed(0);
-            const adaLovelace = adaAmount * 1_000_000;
-            
-            if (swapButton) {
-                swapButton.textContent = 'Building Transaction...';
-                swapButton.disabled = true;
-            }
-
-            try {
-                console.log('Using CSL to build transaction conceptually...');
-                const mockTxCbor = 'a0018301...';
-                
-                if (swapButton) swapButton.textContent = 'Awaiting Wallet Signature... (Approve in Extension)';
-                const signedTxCbor = await walletApi.signTx(mockTxCbor, false); 
-
-                if (swapButton) swapButton.textContent = 'Submitting to Cardano Network...';
-                const txHash = await walletApi.submitTx(signedTxCbor);
-                
-                console.log("Transaction Successful! Hash:", txHash);
-                showToast(`Swap submitted! Tx Hash: ${txHash.slice(0, 20)}... You received ${beepAmount} $BEEP.`, 'success');
-
-            } catch (error) {
-                console.error("CIP-30 Transaction failed:", error);
-                const errorMessage = error.message || (error.info ? JSON.stringify(error.info) : 'Transaction denied or failed.');
-                showToast(`Transaction Failed: ${errorMessage}`, 'error');
-            } finally {
-                if (walletApi && swapButton) {
-                     swapButton.textContent = 'EXECUTE SWAP FOR $BEEP';
-                     swapButton.disabled = false;
-                }
-            }
-        }
-        
-        if (navConnectButton) {
-            navConnectButton.addEventListener('click', () => {
-                if (navConnectButton.textContent === 'Disconnect') {
-                    updateUIDisconnected();
-                    showToast('Wallet disconnected.', 'error');
-                } else {
-                    toggleModal();
-                }
-            });
-        }
-
-
-        /**
-         * Displays a temporary notification (toast).
-         */
-        function showToast(message, type) {
-            if (!toastMessage) return;
-            toastMessage.textContent = message;
-            toastMessage.classList.remove('hidden', 'opacity-0', 'bg-red-700', 'bg-green-700');
-            toastMessage.classList.add(type === 'success' ? 'bg-green-700' : 'bg-red-700', 'opacity-100');
-
-            setTimeout(() => {
-                toastMessage.classList.remove('opacity-100');
-                toastMessage.classList.add('opacity-0');
-                setTimeout(() => toastMessage.classList.add('hidden'), 300);
-            }, 5000);
-        }
-        
-        async function loadHomepageStats() {
-            try {
-                const response = await fetch('/api/stats');
-                if (response.ok) {
-                    const data = await response.json();
-                    const regEl = document.getElementById('stat-registrations');
-                    const allocEl = document.getElementById('stat-allocated');
-                    const distEl = document.getElementById('stat-distributed');
-                    if (regEl) regEl.textContent = data.totalRegistrations || 0;
-                    if (allocEl) allocEl.textContent = (data.totalAllocated || 0).toLocaleString();
-                    if (distEl) distEl.textContent = (data.totalDistributed || 0).toLocaleString();
-                }
-            } catch (e) {
-                console.error('Failed to load stats:', e);
-            }
-        }
-
-        window.onload = function() {
-            if (rateInput) {
-                rateInput.value = SWAP_RATE_DEFAULT;
-                handleRateChange(); 
-            }
-
-            if (adaAmountInput) {
-                adaAmountInput.addEventListener('input', updateBEEP);
-            }
-            
-            startPriceTicker();
-            loadHomepageStats();
-            
-            setInterval(() => {
-                if (lastPriceUpdate && lastUpdateTextEl) {
-                    const secondsAgo = Math.floor((Date.now() - lastPriceUpdate) / 1000);
-                    if (secondsAgo < 60) {
-                        lastUpdateTextEl.textContent = `${secondsAgo}s ago`;
-                    } else {
-                        const minutesAgo = Math.floor(secondsAgo / 60);
-                        lastUpdateTextEl.textContent = `${minutesAgo}m ago`;
-                    }
-                }
-            }, 1000);
-        };
-
-    </script>
 </body>
 </html>

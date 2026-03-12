@@ -20,4 +20,4 @@ User-agent: Google-Extended
 Allow: /
 
 Host: https://sportsbeep.com
-Sitemap: https://www.google.com/search?q=https://sportsbeep.com/sitemap.xml
+Sitemap: https://sportsbeep.com/sitemap.xml

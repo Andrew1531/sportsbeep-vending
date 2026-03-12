@@ -1,1 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
 
+<urlset xmlns="[suspicious link removed]">
+<!-- Main Landing Page -->
+<url>
+<loc>https://sportsbeep.com/</loc>
+<lastmod>2024-05-20</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1.0</priority>
+</url>
+
+<!-- Beta Registration / Token Info -->
+
+<url>
+<loc>https://www.google.com/search?q=https://sportsbeep.com/beta</loc>
+<lastmod>2024-05-20</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+
+<!-- LLM Discovery File -->
+
+<url>
+<loc>https://www.google.com/search?q=https://sportsbeep.com/llms.txt</loc>
+<lastmod>2024-05-20</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<!-- Terms of Service -->
+
+<url>
+<loc>https://www.google.com/search?q=https://sportsbeep.com/terms</loc>
+<lastmod>2024-05-20</lastmod>
+<changefreq>yearly</changefreq>
+<priority>0.3</priority>
+</url>
+
+<!-- Privacy Policy -->
+
+<url>
+<loc>https://www.google.com/search?q=https://sportsbeep.com/privacy</loc>
+<lastmod>2024-05-20</lastmod>
+<changefreq>yearly</changefreq>
+<priority>0.3</priority>
+</url>
+</urlset>

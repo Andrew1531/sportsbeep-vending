@@ -1,0 +1,63 @@
+SPORTSBEEP
+
+Next-generation sports ecosystem built on the Cardano blockchain, empowering fans through decentralized utility, community rewards, and high-performance sportsbooks.
+
+Core Project Information
+
+Blockchain: Cardano (ADA)
+
+Token Ticker: $BEEP
+
+Policy ID: a221e11c9d474ac3709911161bcfd02969d268e927089d3c55a4c3c2
+
+Total Supply: 10,000,000 (Fixed Infrastructure)
+
+Initial Valuation: $0.12 per $BEEP (Phase 1 illustrative pricing)
+
+Primary Developer: LAD MEDIA
+
+Tokenomics & Distribution
+
+The $BEEP token follows a controlled, phased distribution model to ensure ecosystem stability.
+
+Distribution Phases
+
+Phase 1 (Current): Closed Beta Allocation. Target: Founders and select beta testers. Utility: Non-tradable off-chain allocation for testing.
+
+Phase 2: Expansion. Allocation: 50,000 $BEEP. Objective: Deepen liquidity and fund core development.
+
+Phase 3: Community Growth. Allocation: 250,000 $BEEP. Objective: Staking mechanisms and referral systems.
+
+Ecosystem Reserve: 6.2M $BEEP reserved for future milestones and community incentives.
+
+Referral Program
+
+Reward: 100 $BEEP per 10 verified referrals.
+
+Mechanism: Unique promo codes (Format: BEEP-XXXXX) provided upon beta registration.
+
+Technical Guidance
+
+$BEEP is a Cardano native asset. Recommended wallets:
+
+Eternl: Power users (Extension/Mobile).
+
+Lace: Official IOG wallet (Beginner-friendly).
+
+Nami: Lightweight browser extension.
+
+Legal & Compliance
+
+Status: Closed Beta.
+
+Risk Warning: Digital assets are volatile.
+
+Responsible Gaming: Ecosystem includes 1-800-GAMBLER resources.
+
+Links
+
+Website
+
+X (Twitter)
+
+Engineering (LAD MEDIA)

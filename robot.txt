@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /api/private/
+Disallow: /temp/
+
+Allow: /llms.txt
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Host: https://sportsbeep.com
+Sitemap: https://www.google.com/search?q=https://sportsbeep.com/sitemap.xml

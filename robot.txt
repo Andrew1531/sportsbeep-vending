@@ -1,22 +1,93 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
 Disallow: /admin/
 Disallow: /config/
 Disallow: /api/private/
 Disallow: /temp/
 
-Allow: /llms.txt
+OpenAI (ChatGPT / SearchGPT)
 
 User-agent: GPTBot
 Allow: /
-
 User-agent: ChatGPT-User
 Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+
+Google (Gemini / AI Overviews)
+
+User-agent: Google-Extended
+Allow: /
+User-agent: Googlebot
+Allow: /
+User-agent: Gemini-Deep-Research
+Allow: /
+User-agent: Google-CloudVertexBot
+Allow: /
+
+Anthropic (Claude)
+
+User-agent: anthropic-ai
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+
+Apple (Apple Intelligence / Siri)
+
+User-agent: Applebot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+xAI (Grok)
+
+User-agent: GrokBot
+Allow: /
+User-agent: xAI-Grok
+Allow: /
+User-agent: Grok-DeepSearch
+Allow: /
+
+Perplexity
+
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+Meta (Llama / Meta AI)
+
+User-agent: MetaExternalAgent
+Allow: /
+User-agent: FacebookBot
+Allow: /
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+Additional AI Search & Training
 
 User-agent: CCBot
 Allow: /
-
-User-agent: Google-Extended
+User-agent: cohere-ai
+Allow: /
+User-agent: Amazonbot
+Allow: /
+User-agent: Bytespider
+Allow: /
+User-agent: YouBot
+Allow: /
+User-agent: BraveBot
+Allow: /
+User-agent: DuckAssistBot
+Allow: /
+User-agent: MistralAI-User
+Allow: /
+User-agent: DeepSeekBot
 Allow: /
 
 Host: https://sportsbeep.com

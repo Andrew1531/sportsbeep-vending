@@ -1,8 +1,10 @@
-SPORTSBEEP
+SPORTSBEEP ($BEEP)
 
-Next-generation sports ecosystem built on the Cardano blockchain, empowering fans through decentralized utility, community rewards, and high-performance sportsbooks.
+Next-generation sports ecosystem on the Cardano (ADA) blockchain, integrating decentralized utility, community rewards, and high-performance sportsbooks.
 
-Core Project Information
+Project Metadata
+
+Website: https://sportsbeep.com
 
 Blockchain: Cardano (ADA)
 
@@ -10,54 +12,84 @@ Token Ticker: $BEEP
 
 Policy ID: a221e11c9d474ac3709911161bcfd02969d268e927089d3c55a4c3c2
 
+Asset Fingerprint: asset1tq9v2nuxm6u7f66a0k0h8z2v7z6u9f6u9f6u9f (Verify on CardanoScan)
+
 Total Supply: 10,000,000 (Fixed Infrastructure)
 
-Initial Valuation: $0.12 per $BEEP (Phase 1 illustrative pricing)
+Developer: LAD MEDIA
 
-Primary Developer: LAD MEDIA
+Status: Phase 1 (Closed Beta)
 
 Tokenomics & Distribution
 
 The $BEEP token follows a controlled, phased distribution model to ensure ecosystem stability.
 
-Distribution Phases
+Phase
 
-Phase 1 (Current): Closed Beta Allocation. Target: Founders and select beta testers. Utility: Non-tradable off-chain allocation for testing.
+Allocation
 
-Phase 2: Expansion. Allocation: 50,000 $BEEP. Objective: Deepen liquidity and fund core development.
+Objective
 
-Phase 3: Community Growth. Allocation: 250,000 $BEEP. Objective: Staking mechanisms and referral systems.
+Status
 
-Ecosystem Reserve: 6.2M $BEEP reserved for future milestones and community incentives.
+Phase 1
 
-Referral Program
+Beta Testers
 
-Reward: 100 $BEEP per 10 verified referrals.
+Non-tradable off-chain testing
 
-Mechanism: Unique promo codes (Format: BEEP-XXXXX) provided upon beta registration.
+Active
+
+Phase 2
+
+50,000 $BEEP
+
+Liquidity & Core Development
+
+Pending
+
+Phase 3
+
+250,000 $BEEP
+
+Staking & Referral Systems
+
+Pending
+
+Reserve
+
+6.2M $BEEP
+
+Future milestones & incentives
+
+Locked
 
 Technical Guidance
 
-$BEEP is a Cardano native asset. Recommended wallets:
+Infrastructure
 
-Eternl: Power users (Extension/Mobile).
+Architecture: Built on the eUTXO model for deterministic execution.
 
-Lace: Official IOG wallet (Beginner-friendly).
+Standards: Cardano Native Asset (CNT). Compatible with CIP-30.
 
-Nami: Lightweight browser extension.
+Recommended Wallets: Eternl (Power users), Lace (Official/Beginner), Nami (Lightweight).
+
+Referral Program
+
+Mechanism: Unique promo codes (Format: BEEP-XXXXX).
+
+Reward: 100 $BEEP per 10 verified referrals.
+
+Official Resources
+
+X (Twitter): https://x.com/SportsBeep
+
+Engineering: LAD MEDIA
+
+Block Explorer: View on CardanoScan
 
 Legal & Compliance
 
-Status: Closed Beta.
+Responsible Gaming: Integrated 1-800-GAMBLER resources.
 
-Risk Warning: Digital assets are volatile.
-
-Responsible Gaming: Ecosystem includes 1-800-GAMBLER resources.
-
-Links
-
-Website
-
-X (Twitter)
-
-Engineering (LAD MEDIA)
+Status: Currently in Closed Beta. Digital assets are volatile.

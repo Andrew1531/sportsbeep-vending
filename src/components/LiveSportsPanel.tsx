@@ -41,150 +41,210 @@ interface PlayerStat {
   sport: string;
 }
 
-const SPORTS_TABS = ['ALL', 'NFL', 'NBA', 'MLB', 'NHL', 'UFC', 'SOCCER'];
+// Games sourced from VegasInsider.com — April 30, 2026
+const SPORTS_TABS = ['ALL', 'NBA', 'NHL', 'MLB'];
 
 const MOCK_GAMES: Game[] = [
+  // ── NBA PLAYOFFS ──────────────────────────────────────────────
   {
     id: 1, sport: 'NBA', sportIcon: '🏀',
-    homeTeam: 'Lakers', awayTeam: 'Celtics',
-    homeScore: 87, awayScore: 91,
-    status: 'LIVE', quarter: 'Q3 4:32',
-    homeOdds: '+100', awayOdds: '-120',
-    spread: 'CEL -3.5', spreadHome: '+3.5 (-110)', spreadAway: '-3.5 (-110)',
-    total: 'O/U 224.5',
-    isLive: true, homeLogo: 'LAL', awayLogo: 'BOS',
+    homeTeam: 'Knicks', awayTeam: 'Hawks',
+    homeScore: 0, awayScore: 0,
+    status: 'PLAYOFFS', quarter: '7:00 PM ET',
+    homeOdds: '-135', awayOdds: '+115',
+    spread: 'NYK -2.5', spreadHome: '-2.5 (-115)', spreadAway: '+2.5 (-105)',
+    total: 'O/U 218.5',
+    isLive: false, homeLogo: 'NYK', awayLogo: 'ATL',
     props: [
-      { player: 'LeBron James', team: 'LAL', market: 'Points', over: '-115', under: '-105', line: '27.5' },
-      { player: 'Jayson Tatum', team: 'BOS', market: 'Points', over: '-120', under: '-100', line: '28.5' },
-      { player: 'Anthony Davis', team: 'LAL', market: 'Rebounds', over: '-110', under: '-110', line: '11.5' },
-      { player: 'Jaylen Brown', team: 'BOS', market: 'Assists', over: '+105', under: '-125', line: '3.5' },
+      { player: 'Jalen Brunson', team: 'NYK', market: 'Points', over: '-115', under: '-105', line: '26.5' },
+      { player: 'Trae Young', team: 'ATL', market: 'Points', over: '-110', under: '-110', line: '24.5' },
+      { player: 'Karl-Anthony Towns', team: 'NYK', market: 'Rebounds', over: '-115', under: '-105', line: '9.5' },
+      { player: 'Trae Young', team: 'ATL', market: 'Assists', over: '-110', under: '-110', line: '8.5' },
     ],
   },
   {
-    id: 2, sport: 'NFL', sportIcon: '🏈',
-    homeTeam: 'Chiefs', awayTeam: 'Eagles',
-    homeScore: 21, awayScore: 14,
-    status: 'LIVE', quarter: 'Q2 1:15',
-    homeOdds: '-150', awayOdds: '+130',
-    spread: 'KC -4.5', spreadHome: '-4.5 (-110)', spreadAway: '+4.5 (-110)',
-    total: 'O/U 47.5',
-    isLive: true, homeLogo: 'KC', awayLogo: 'PHI',
+    id: 2, sport: 'NBA', sportIcon: '🏀',
+    homeTeam: 'Celtics', awayTeam: '76ers',
+    homeScore: 0, awayScore: 0,
+    status: 'PLAYOFFS', quarter: '8:00 PM ET',
+    homeOdds: '-340', awayOdds: '+280',
+    spread: 'BOS -8.5', spreadHome: '-8.5 (-110)', spreadAway: '+8.5 (-110)',
+    total: 'O/U 214.5',
+    isLive: false, homeLogo: 'BOS', awayLogo: 'PHI',
     props: [
-      { player: 'Patrick Mahomes', team: 'KC', market: 'Pass Yards', over: '-115', under: '-105', line: '289.5' },
-      { player: 'Jalen Hurts', team: 'PHI', market: 'Pass Yards', over: '-110', under: '-110', line: '254.5' },
-      { player: 'Travis Kelce', team: 'KC', market: 'Receiving Yards', over: '-120', under: '+100', line: '72.5' },
-      { player: 'DeVonta Smith', team: 'PHI', market: 'Receptions', over: '-115', under: '-105', line: '5.5' },
+      { player: 'Jayson Tatum', team: 'BOS', market: 'Points', over: '-120', under: '+100', line: '29.5' },
+      { player: 'Joel Embiid', team: 'PHI', market: 'Points', over: '-110', under: '-110', line: '26.5' },
+      { player: 'Jaylen Brown', team: 'BOS', market: 'Points', over: '-115', under: '-105', line: '24.5' },
+      { player: 'Tyrese Maxey', team: 'PHI', market: 'Assists', over: '-110', under: '-110', line: '6.5' },
     ],
   },
   {
-    id: 3, sport: 'MLB', sportIcon: '⚾',
-    homeTeam: 'Yankees', awayTeam: 'Red Sox',
-    homeScore: 3, awayScore: 2,
-    status: 'LIVE', quarter: 'BOT 7th',
-    homeOdds: '-130', awayOdds: '+110',
-    spread: 'NYY -1.5', spreadHome: '-1.5 (+150)', spreadAway: '+1.5 (-170)',
-    total: 'O/U 8.5',
-    isLive: true, homeLogo: 'NYY', awayLogo: 'BOS',
+    id: 3, sport: 'NBA', sportIcon: '🏀',
+    homeTeam: 'Timberwolves', awayTeam: 'Nuggets',
+    homeScore: 0, awayScore: 0,
+    status: 'PLAYOFFS', quarter: '9:30 PM ET',
+    homeOdds: '+105', awayOdds: '-125',
+    spread: 'DEN -1.5', spreadHome: '+1.5 (-115)', spreadAway: '-1.5 (-105)',
+    total: 'O/U 216.5',
+    isLive: false, homeLogo: 'MIN', awayLogo: 'DEN',
     props: [
-      { player: 'Aaron Judge', team: 'NYY', market: 'Home Runs', over: '+280', under: '-340', line: '0.5' },
-      { player: 'Gerrit Cole', team: 'NYY', market: 'Strikeouts', over: '-115', under: '-105', line: '7.5' },
-      { player: 'Rafael Devers', team: 'BOS', market: 'Total Bases', over: '-110', under: '-110', line: '1.5' },
-      { player: 'Alex Verdugo', team: 'NYY', market: 'Hits', over: '-130', under: '+110', line: '0.5' },
+      { player: 'Nikola Jokic', team: 'DEN', market: 'Points', over: '-115', under: '-105', line: '29.5' },
+      { player: 'Anthony Edwards', team: 'MIN', market: 'Points', over: '-110', under: '-110', line: '27.5' },
+      { player: 'Nikola Jokic', team: 'DEN', market: 'Rebounds', over: '-115', under: '-105', line: '12.5' },
+      { player: 'Rudy Gobert', team: 'MIN', market: 'Blocks', over: '+110', under: '-130', line: '1.5' },
     ],
   },
+  // ── NHL PLAYOFFS ───────────────────────────────────────────────
   {
     id: 4, sport: 'NHL', sportIcon: '🏒',
-    homeTeam: 'Rangers', awayTeam: 'Bruins',
-    homeScore: 2, awayScore: 2,
-    status: 'LIVE', quarter: 'P3 11:20',
-    homeOdds: '+105', awayOdds: '-125',
-    spread: 'BOS -1.5 +175', spreadHome: '+1.5 (-210)', spreadAway: '-1.5 (+175)',
+    homeTeam: 'Wild', awayTeam: 'Stars',
+    homeScore: 0, awayScore: 0,
+    status: 'PLAYOFFS', quarter: '7:30 PM ET',
+    homeOdds: '-120', awayOdds: '+102',
+    spread: 'MIN -1.5 +185', spreadHome: '-1.5 (+185)', spreadAway: '+1.5 (-220)',
     total: 'O/U 5.5',
-    isLive: true, homeLogo: 'NYR', awayLogo: 'BOS',
+    isLive: false, homeLogo: 'MIN', awayLogo: 'DAL',
     props: [
-      { player: 'Artemi Panarin', team: 'NYR', market: 'Points', over: '+110', under: '-130', line: '0.5' },
-      { player: 'David Pastrnak', team: 'BOS', market: 'Goals', over: '+200', under: '-240', line: '0.5' },
-      { player: 'Igor Shesterkin', team: 'NYR', market: 'Saves', over: '-120', under: '+100', line: '28.5' },
+      { player: 'Jason Robertson', team: 'DAL', market: 'Points', over: '+115', under: '-135', line: '0.5' },
+      { player: 'Kirill Kaprizov', team: 'MIN', market: 'Goals', over: '+185', under: '-225', line: '0.5' },
+      { player: 'Jake Oettinger', team: 'DAL', market: 'Saves', over: '-120', under: '+100', line: '27.5' },
     ],
   },
   {
-    id: 5, sport: 'NBA', sportIcon: '🏀',
-    homeTeam: 'Warriors', awayTeam: 'Bucks',
+    id: 5, sport: 'NHL', sportIcon: '🏒',
+    homeTeam: 'Oilers', awayTeam: 'Ducks',
     homeScore: 0, awayScore: 0,
-    status: 'TONIGHT', quarter: '7:30 PM ET',
-    homeOdds: '+120', awayOdds: '-140',
-    spread: 'MIL -2.5', spreadHome: '+2.5 (-110)', spreadAway: '-2.5 (-110)',
-    total: 'O/U 230.5',
-    isLive: false, homeLogo: 'GSW', awayLogo: 'MIL',
+    status: 'PLAYOFFS', quarter: '10:00 PM ET',
+    homeOdds: '-240', awayOdds: '+200',
+    spread: 'EDM -1.5 (+130)', spreadHome: '-1.5 (+130)', spreadAway: '+1.5 (-155)',
+    total: 'O/U 5.5',
+    isLive: false, homeLogo: 'EDM', awayLogo: 'ANA',
     props: [
-      { player: 'Giannis Antetokounmpo', team: 'MIL', market: 'Points', over: '-110', under: '-110', line: '31.5' },
-      { player: 'Stephen Curry', team: 'GSW', market: '3-Pointers', over: '-105', under: '-115', line: '4.5' },
-      { player: 'Damian Lillard', team: 'MIL', market: 'Assists', over: '-115', under: '-105', line: '6.5' },
+      { player: 'Connor McDavid', team: 'EDM', market: 'Points', over: '-130', under: '+110', line: '0.5' },
+      { player: 'Leon Draisaitl', team: 'EDM', market: 'Goals', over: '+160', under: '-190', line: '0.5' },
+      { player: 'Stuart Skinner', team: 'EDM', market: 'Saves', over: '-110', under: '-110', line: '26.5' },
     ],
   },
+  // ── MLB ────────────────────────────────────────────────────────
   {
-    id: 6, sport: 'SOCCER', sportIcon: '⚽',
-    homeTeam: 'Man City', awayTeam: 'Arsenal',
-    homeScore: 1, awayScore: 1,
-    status: 'LIVE', quarter: "73'",
-    homeOdds: '+120', awayOdds: '+220', drawOdds: '+240',
-    spread: 'ARS +0.5', spreadHome: '-0.5 (-110)', spreadAway: '+0.5 (-110)',
-    total: 'O/U 2.5',
-    isLive: true, homeLogo: 'MCI', awayLogo: 'ARS',
-    props: [
-      { player: 'Erling Haaland', team: 'MCI', market: 'Goals', over: '+160', under: '-190', line: '0.5' },
-      { player: 'Bukayo Saka', team: 'ARS', market: 'Shots on Target', over: '-110', under: '-110', line: '1.5' },
-      { player: 'Kevin De Bruyne', team: 'MCI', market: 'Assists', over: '+175', under: '-210', line: '0.5' },
-    ],
-  },
-  {
-    id: 7, sport: 'UFC', sportIcon: '🥊',
-    homeTeam: 'Jones', awayTeam: 'Miocic',
+    id: 6, sport: 'MLB', sportIcon: '⚾',
+    homeTeam: 'Pirates', awayTeam: 'Cardinals',
     homeScore: 0, awayScore: 0,
-    status: 'SAT MAY 3', quarter: 'Main Event',
-    homeOdds: '-320', awayOdds: '+260',
-    spread: 'Jones -1.5', spreadHome: '-1.5 (+130)', spreadAway: '+1.5 (-150)',
-    total: 'O/U 2.5 Rds',
-    isLive: false, homeLogo: 'JJ', awayLogo: 'SM',
+    status: 'FINAL', quarter: '12:35 PM ET',
+    homeOdds: '-220', awayOdds: '+189',
+    spread: 'PIT -1.5', spreadHome: '-1.5 (+160)', spreadAway: '+1.5 (-185)',
+    total: 'O/U 8.5',
+    isLive: false, homeLogo: 'PIT', awayLogo: 'STL',
     props: [
-      { player: 'Jon Jones', team: '', market: 'Method of Victory (KO/TKO)', over: '+150', under: '-', line: '-' },
-      { player: 'Jon Jones', team: '', market: 'Method of Victory (Sub)', over: '+400', under: '-', line: '-' },
-      { player: 'Stipe Miocic', team: '', market: 'Fight to Go Distance', over: '+220', under: '-', line: '-' },
+      { player: 'Paul Skenes', team: 'PIT', market: 'Strikeouts', over: '-115', under: '-105', line: '7.5' },
+      { player: 'Nolan Arenado', team: 'STL', market: 'Total Bases', over: '-110', under: '-110', line: '1.5' },
+      { player: 'Oneil Cruz', team: 'PIT', market: 'Hits', over: '-120', under: '+100', line: '0.5' },
     ],
   },
   {
-    id: 8, sport: 'NFL', sportIcon: '🏈',
-    homeTeam: 'Ravens', awayTeam: 'Cowboys',
+    id: 7, sport: 'MLB', sportIcon: '⚾',
+    homeTeam: 'Nationals', awayTeam: 'Mets',
     homeScore: 0, awayScore: 0,
-    status: 'SUN 1PM ET', quarter: 'Week 18',
-    homeOdds: '-180', awayOdds: '+155',
-    spread: 'BAL -4', spreadHome: '-4 (-110)', spreadAway: '+4 (-110)',
-    total: 'O/U 44.5',
-    isLive: false, homeLogo: 'BAL', awayLogo: 'DAL',
+    status: 'TODAY', quarter: '1:10 PM ET',
+    homeOdds: '+130', awayOdds: '-150',
+    spread: 'NYM -1.5', spreadHome: '+1.5 (-165)', spreadAway: '-1.5 (+145)',
+    total: 'O/U 8.5',
+    isLive: false, homeLogo: 'WSH', awayLogo: 'NYM',
     props: [
-      { player: 'Lamar Jackson', team: 'BAL', market: 'Pass Yards', over: '-115', under: '-105', line: '274.5' },
-      { player: 'Dak Prescott', team: 'DAL', market: 'Pass Yards', over: '-110', under: '-110', line: '259.5' },
-      { player: 'Derrick Henry', team: 'BAL', market: 'Rush Yards', over: '-115', under: '-105', line: '84.5' },
-      { player: 'CeeDee Lamb', team: 'DAL', market: 'Receiving Yards', over: '-120', under: '+100', line: '88.5' },
+      { player: 'Pete Alonso', team: 'NYM', market: 'Home Runs', over: '+260', under: '-320', line: '0.5' },
+      { player: 'Francisco Lindor', team: 'NYM', market: 'Total Bases', over: '-115', under: '-105', line: '1.5' },
+      { player: 'Juan Soto', team: 'NYM', market: 'RBIs', over: '-110', under: '-110', line: '0.5' },
+    ],
+  },
+  {
+    id: 8, sport: 'MLB', sportIcon: '⚾',
+    homeTeam: 'Orioles', awayTeam: 'Astros',
+    homeScore: 0, awayScore: 0,
+    status: 'LIVE', quarter: 'BOT 5th',
+    homeOdds: '+110', awayOdds: '-130',
+    spread: 'HOU -1.5', spreadHome: '+1.5 (-170)', spreadAway: '-1.5 (+150)',
+    total: 'O/U 8.5',
+    isLive: true, homeLogo: 'BAL', awayLogo: 'HOU',
+    props: [
+      { player: 'Jose Altuve', team: 'HOU', market: 'Total Bases', over: '-110', under: '-110', line: '1.5' },
+      { player: 'Yordan Alvarez', team: 'HOU', market: 'Home Runs', over: '+235', under: '-280', line: '0.5' },
+      { player: 'Adley Rutschman', team: 'BAL', market: 'Hits', over: '-120', under: '+100', line: '0.5' },
+    ],
+  },
+  {
+    id: 9, sport: 'MLB', sportIcon: '⚾',
+    homeTeam: 'Phillies', awayTeam: 'Giants',
+    homeScore: 0, awayScore: 0,
+    status: 'TONIGHT', quarter: '5:35 PM ET',
+    homeOdds: '-155', awayOdds: '+135',
+    spread: 'PHI -1.5', spreadHome: '-1.5 (+145)', spreadAway: '+1.5 (-165)',
+    total: 'O/U 8.0',
+    isLive: false, homeLogo: 'PHI', awayLogo: 'SF',
+    props: [
+      { player: 'Bryce Harper', team: 'PHI', market: 'Total Bases', over: '-115', under: '-105', line: '1.5' },
+      { player: 'Trea Turner', team: 'PHI', market: 'Stolen Bases', over: '+210', under: '-255', line: '0.5' },
+      { player: 'Matt Chapman', team: 'SF', market: 'RBIs', over: '-110', under: '-110', line: '0.5' },
+    ],
+  },
+  {
+    id: 10, sport: 'MLB', sportIcon: '⚾',
+    homeTeam: 'Twins', awayTeam: 'Blue Jays',
+    homeScore: 0, awayScore: 0,
+    status: 'TONIGHT', quarter: '7:40 PM ET',
+    homeOdds: '-115', awayOdds: '-105',
+    spread: 'MIN -1.5', spreadHome: '-1.5 (+165)', spreadAway: '+1.5 (-190)',
+    total: 'O/U 8.0',
+    isLive: false, homeLogo: 'MIN', awayLogo: 'TOR',
+    props: [
+      { player: 'Vladimir Guerrero Jr.', team: 'TOR', market: 'Home Runs', over: '+250', under: '-300', line: '0.5' },
+      { player: 'Byron Buxton', team: 'MIN', market: 'Total Bases', over: '-110', under: '-110', line: '1.5' },
+      { player: 'Bo Bichette', team: 'TOR', market: 'Hits', over: '-130', under: '+110', line: '0.5' },
+    ],
+  },
+  {
+    id: 11, sport: 'MLB', sportIcon: '⚾',
+    homeTeam: 'Tigers', awayTeam: 'Braves',
+    homeScore: 0, awayScore: 0,
+    status: 'TONIGHT', quarter: '7:40 PM ET',
+    homeOdds: '+125', awayOdds: '-145',
+    spread: 'ATL -1.5', spreadHome: '+1.5 (-175)', spreadAway: '-1.5 (+155)',
+    total: 'O/U 8.5',
+    isLive: false, homeLogo: 'DET', awayLogo: 'ATL',
+    props: [
+      { player: 'Ronald Acuña Jr.', team: 'ATL', market: 'Stolen Bases', over: '+165', under: '-200', line: '0.5' },
+      { player: 'Marcell Ozuna', team: 'ATL', market: 'RBIs', over: '-110', under: '-110', line: '0.5' },
+      { player: 'Spencer Torkelson', team: 'DET', market: 'Total Bases', over: '-115', under: '-105', line: '1.5' },
     ],
   },
 ];
 
 const PLAYER_STATS: PlayerStat[] = [
-  { name: 'LeBron James', team: 'LAL', position: 'F', stat: 'PTS', value: '28', sport: 'NBA' },
-  { name: 'Jayson Tatum', team: 'BOS', position: 'F', stat: 'PTS', value: '31', sport: 'NBA' },
-  { name: 'Patrick Mahomes', team: 'KC', position: 'QB', stat: 'PASS YDS', value: '287', sport: 'NFL' },
-  { name: 'Aaron Judge', team: 'NYY', position: 'OF', stat: 'HR', value: '12', sport: 'MLB' },
-  { name: 'Connor McDavid', team: 'EDM', position: 'C', stat: 'PTS', value: '3', sport: 'NHL' },
-  { name: 'Erling Haaland', team: 'MCI', position: 'ST', stat: 'GOALS', value: '27', sport: 'SOCCER' },
+  { name: 'Jalen Brunson', team: 'NYK', position: 'G', stat: 'PTS AVG', value: '28.7', sport: 'NBA' },
+  { name: 'Jayson Tatum', team: 'BOS', position: 'F', stat: 'PTS AVG', value: '30.1', sport: 'NBA' },
+  { name: 'Nikola Jokic', team: 'DEN', position: 'C', stat: 'PTS AVG', value: '29.2', sport: 'NBA' },
+  { name: 'Connor McDavid', team: 'EDM', position: 'C', stat: 'PTS', value: '4', sport: 'NHL' },
+  { name: 'Yordan Alvarez', team: 'HOU', position: 'DH', stat: 'HR', value: '8', sport: 'MLB' },
+  { name: 'Bryce Harper', team: 'PHI', position: '1B', stat: 'AVG', value: '.302', sport: 'MLB' },
 ];
 
 function TeamAbbr({ abbr, size = 'md' }: { abbr: string; size?: 'sm' | 'md' | 'lg' }) {
   const colors: Record<string, string> = {
-    LAL: 'bg-purple-900', BOS: 'bg-green-900', KC: 'bg-red-900', PHI: 'bg-green-800',
-    NYY: 'bg-slate-800', GSW: 'bg-yellow-900', MIL: 'bg-green-900', NYR: 'bg-blue-900',
-    MCI: 'bg-sky-900', ARS: 'bg-red-900', JJ: 'bg-slate-700', SM: 'bg-blue-900',
-    BAL: 'bg-purple-900', DAL: 'bg-slate-800', EDM: 'bg-orange-900',
+    // NBA
+    NYK: 'bg-blue-800', ATL: 'bg-red-800', BOS: 'bg-green-900', PHI: 'bg-blue-900',
+    MIN: 'bg-green-900', DEN: 'bg-yellow-900', LAL: 'bg-purple-900', GSW: 'bg-yellow-800',
+    MIL: 'bg-green-800', BKN: 'bg-slate-800', MIA: 'bg-red-900', CHI: 'bg-red-800',
+    // NHL
+    DAL: 'bg-green-900', EDM: 'bg-orange-900', ANA: 'bg-orange-800',
+    NYR: 'bg-blue-800', BOS: 'bg-yellow-900', TBL: 'bg-blue-900', FLA: 'bg-red-900',
+    COL: 'bg-red-900', CAR: 'bg-red-800', WPG: 'bg-blue-800',
+    // MLB
+    STL: 'bg-red-900', PIT: 'bg-yellow-900', NYM: 'bg-blue-800', WSH: 'bg-red-900',
+    BAL: 'bg-orange-900', HOU: 'bg-orange-900', PHI: 'bg-red-800', SF: 'bg-orange-800',
+    TOR: 'bg-blue-800', ATL: 'bg-blue-900', DET: 'bg-slate-800', KC: 'bg-blue-900',
+    OAK: 'bg-green-900', MIL: 'bg-yellow-900', ARI: 'bg-red-900', CIN: 'bg-red-800',
+    COL: 'bg-purple-900', NYY: 'bg-slate-800', TEX: 'bg-blue-900',
+    // Soccer
+    MCI: 'bg-sky-900', ARS: 'bg-red-900',
   };
   const sizes = { sm: 'w-7 h-7 text-[9px]', md: 'w-9 h-9 text-[10px]', lg: 'w-14 h-14 text-sm' };
   return (
@@ -588,8 +648,13 @@ export default function LiveSportsPanel({ onNavigate }: { onNavigate: (v: string
                 <span className="live-dot w-2.5 h-2.5 rounded-full bg-red-500" />
                 <h2 className="text-white font-black text-lg uppercase tracking-wider">Live Odds & Scores</h2>
                 <span className="bg-red-500/20 text-red-400 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">{liveCount} Live</span>
+                <span className="bg-primary/10 border border-primary/30 text-primary text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">NBA · NHL · MLB Playoffs</span>
               </div>
-              <p className="text-muted-foreground text-xs">Click any game to view full lines and player props · Powered by $BEEP</p>
+              <p className="text-muted-foreground text-xs">
+                Click any game to view full lines and player props · Odds via{' '}
+                <a href="https://www.vegasinsider.com/odds/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-semibold">VegasInsider.com</a>
+                {' '}· Bet with $BEEP
+              </p>
             </div>
           </div>
           <div className="flex gap-1 bg-[hsl(222_40%_11%)] rounded-lg p-1">

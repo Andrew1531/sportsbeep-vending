@@ -651,9 +651,7 @@ export default function LiveSportsPanel({ onNavigate }: { onNavigate: (v: string
                 <span className="bg-primary/10 border border-primary/30 text-primary text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">NBA · NHL · MLB Playoffs</span>
               </div>
               <p className="text-muted-foreground text-xs">
-                Click any game to view full lines and player props · Odds via{' '}
-                <a href="https://www.vegasinsider.com/odds/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-semibold">VegasInsider.com</a>
-                {' '}· Bet with $BEEP
+                Click any game to view full lines and player props · Bet with $BEEP
               </p>
             </div>
           </div>

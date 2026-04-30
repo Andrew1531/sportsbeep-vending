@@ -93,7 +93,7 @@ export default function Landing({ onNavigate }: LandingProps) {
             </div>
             <button
               onClick={() => onNavigate('register')}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded border border-white/10 text-[11px] font-bold text-muted-foreground hover:text-white hover:border-cyan-400/40 hover:bg-cyan-400/5 uppercase tracking-wider transition-all"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded border border-white/10 text-[11px] font-bold text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-primary/5 uppercase tracking-wider transition-all"
               data-testid="button-nav-register"
             >
               <FaWallet className="w-3 h-3" />
@@ -108,8 +108,8 @@ export default function Landing({ onNavigate }: LandingProps) {
               Claim $BEEP
             </Button>
             <div className="flex items-center gap-2 border-l border-card-border pl-4">
-              <div className="heading-font text-lg text-white leading-none">SPORTS<span className="text-primary">BEEP</span></div>
-              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center font-black text-black text-xs heading-font flex-shrink-0">SB</div>
+              <div className="heading-font text-lg text-white leading-none hidden sm:block">SPORTS<span className="text-primary">BEEP</span></div>
+              <img src="/logo-nobg.png" alt="SPORTSBEEP" className="w-9 h-9 object-contain flex-shrink-0" />
             </div>
           </div>
         </div>
@@ -118,13 +118,22 @@ export default function Landing({ onNavigate }: LandingProps) {
       {/* ── WEB3 HERO ── */}
       <section className="relative pt-14 min-h-screen flex flex-col overflow-hidden">
 
-        {/* Background layers */}
-        <div className="absolute inset-0 bg-[hsl(222_47%_5%)] mesh-bg" />
+        {/* Arena background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=1920')" }}
+        />
+        {/* Dark vignette overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/95" />
+        {/* Subtle mesh grid on top */}
+        <div className="absolute inset-0 mesh-bg" />
+        {/* Single orange orb — center glow */}
+        <div className="orb-orange w-[800px] h-[800px] top-[-100px] left-1/2 -translate-x-1/2 opacity-30" />
 
-        {/* Gradient orbs */}
-        <div className="orb-orange w-[700px] h-[700px] top-[-200px] left-[-100px]" />
-        <div className="orb-cyan w-[600px] h-[600px] top-[-100px] right-[-100px]" />
-        <div className="orb-purple w-[500px] h-[500px] bottom-[0px] left-[30%]" />
+        {/* Large watermark logo */}
+        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+          <img src="/logo-nobg.png" alt="" className="w-[500px] h-[500px] object-contain opacity-[0.04] select-none" />
+        </div>
 
         {/* Scanline */}
         <div className="absolute inset-0 scanlines pointer-events-none z-10" />
@@ -132,11 +141,16 @@ export default function Landing({ onNavigate }: LandingProps) {
         {/* Content */}
         <div className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-20 max-w-7xl mx-auto w-full">
 
-          {/* Chain badge */}
-          <div className="flex items-center gap-4 mb-6 flex-wrap justify-center">
+          {/* Hero logo */}
+          <div className="mb-6 float-slow">
+            <img src="/logo-nobg.png" alt="SPORTSBEEP" className="w-24 h-24 object-contain drop-shadow-2xl" style={{ filter: 'drop-shadow(0 0 24px rgba(247,118,13,0.5))' }} />
+          </div>
+
+          {/* Status badges */}
+          <div className="flex items-center gap-3 mb-6 flex-wrap justify-center">
             <div className="glass rounded-full px-4 py-1.5 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-[11px] font-black text-cyan-300 uppercase tracking-[0.25em]">Cardano Mainnet</span>
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-[11px] font-black text-primary uppercase tracking-[0.25em]">Cardano Mainnet</span>
             </div>
             <div className="glass rounded-full px-4 py-1.5 flex items-center gap-2">
               <span className="live-dot w-2 h-2 rounded-full bg-red-500" />
@@ -145,17 +159,17 @@ export default function Landing({ onNavigate }: LandingProps) {
           </div>
 
           {/* Main headline */}
-          <div className="text-center mb-3">
-            <h1 className="heading-font text-[clamp(4rem,14vw,11rem)] text-white leading-none mb-0">
+          <div className="text-center mb-4">
+            <h1 className="heading-font text-[clamp(4rem,14vw,11rem)] text-white leading-none mb-0 drop-shadow-2xl">
               BET. EARN.
             </h1>
-            <h1 className="heading-font text-[clamp(4rem,14vw,11rem)] leading-none">
+            <h1 className="heading-font text-[clamp(4rem,14vw,11rem)] leading-none drop-shadow-2xl">
               <span className="gradient-text">WIN WITH $BEEP</span>
             </h1>
           </div>
 
-          <p className="text-center text-gray-400 max-w-xl mb-10 text-sm md:text-base leading-relaxed">
-            The first sports betting protocol on <span className="text-cyan-300 font-semibold">Cardano</span>. 
+          <p className="text-center text-gray-300 max-w-xl mb-10 text-sm md:text-base leading-relaxed drop-shadow">
+            The first sports betting protocol on <span className="text-primary font-bold">Cardano</span>.{' '}
             Secure your <span className="text-primary font-bold">$BEEP</span> at founder pricing before the public launch.
           </p>
 
@@ -190,7 +204,7 @@ export default function Landing({ onNavigate }: LandingProps) {
               <div className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Fixed Supply</div>
             </div>
             <div className="glass rounded-xl p-4 text-center">
-              <div className="text-2xl font-black text-cyan-300 glow-cyan-text">100</div>
+              <div className="text-2xl font-black text-primary glow-orange-text">100</div>
               <div className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">$BEEP / Referral</div>
             </div>
           </div>
@@ -241,7 +255,7 @@ export default function Landing({ onNavigate }: LandingProps) {
 
         </div>
 
-        {/* Bottom fade into next section */}
+        {/* Bottom fade */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-20 pointer-events-none" />
       </section>
 
@@ -264,7 +278,10 @@ export default function Landing({ onNavigate }: LandingProps) {
 
             {/* Key Metrics — glass card */}
             <div className="glass-strong rounded-2xl p-8 gradient-border token-card-shine">
-              <h3 className="heading-font text-3xl text-white mb-1">KEY METRICS</h3>
+              <div className="flex items-center gap-3 mb-2">
+                <img src="/logo-nobg.png" alt="SB" className="w-10 h-10 object-contain flex-shrink-0" />
+                <h3 className="heading-font text-3xl text-white">KEY METRICS</h3>
+              </div>
               <p className="text-primary text-sm uppercase font-bold tracking-widest mb-8">Fixed Infrastructure</p>
               <ul className="space-y-6 mb-8">
                 <li className="flex justify-between items-center border-b border-white/5 pb-4">
@@ -337,10 +354,13 @@ export default function Landing({ onNavigate }: LandingProps) {
       {/* ── BUNDLES SECTION ── */}
       <section id="bundles" className="py-20 bg-black relative border-t border-white/5 overflow-hidden">
         <div className="absolute inset-0 mesh-bg" />
-        <div className="orb-purple w-[500px] h-[500px] top-[0] left-[-100px] opacity-50" />
-        <div className="orb-orange w-[400px] h-[400px] bottom-[-100px] right-[-50px] opacity-30" />
+        <div className="orb-orange w-[500px] h-[500px] top-[0] left-[-100px] opacity-20" />
+        <div className="orb-orange w-[400px] h-[400px] bottom-[-100px] right-[-50px] opacity-25" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
+            <div className="flex justify-center mb-4">
+              <img src="/logo-nobg.png" alt="SPORTSBEEP" className="w-16 h-16 object-contain" style={{ filter: 'drop-shadow(0 0 16px rgba(247,118,13,0.45))' }} />
+            </div>
             <p className="text-primary text-sm uppercase font-bold tracking-widest mb-2">Instant Access — Phase 1 Pricing</p>
             <h2 className="heading-font text-5xl sm:text-6xl text-white mb-6">BUY <span className="gradient-text">$BEEP</span> NOW</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -351,7 +371,10 @@ export default function Landing({ onNavigate }: LandingProps) {
           {/* Social Banner */}
           <div className="glass-strong rounded-2xl p-6 mb-12 flex flex-col md:flex-row items-center justify-between gap-6 border-l-4 border-l-primary">
             <div className="flex flex-col items-start gap-2">
-              <div className="bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-green-500/20">Free Access</div>
+              <div className="flex items-center gap-3">
+                <img src="/logo-nobg.png" alt="SB" className="w-10 h-10 object-contain flex-shrink-0" />
+                <div className="bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-green-500/20">Free Access</div>
+              </div>
               <h3 className="heading-font text-2xl text-white">JOIN OUR COMMUNITY — 100% FREE</h3>
               <p className="text-sm text-muted-foreground">No purchase required. Connect with the team and early adopters.</p>
             </div>
@@ -503,9 +526,12 @@ export default function Landing({ onNavigate }: LandingProps) {
       {/* ── PROMO CODE SECTION ── */}
       <section className="py-20 bg-background border-t border-white/5 relative overflow-hidden">
         <div className="absolute inset-0 mesh-bg opacity-60" />
-        <div className="orb-cyan w-[500px] h-[500px] top-[-100px] right-[-100px] opacity-40" />
+        <div className="orb-orange w-[500px] h-[500px] top-[-100px] right-[-100px] opacity-20" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
+            <div className="flex justify-center mb-4">
+              <img src="/logo-nobg.png" alt="SPORTSBEEP" className="w-14 h-14 object-contain opacity-90" style={{ filter: 'drop-shadow(0 0 12px rgba(247,118,13,0.4))' }} />
+            </div>
             <p className="text-primary text-sm uppercase font-bold tracking-widest mb-2">Coming Soon — Phase 2 Launch</p>
             <h2 className="heading-font text-5xl sm:text-6xl text-white mb-6">EARN WITH YOUR <span className="gradient-text">PROMO CODE</span></h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -565,7 +591,10 @@ export default function Landing({ onNavigate }: LandingProps) {
       {/* ── WALLETS SECTION ── */}
       <section className="py-20 bg-[#060a12] border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="heading-font text-4xl sm:text-5xl text-white mb-4">NEW TO <span className="gradient-text-cyan">CARDANO?</span></h2>
+          <div className="flex justify-center mb-4">
+            <img src="/logo-nobg.png" alt="SPORTSBEEP" className="w-14 h-14 object-contain" style={{ filter: 'drop-shadow(0 0 12px rgba(247,118,13,0.4))' }} />
+          </div>
+          <h2 className="heading-font text-4xl sm:text-5xl text-white mb-4">NEW TO <span className="gradient-text">CARDANO?</span></h2>
           <p className="text-muted-foreground mb-12">You'll need a Cardano wallet to receive your $BEEP tokens. These are free to set up.</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
@@ -573,13 +602,13 @@ export default function Landing({ onNavigate }: LandingProps) {
               { name: 'LACE', recommended: false, desc: 'Official IOG wallet. Simple interface, built-in staking, multi-chain features coming soon.', href: 'https://www.lace.io/' },
               { name: 'NAMI', recommended: false, desc: 'Lightweight and simple. One-click dApp connection and easy token management.', href: 'https://namiwallet.io/' },
             ].map(({ name, recommended, desc, href }) => (
-              <div key={name} className={`glass rounded-2xl p-6 relative border ${recommended ? 'border-cyan-400/30 glow-cyan' : 'border-white/5'}`}>
+              <div key={name} className={`glass rounded-2xl p-6 relative border ${recommended ? 'border-primary/40 glow-orange' : 'border-white/5'}`}>
                 {recommended && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-400 text-black text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-black text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
                     Recommended
                   </div>
                 )}
-                <h3 className={`text-xl font-bold mb-3 mt-2 uppercase tracking-widest ${recommended ? 'text-cyan-300 glow-cyan-text' : 'text-white'}`}>{name}</h3>
+                <h3 className={`text-xl font-bold mb-3 mt-2 uppercase tracking-widest ${recommended ? 'text-primary glow-orange-text' : 'text-white'}`}>{name}</h3>
                 <p className="text-sm text-muted-foreground mb-6 h-16">{desc}</p>
                 <Button asChild variant="outline" className="w-full border-white/10 hover:bg-white/5 hover:border-primary/40">
                   <a href={href} target="_blank" rel="noreferrer">Get {name.charAt(0) + name.slice(1).toLowerCase()}</a>
@@ -595,7 +624,10 @@ export default function Landing({ onNavigate }: LandingProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-1">
-              <h2 className="heading-font text-3xl text-white mb-2">SPORTS<span className="gradient-text">BEEP</span></h2>
+              <div className="flex items-center gap-3 mb-3">
+                <img src="/logo-nobg.png" alt="SPORTSBEEP" className="w-12 h-12 object-contain" />
+                <h2 className="heading-font text-3xl text-white">SPORTS<span className="gradient-text">BEEP</span></h2>
+              </div>
               <p className="text-sm text-muted-foreground mb-6">Next-generation sports ecosystem built on Cardano.</p>
               <div className="flex gap-4">
                 {[

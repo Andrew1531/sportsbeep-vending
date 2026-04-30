@@ -1,8 +1,8 @@
 import React from 'react';
 import { View } from '../App';
 import { Button } from '@/components/ui/button';
-import { Twitter, Disc, Send } from 'lucide-react';
 import { FaDiscord, FaTelegram, FaTwitter } from 'react-icons/fa';
+import LiveSportsPanel from '../components/LiveSportsPanel';
 
 interface LandingProps {
   onNavigate: (view: View) => void;
@@ -12,76 +12,96 @@ export default function Landing({ onNavigate }: LandingProps) {
   return (
     <div className="flex flex-col min-h-screen">
       
-      {/* HEADER */}
-      <header className="absolute top-0 left-0 right-0 z-50 py-6 px-4 sm:px-6 lg:px-8 bg-transparent">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="hidden sm:flex gap-4">
-            <Button 
-              variant="ghost" 
-              className="text-white hover:text-primary uppercase text-sm font-bold tracking-widest"
+      {/* TOP NAV — DraftKings/FanDuel style */}
+      <header className="fixed top-0 left-0 right-0 z-50 dk-nav">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+          {/* Left: nav links */}
+          <nav className="hidden md:flex items-center gap-1">
+            {['Sportsbook', 'Live Betting', 'Parlays', 'Props', 'Casino'].map(item => (
+              <button key={item} className="px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-white uppercase tracking-wider transition-colors rounded hover:bg-white/5">
+                {item}
+              </button>
+            ))}
+          </nav>
+
+          {/* Right: logo + CTA */}
+          <div className="flex items-center gap-4 ml-auto">
+            <div className="hidden sm:flex items-center gap-2 mr-2">
+              <span className="live-dot w-2 h-2 rounded-full bg-green-400" />
+              <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest">Phase 1 Live</span>
+            </div>
+            <button
               onClick={() => onNavigate('register')}
+              className="text-xs font-bold text-muted-foreground hover:text-white uppercase tracking-wider transition-colors"
               data-testid="button-nav-register"
             >
-              Register
-            </Button>
-            <Button 
-              className="bg-primary text-black hover:bg-orange-600 uppercase text-sm font-bold tracking-widest glow-orange"
+              Sign Up
+            </button>
+            <Button
+              size="sm"
+              className="bg-primary text-black hover:bg-orange-500 font-bold uppercase tracking-wider text-xs px-4 glow-orange"
               onClick={() => onNavigate('register')}
               data-testid="button-nav-cta"
             >
-              Get Access
+              Claim $BEEP
             </Button>
-          </div>
-          <div className="flex items-center gap-3 ml-auto">
-            <div>
-              <h1 className="text-white text-3xl heading-font leading-none m-0 text-right">
-                SPORTS<span className="text-primary">BEEP</span>
-              </h1>
-              <p className="text-muted-foreground text-xs uppercase font-bold tracking-widest leading-none mt-1 text-right">
-                Next-Gen Sports Ecosystem
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center font-bold text-black text-xl italic heading-font flex-shrink-0">
-              SB
+            {/* Logo (top right) */}
+            <div className="flex items-center gap-2 ml-2 border-l border-card-border pl-4">
+              <div>
+                <div className="heading-font text-lg text-white leading-none">SPORTS<span className="text-primary">BEEP</span></div>
+                <div className="text-[8px] text-muted-foreground uppercase tracking-[0.2em] leading-none">Next-Gen Sports</div>
+              </div>
+              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center font-black text-black text-xs heading-font flex-shrink-0">SB</div>
             </div>
           </div>
         </div>
       </header>
 
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden border-b-4 border-primary">
+      <section className="relative pt-14 overflow-hidden border-b-2 border-primary/60">
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=1600')" }}
         />
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/60 to-black/90" />
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-          <p className="text-xs font-bold uppercase tracking-[0.4em] text-primary mb-4 animate-pulse">
-            ⚡ Phase 1 Allocation — Limited Slots Remaining
-          </p>
-          <h2 className="heading-font text-6xl sm:text-8xl md:text-9xl text-white mb-4 leading-none">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center flex flex-col items-center">
+          <div className="flex items-center gap-3 mb-5">
+            <span className="live-dot w-2.5 h-2.5 rounded-full bg-red-500" />
+            <span className="text-xs font-bold uppercase tracking-[0.35em] text-red-400">Phase 1 Allocation — Limited Slots Remaining</span>
+          </div>
+          <h2 className="heading-font text-7xl sm:text-9xl md:text-[10rem] text-white mb-4 leading-none">
             THE CLOCK<br /><span className="text-primary glow-orange-text">IS TICKING</span>
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Phase 1 is <span className="text-white font-bold">live and closing fast</span>. Register your Cardano wallet now and secure your <span className="text-primary font-bold">$BEEP</span> at founder pricing — before the public ever gets a chance.
+          <p className="text-base md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+            Phase 1 is <span className="text-white font-bold">live and closing fast</span>. Secure your <span className="text-primary font-bold">$BEEP</span> at founder pricing before the public launch — then use it to bet, earn, and win on the SPORTSBEEP platform.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 items-center mb-6">
+          <div className="flex flex-col sm:flex-row gap-3 items-center mb-8">
             <Button 
               size="lg"
-              className="h-16 px-10 text-xl font-bold uppercase tracking-wider glow-orange hover:bg-orange-600 text-black transition-all"
+              className="h-14 px-10 text-base font-bold uppercase tracking-wider glow-orange hover:bg-orange-500 text-black transition-all rounded"
               onClick={() => onNavigate('register')}
               data-testid="button-hero-cta"
             >
-              Claim My $BEEP — Register Now
+              Claim My $BEEP — Register Free
             </Button>
-            <span className="text-xs text-gray-500 font-bold uppercase tracking-widest">Free to Register</span>
+            <a href="#bundles" className="h-14 px-8 flex items-center text-base font-bold uppercase tracking-wider border border-white/20 text-white hover:border-primary hover:text-primary transition-all rounded">
+              Buy Tokens Now
+            </a>
           </div>
-          <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest">
-            Earn <span className="text-primary">100 $BEEP</span> for every 10 verified referrals · No purchase required
-          </p>
+          {/* Quick stats bar */}
+          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-bold text-muted-foreground uppercase tracking-widest">
+            <span><span className="text-primary text-lg font-black">$0.12</span> / $BEEP</span>
+            <span className="w-px h-4 bg-card-border" />
+            <span><span className="text-white text-lg font-black">10M</span> fixed supply</span>
+            <span className="w-px h-4 bg-card-border" />
+            <span><span className="text-green-400 text-lg font-black">100</span> $BEEP per 10 referrals</span>
+          </div>
         </div>
       </section>
+
+      {/* LIVE SPORTS PANEL — directly under hero */}
+      <LiveSportsPanel />
 
       {/* DISTRIBUTION & MILESTONES */}
       <section className="py-20 bg-background relative z-10">
@@ -168,7 +188,7 @@ export default function Landing({ onNavigate }: LandingProps) {
       </section>
 
       {/* BUNDLES SECTION */}
-      <section className="py-20 bg-black relative border-t border-card-border">
+      <section id="bundles" className="py-20 bg-black relative border-t border-card-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-12">

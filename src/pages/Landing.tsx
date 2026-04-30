@@ -15,19 +15,6 @@ export default function Landing({ onNavigate }: LandingProps) {
       {/* HEADER */}
       <header className="absolute top-0 left-0 right-0 z-50 py-6 px-4 sm:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center font-bold text-black text-xl italic heading-font">
-              SB
-            </div>
-            <div>
-              <h1 className="text-white text-3xl heading-font leading-none m-0">
-                SPORTS<span className="text-primary">BEEP</span>
-              </h1>
-              <p className="text-muted-foreground text-xs uppercase font-bold tracking-widest leading-none mt-1">
-                Next-Gen Sports Ecosystem
-              </p>
-            </div>
-          </div>
           <div className="hidden sm:flex gap-4">
             <Button 
               variant="ghost" 
@@ -45,6 +32,19 @@ export default function Landing({ onNavigate }: LandingProps) {
               Get Access
             </Button>
           </div>
+          <div className="flex items-center gap-3 ml-auto">
+            <div>
+              <h1 className="text-white text-3xl heading-font leading-none m-0 text-right">
+                SPORTS<span className="text-primary">BEEP</span>
+              </h1>
+              <p className="text-muted-foreground text-xs uppercase font-bold tracking-widest leading-none mt-1 text-right">
+                Next-Gen Sports Ecosystem
+              </p>
+            </div>
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center font-bold text-black text-xl italic heading-font flex-shrink-0">
+              SB
+            </div>
+          </div>
         </div>
       </header>
 
@@ -57,22 +57,28 @@ export default function Landing({ onNavigate }: LandingProps) {
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/60 to-black/90" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-          <h2 className="heading-font text-6xl sm:text-7xl md:text-8xl text-white mb-6">
-            JOIN THE <span className="text-primary glow-orange-text">CLOSED BETA</span>
+          <p className="text-xs font-bold uppercase tracking-[0.4em] text-primary mb-4 animate-pulse">
+            ⚡ Phase 1 Allocation — Limited Slots Remaining
+          </p>
+          <h2 className="heading-font text-6xl sm:text-8xl md:text-9xl text-white mb-4 leading-none">
+            THE CLOCK<br /><span className="text-primary glow-orange-text">IS TICKING</span>
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Register your Cardano wallet for a chance to receive a $BEEP token allocation during Phase 1. Earn 100 $BEEP for every 10 verified referrals.
+            Phase 1 is <span className="text-white font-bold">live and closing fast</span>. Register your Cardano wallet now and secure your <span className="text-primary font-bold">$BEEP</span> at founder pricing — before the public ever gets a chance.
           </p>
-          <Button 
-            size="lg"
-            className="h-16 px-10 text-xl font-bold uppercase tracking-wider glow-orange hover:bg-orange-600 text-black transition-all mb-4"
-            onClick={() => onNavigate('register')}
-            data-testid="button-hero-cta"
-          >
-            Register for $BEEP Allocation
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 items-center mb-6">
+            <Button 
+              size="lg"
+              className="h-16 px-10 text-xl font-bold uppercase tracking-wider glow-orange hover:bg-orange-600 text-black transition-all"
+              onClick={() => onNavigate('register')}
+              data-testid="button-hero-cta"
+            >
+              Claim My $BEEP — Register Now
+            </Button>
+            <span className="text-xs text-gray-500 font-bold uppercase tracking-widest">Free to Register</span>
+          </div>
           <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest">
-            Phase 1 Distribution is currently live
+            Earn <span className="text-primary">100 $BEEP</span> for every 10 verified referrals · No purchase required
           </p>
         </div>
       </section>

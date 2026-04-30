@@ -101,7 +101,7 @@ export default function Landing({ onNavigate }: LandingProps) {
       </section>
 
       {/* LIVE SPORTS PANEL — directly under hero */}
-      <LiveSportsPanel />
+      <LiveSportsPanel onNavigate={onNavigate} />
 
       {/* DISTRIBUTION & MILESTONES */}
       <section className="py-20 bg-background relative z-10">

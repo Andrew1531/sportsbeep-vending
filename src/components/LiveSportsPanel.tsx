@@ -233,16 +233,16 @@ function TeamAbbr({ abbr, size = 'md' }: { abbr: string; size?: 'sm' | 'md' | 'l
     NYK: 'bg-blue-800', ATL: 'bg-red-800', BOS: 'bg-green-900', PHI: 'bg-blue-900',
     MIN: 'bg-green-900', DEN: 'bg-yellow-900', LAL: 'bg-purple-900', GSW: 'bg-yellow-800',
     MIL: 'bg-green-800', BKN: 'bg-slate-800', MIA: 'bg-red-900', CHI: 'bg-red-800',
-    // NHL
+    // NHL (overrides where different)
     DAL: 'bg-green-900', EDM: 'bg-orange-900', ANA: 'bg-orange-800',
-    NYR: 'bg-blue-800', BOS: 'bg-yellow-900', TBL: 'bg-blue-900', FLA: 'bg-red-900',
+    NYR: 'bg-blue-800', TBL: 'bg-blue-900', FLA: 'bg-red-900',
     COL: 'bg-red-900', CAR: 'bg-red-800', WPG: 'bg-blue-800',
     // MLB
     STL: 'bg-red-900', PIT: 'bg-yellow-900', NYM: 'bg-blue-800', WSH: 'bg-red-900',
-    BAL: 'bg-orange-900', HOU: 'bg-orange-900', PHI: 'bg-red-800', SF: 'bg-orange-800',
-    TOR: 'bg-blue-800', ATL: 'bg-blue-900', DET: 'bg-slate-800', KC: 'bg-blue-900',
-    OAK: 'bg-green-900', MIL: 'bg-yellow-900', ARI: 'bg-red-900', CIN: 'bg-red-800',
-    COL: 'bg-purple-900', NYY: 'bg-slate-800', TEX: 'bg-blue-900',
+    BAL: 'bg-orange-900', HOU: 'bg-orange-900', SF: 'bg-orange-800',
+    TOR: 'bg-blue-800', DET: 'bg-slate-800', KC: 'bg-blue-900',
+    OAK: 'bg-green-900', ARI: 'bg-red-800', CIN: 'bg-red-800',
+    NYY: 'bg-slate-800', TEX: 'bg-blue-900',
     // Soccer
     MCI: 'bg-sky-900', ARS: 'bg-red-900',
   };

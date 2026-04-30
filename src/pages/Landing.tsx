@@ -3,6 +3,7 @@ import { View } from '../App';
 import { Button } from '@/components/ui/button';
 import { FaDiscord, FaTelegram, FaTwitter } from 'react-icons/fa';
 import LiveSportsPanel from '../components/LiveSportsPanel';
+import SportsbookTeaser from '../components/SportsbookTeaser';
 
 interface LandingProps {
   onNavigate: (view: View) => void;
@@ -102,6 +103,9 @@ export default function Landing({ onNavigate }: LandingProps) {
 
       {/* LIVE SPORTS PANEL — directly under hero */}
       <LiveSportsPanel onNavigate={onNavigate} />
+
+      {/* SPORTSBOOK TEASER */}
+      <SportsbookTeaser onNavigate={onNavigate} />
 
       {/* DISTRIBUTION & MILESTONES */}
       <section className="py-20 bg-background relative z-10">

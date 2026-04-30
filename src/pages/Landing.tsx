@@ -18,10 +18,23 @@ export default function Landing({ onNavigate }: LandingProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
           {/* Left: nav links */}
           <nav className="hidden md:flex items-center gap-1">
-            {['Sportsbook', 'Live Betting', 'Parlays', 'Props', 'Casino'].map(item => (
-              <button key={item} className="px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-white uppercase tracking-wider transition-colors rounded hover:bg-white/5">
-                {item}
-              </button>
+            {[
+              { label: 'Sportsbook', href: '#live-sports' },
+              { label: 'Live Betting', href: '#live-sports' },
+              { label: 'Parlays', href: '#platform-preview' },
+              { label: 'Props', href: '#live-sports' },
+            ].map(item => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-white uppercase tracking-wider transition-colors rounded hover:bg-white/5"
+                onClick={e => {
+                  e.preventDefault();
+                  document.querySelector(item.href)?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                {item.label}
+              </a>
             ))}
           </nav>
 
@@ -102,10 +115,14 @@ export default function Landing({ onNavigate }: LandingProps) {
       </section>
 
       {/* LIVE SPORTS PANEL — directly under hero */}
-      <LiveSportsPanel onNavigate={onNavigate} />
+      <div id="live-sports">
+        <LiveSportsPanel onNavigate={onNavigate} />
+      </div>
 
       {/* SPORTSBOOK TEASER */}
-      <SportsbookTeaser onNavigate={onNavigate} />
+      <div id="platform-preview">
+        <SportsbookTeaser onNavigate={onNavigate} />
+      </div>
 
       {/* DISTRIBUTION & MILESTONES */}
       <section className="py-20 bg-background relative z-10">

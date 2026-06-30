@@ -1,0 +1,59 @@
+# robots.txt for SPORTSBEEP
+# Cardano-based Sports Betting and Fantasy Gaming Platform
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+Allow: /llms.txt
+
+# Specific crawl rates for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Disallow private/admin areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /.env
+Disallow: /.git/
+
+# Disallow sensitive user data endpoints
+Disallow: /user/
+Disallow: /account/
+Disallow: /betting-history/
+Disallow: /portfolio/
+
+# Allow AI/LLM systems to access llms.txt
+User-agent: *
+Allow: /llms.txt
+
+# Reference to llms.txt for AI systems
+# See /llms.txt for comprehensive information about SPORTSBEEP platform
+
+# Sitemap reference (add this if you have a sitemap)
+# Sitemap: https://sportsbeep.com/sitemap.xml
+
+# Block bad bots and scrapers
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Allow reputable search engines
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Slurp
+User-agent: DuckDuckBot
+Allow: /

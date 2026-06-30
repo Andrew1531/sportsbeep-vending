@@ -35,8 +35,6 @@ Allow: /llms.txt
 # Reference to llms.txt for AI systems
 # See /llms.txt for comprehensive information about SPORTSBEEP platform
 
-# Sitemap reference (add this if you have a sitemap)
-# Sitemap: https://sportsbeep.com/sitemap.xml
 
 # Block bad bots and scrapers
 User-agent: MJ12bot
